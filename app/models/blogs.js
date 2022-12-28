@@ -34,4 +34,3 @@ Schema.virtual("category_detail", {
 module.exports = {
     BlogModel : mongoose.model('blog', Schema)
 }
-.
