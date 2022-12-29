@@ -82,7 +82,7 @@ router.post("/add", uploadFile.single("image"), stringToArray("tags"), AdminBlog
 
 /**
  * @swagger
- *  /admin/blogs/update/{id}:
+ *  /admin/blogs/edit/{id}:
  *      patch:
  *          tags: [Blog]
  *          summary: edit blog documents by ID
@@ -103,11 +103,11 @@ router.post("/add", uploadFile.single("image"), stringToArray("tags"), AdminBlog
  *              201:
  *                  description: created
  */
-router.patch("/update/:id", uploadFile.single("image"), stringToArray("tags"), AdminBlogController.UpdateBlogByID);
+router.patch("/edit/:id", uploadFile.single("image"), stringToArray("tags"), AdminBlogController.UpdateBlogByID);
 
 /**
  * @swagger
- *  /admin/blogs:
+ *  /admin/blogs/list-of-all:
  *      get:
  *          tags: [Blog]
  *          summary: get all blogs
@@ -115,7 +115,7 @@ router.patch("/update/:id", uploadFile.single("image"), stringToArray("tags"), A
  *              200:
  *                  description: success - get array of blogs
  */
-router.get("/", AdminBlogController.getListOfBlogs);
+router.get("/list-of-all", AdminBlogController.getListOfBlogs);
 
 /**
  * @swagger
@@ -136,7 +136,7 @@ router.get("/:id", AdminBlogController.getOneBlogByID);
 
 /**
  * @swagger
- *  /admin/blogs/{id}:
+ *  /admin/blogs/remove/{id}:
  *      delete:
  *          summary: delete blog by ID
  *          tags: [Blog]
@@ -149,7 +149,7 @@ router.get("/:id", AdminBlogController.getOneBlogByID);
  *              200:
  *                  description: success
  */
-router.delete("/:id", AdminBlogController.deleteBlogByID);
+router.delete("/remove/:id", AdminBlogController.deleteBlogByID);
 
 module.exports = {
     AdminApiBlogRouter : router

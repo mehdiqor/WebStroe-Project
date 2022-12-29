@@ -1,6 +1,7 @@
-const { AdminApiBlogRouter } = require('./blog.routes');
 const { AdminApiCategoryRouter } = require('./category.routes');
 const { AdminApiProductRouter } = require('./product.routes');
+const { AdminApiCourseRouter } = require('./course.routes');
+const { AdminApiBlogRouter } = require('./blog.routes');
 const router = require('express').Router();
 
 /**
@@ -8,6 +9,8 @@ const router = require('express').Router();
  *  tags:
  *      -   name: Admin-Panel
  *          description: action of admin
+ *      -   name: Course
+ *          description: course managment panel
  *      -   name: Product
  *          description: product managment panel
  *      -   name: Blog
@@ -16,9 +19,10 @@ const router = require('express').Router();
  *          description: category managment panel
  */
 
-router.use("/products", AdminApiProductRouter);
-router.use("/blogs", AdminApiBlogRouter);
 router.use("/category", AdminApiCategoryRouter);
+router.use("/products", AdminApiProductRouter);
+router.use("/courses", AdminApiCourseRouter);
+router.use("/blogs", AdminApiBlogRouter);
 
 module.exports = {
     AdminRoutes : router

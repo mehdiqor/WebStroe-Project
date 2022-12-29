@@ -31,7 +31,12 @@ const CorseSchema = new mongoose.Schema({
     chapters : {type : [chapterSchema], default : []},
     students : {type : [mongoose.Types.ObjectId], ref : "user", default : []}
 });
+CorseSchema.index({
+    title : "text",
+    short_text : "text",
+    text : "text"
+});
 
 module.exports = {
-    Courses : mongoose.model('course', CorseSchema)
+    CourseModel : mongoose.model('course', CorseSchema)
 }

@@ -55,7 +55,7 @@ router.post("/add", CategoryController.addCategory);
 
 /**
  * @swagger
- *  /admin/category/update/{id}:
+ *  /admin/category/edit/{id}:
  *      patch:
  *          tags: [Category]
  *          summary: edit category title with ID
@@ -74,7 +74,7 @@ router.post("/add", CategoryController.addCategory);
  *              500:
  *                  description: internal server error
  */
-router.patch("/update/:id", CategoryController.editCategoryTitle);
+router.patch("/edit/:id", CategoryController.editCategoryTitle);
 
 /**
  * @swagger
