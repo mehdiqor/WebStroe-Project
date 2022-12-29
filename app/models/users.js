@@ -14,12 +14,8 @@ const Schema = new mongoose.Schema({
     bills : {type : [], default : []},
     discount : {type : Number, default : 0},
     birthday : {type : String},
-<<<<<<< HEAD
-    roles : {type : [String], default : ["USER"]}
-=======
     roles : {type : [String], default : ["USER"]},
     Courses : {type : [mongoose.Types.ObjectId], ref : "course", default : []}
->>>>>>> develop
 }, {
     timestamps : true,
     toJSON : {

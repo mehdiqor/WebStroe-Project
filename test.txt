@@ -1,5 +1,10 @@
-"accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5MTkxNDE2OTE1IiwiaWF0IjoxNjcyMjEzMjcwLCJleHAiOjE2NzIyOTk2NzB9.W6yjKkQ9FwF7yVmjtgZ8i-Tz-BCSKkWW-pzCAdKfoj8",
 
-"refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5MTkxNDE2OTE1IiwiaWF0IjoxNjcyMjEzMjcwLCJleHAiOjE3MDM3NzA4NzB9.p_XWputlJhn1YqoUWusr3-BLq8YYBP1DZcAYEXLuXjM"
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5MTkxNDE2OTE1IiwiaWF0IjoxNjcyMjk2ODk4LCJleHAiOjE2NzIzODMyOTh9.qdSzOHDEAFWjY7fwpoHbiFwPtEb0EMmtzKjIsPK1eFw",
+    
+    
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjA5MTkxNDE2OTE1IiwiaWF0IjoxNjcyMjk2ODk4LCJleHAiOjE3MDM4NTQ0OTh9.jDQxAOYqaOi8EvHwLyPnrS8QamxKhwfkw2rfg9wNwS0"
+
 
 639dccda74ff926f06c2fe21
+
+"redis": "4.0.6"

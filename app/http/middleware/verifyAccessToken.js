@@ -1,14 +1,10 @@
-const createError = require('http-errors');
-const { UserModel } = require('../../models/users');
-const jwt = require('jsonwebtoken');
 const { ACCESS_TOKEN_SECRET_KEY } = require('../../utils/costans');
+const { UserModel } = require('../../models/users');
+const createError = require('http-errors');
+const jwt = require('jsonwebtoken');
 
 function getToken(headers){
-<<<<<<< HEAD
-    const [bearer, token] = headers?.['access-token']?.split(" ") || [];
-=======
     const [bearer, token] = headers?.authorization?.split(" ") || [];
->>>>>>> develop
     if(token && ["bearer", "Bearer"].includes(bearer)) return token;
     throw createError.Unauthorized("حساب کاربری شناسایی نشد، وارد حساب کاربری خود شوید");
 }

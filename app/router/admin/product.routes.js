@@ -94,7 +94,73 @@ const router = require('express').Router();
  *                      type: string
  *                      description: the type of product
  *                      example: virtual - physical
- *                  colors:
+ *                  color:
+ *                      $ref: '#/components/schemas/Color'
+ */
+/**
+ * @swagger
+ *  components:
+ *      schemas:
+ *          Edit-Product:
+ *              type : object
+ *              properties:
+ *                  title:
+ *                      type: string
+ *                      description: the title of product
+ *                      example: test title
+ *                  short_text:
+ *                      type: string
+ *                      description: the short_text of product
+ *                      example: test summary
+ *                  text:
+ *                      type: string
+ *                      description: the text of product
+ *                      example: test description
+ *                  tags:
+ *                      type: array
+ *                      description: the tags of product
+ *                  category:
+ *                      type: string
+ *                      description: the category of product
+ *                      example: 639dccda74ff926f06c2fe21
+ *                  price:
+ *                      type: string
+ *                      description: the price of product
+ *                      example: 2500000
+ *                  discount:
+ *                      type: string
+ *                      description: the discount of product
+ *                      example: 10
+ *                  count:
+ *                      type: string
+ *                      description: the count of product
+ *                      example: 20
+ *                  images:
+ *                      type: array
+ *                      items:
+ *                          type: string
+ *                          format: binary
+ *                  weight:
+ *                      type: string
+ *                      description: the weight of product packet
+ *                      example: 0
+ *                  height:
+ *                      type: string
+ *                      description: the height of product packet
+ *                      example: 0
+ *                  width:
+ *                      type: string
+ *                      description: the width of product packet
+ *                      example: 0
+ *                  lenght:
+ *                      type: string
+ *                      description: the lenght of product
+ *                      example: 0
+ *                  type:
+ *                      type: string
+ *                      description: the type of product
+ *                      example: virtual - physical
+ *                  color:
  *                      $ref: '#/components/schemas/Color'
  */
 
@@ -115,6 +181,30 @@ const router = require('express').Router();
  *                  description: created new product
  */
 router.post("/add", uploadFile.array("images", 10), stringToArray("tags"), ProductController.addProduct);
+
+/**
+ * @swagger
+ *  /admin/products/edit/{id}:
+ *      patch:
+ *          tags: [Product]
+ *          summary: edit and update product
+ *          parameters:
+ *              -   in: path
+ *                  name: id
+ *                  type: string
+ *                  required: true
+ *                  description: id for find product
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  multipart/form-data:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Edit-Product'
+ *          responses:
+ *              200:
+ *                  description: product updated
+ */
+router.patch("/edit/:id", uploadFile.array("images", 10), stringToArray("tags"), ProductController.editProduct);
 
 /**
  * @swagger

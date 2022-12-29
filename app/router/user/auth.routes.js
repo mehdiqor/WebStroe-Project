@@ -34,7 +34,6 @@ const router = require('express').Router();
  *                      type: string
  *                      description: inter refresh-token for get fresh token
  */
-
 /**
  * @swagger
  *  tags:

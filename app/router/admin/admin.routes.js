@@ -9,18 +9,16 @@ const router = require('express').Router();
  *      -   name: Admin-Panel
  *          description: action of admin
  *      -   name: Product
- *          descripstion: product managment panel
+ *          description: product managment panel
  *      -   name: Blog
  *          description: blog managment panel
  *      -   name: Category
- *          description: Create-Update-Remove
- *      -   name: list-category
- *          description: list of categories
+ *          description: category managment panel
  */
 
-router.use("/category", AdminApiCategoryRouter);
-router.use("/blogs", AdminApiBlogRouter);
 router.use("/products", AdminApiProductRouter);
+router.use("/blogs", AdminApiBlogRouter);
+router.use("/category", AdminApiCategoryRouter);
 
 module.exports = {
     AdminRoutes : router
