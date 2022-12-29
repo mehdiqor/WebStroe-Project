@@ -1,10 +1,10 @@
-const jwt = require('jsonwebtoken');
-const createError = require('http-errors');
+const { ACCESS_TOKEN_SECRET_KEY, REFRESH_TOKEN_SECRET_KEY, BlackList, nullishData } = require('./costans');
 const { UserModel } = require('../models/users');
-const { ACCESS_TOKEN_SECRET_KEY, REFRESH_TOKEN_SECRET_KEY } = require('./costans');
 const redisClient = require('./init_redis');
-const fs = require('fs');
+const createError = require('http-errors');
+const jwt = require('jsonwebtoken');
 const path = require("path");
+const fs = require('fs');
 
 function randomNumberGenerator(){
     return Math.floor((Math.random() * 90000) + 10000)
@@ -72,6 +72,36 @@ function listOfImagesFromRequest(files, fileUploadPath){
         return []
     }
 }
+function copyObject(object){
+    return JSON.parse(JSON.stringify(object))
+}
+function setFeatures(body){
+    const {colors, width, length, height, weight} = body;
+    let features = {};
+    features.colors = colors;
+    if ( !isNaN(+width) || !isNaN(+weight) || !isNaN(+length) || !isNaN(+height)) {
+      if (!width) features.width = 0;
+      else features.width = +width;
+      if (!length) features.length = 0;
+      else features.length = +length;
+      if (!height) features.height = 0;
+      else features.height = +height;
+      if (!weight) features.weight = 0;
+      else features.weight = +weight;
+    }
+    return features
+}
+function deleteInvalidPropertyInObject(data = {}){
+    let productBlackList = Object.values(BlackList);
+    let nullData = Object.values(nullishData);
+    Object.keys(data).forEach(key => {
+        if (productBlackList.includes(key)) delete data[key];
+        if (typeof data[key] == "string") data[key] = data[key].trim();
+        if (Array.isArray(data[key]) && data[key].length > 0) data[key] = data[key].map(item => item.trim());
+        if (Array.isArray(data[key]) && data[key].length == 0) delete data[key]
+        if (nullData.includes(data[key])) delete data[key];
+    });
+}
 
 module.exports = {
     randomNumberGenerator,
@@ -79,5 +109,8 @@ module.exports = {
     signRefreshToken,
     verifyRefreshToken,
     deleteFileInPublic,
-    listOfImagesFromRequest
+    listOfImagesFromRequest,
+    copyObject,
+    setFeatures,
+    deleteInvalidPropertyInObject
 }

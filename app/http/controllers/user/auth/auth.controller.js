@@ -1,8 +1,8 @@
 const { randomNumberGenerator, signAccessToken, verifyRefreshToken, signRefreshToken } = require('../../../../utils/fuctions');
 const { getOtpSchema, checkOtpSchema } = require('../../../validators/user/auth.schema');
+const { ROLES, nullishData } = require('../../../../utils/costans');
 const { StatusCodes : httpStatus } = require('http-status-codes');
 const { UserModel } = require('../../../../models/users');
-const { ROLES } = require('../../../../utils/costans');
 const Controller = require('../../controller');
 const createError = require('http-errors');
 
@@ -69,7 +69,8 @@ class UserAuthController extends Controller {
     }
     async updateUser(phone, objectData = {}){
         Object.keys(objectData).forEach(key => {
-            if(["", " ", "0", 0, null, undefined, NaN]) delete objectData[key];
+            let nullData = Object.values(nullishData);
+            if(nullData) delete objectData[key];
         })
         const updateResult = await UserModel.updateOne({phone}, {$set : objectData});
         return !!updateResult.modifiedCount

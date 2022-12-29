@@ -1,4 +1,29 @@
+const BlackList = {
+    BOOKMARKS : "bookmarks",
+    LIKES : "likes",
+    DSILIKES : "dislikes",
+    COMMENTS : "comments",
+    SUPPLIER : "supplier",
+    LENGTH : "length",
+    WIDTH : "width",
+    HEIGHT : "height",
+    WEIGHT : "weight"
+};
+Object.freeze(BlackList);
+const nullishData = {
+    EMPTY_STRING : "", 
+    SPACE_STRING : " ", 
+    ZREO_STRING : "0", 
+    ZERO : 0, 
+    NULL : null, 
+    UNDEFINED : undefined, 
+    NOT_NUMBER : NaN
+};
+Object.freeze(nullishData);
+
 module.exports = {
+    BlackList,
+    nullishData,
     mongoIdPattern : /^(?=[a-f\d]{24}$)(\d+[a-f]+\d)/i ,
     ROLES : {
         USER : 'USER',

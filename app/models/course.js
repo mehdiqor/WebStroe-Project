@@ -1,7 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const { commentSchema } = require("./public.shema");
 
-const episodesSchema = mongoose.Schema({
+const EpisodesSchema = mongoose.Schema({
     title : {type : String, required : true},
     text : {type : String, required : true},
     type : {type : String, default : "free"},
@@ -10,9 +10,9 @@ const episodesSchema = mongoose.Schema({
 const chapterSchema = mongoose.Schema({
     title : {type : String, required : true},
     text : {type : String, default : ""},
-    episodes : {type : [episodesSchema], default : []},
+    episodes : {type : [EpisodesSchema], default : []},
 });
-const Schema = new mongoose.Schema({
+const CorseSchema = new mongoose.Schema({
     course : {type : String, required : true},
     short_text : {type : String, required : true},
     text : {type : String, required : true},
@@ -28,10 +28,10 @@ const Schema = new mongoose.Schema({
     type : {type : String, default : "free", required : true},
     time : {type : String, default : "00:00:00"},
     teacher : {type : mongoose.Types.ObjectId, ref : "user", required : true},
-    chapter : {type : [chapterSchema], default : []},
+    chapters : {type : [chapterSchema], default : []},
     students : {type : [mongoose.Types.ObjectId], ref : "user", default : []}
 });
 
 module.exports = {
-    Courses : mongoose.model('course', Schema)
+    Courses : mongoose.model('course', CorseSchema)
 }

@@ -7,7 +7,7 @@ const router = require('express').Router();
  * @swagger
  *  components:
  *      schemas:
- *          Color:
+ *          Colors:
  *              type: array
  *              items:
  *                  type: string
@@ -94,8 +94,8 @@ const router = require('express').Router();
  *                      type: string
  *                      description: the type of product
  *                      example: virtual - physical
- *                  color:
- *                      $ref: '#/components/schemas/Color'
+ *                  colors:
+ *                      $ref: '#/components/schemas/Colors'
  */
 /**
  * @swagger
@@ -160,8 +160,8 @@ const router = require('express').Router();
  *                      type: string
  *                      description: the type of product
  *                      example: virtual - physical
- *                  color:
- *                      $ref: '#/components/schemas/Color'
+ *                  colors:
+ *                      $ref: '#/components/schemas/Colors'
  */
 
 /**

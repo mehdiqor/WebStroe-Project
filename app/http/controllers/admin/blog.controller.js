@@ -1,6 +1,7 @@
+const { deleteFileInPublic, deleteInvalidPropertyInObject } = require("../../../utils/fuctions");
 const { createBlogsSchema } = require("../../validators/admin/blog.schema");
+const { BlackList, nullishData } = require("../../../utils/costans");
 const { StatusCodes : httpStatus } = require('http-status-codes');
-const { deleteFileInPublic } = require("../../../utils/fuctions");
 const { BlogModel } = require("../../../models/blogs");
 const Controller = require("../controller");
 const createError = require("http-errors");
@@ -134,15 +135,8 @@ class BlogController extends Controller {
         req.body.image = req.body.image.replace(/\\/g, "/");
       }
       const data = req.body;
-      let nullishData = ["", " ", "0", 0, null, undefined];
-      let blackList = ["bookmark", "like", "dislike", "comment", "author"];
-      Object.keys(data).forEach((key) => {
-        if (blackList.includes(key)) delete data[key];
-        if (typeof data[key] == "string") data[key] = data[key].trim();
-        if (Array.isArray(data[key]) && Array.length > 0)
-        data[key] = data[key].map((item) => item.trim());
-        if (nullishData.includes(data[key])) delete data[key];
-      });
+      deleteInvalidPropertyInObject(data);
+      
       const updateResult = await BlogModel.updateOne({_id : id}, {$set : data});
       if(updateResult.modifiedCount == 0) throw createError.InternalServerError("بروزرسانی انجام نشد");
       return res.status(httpStatus.OK).json({
