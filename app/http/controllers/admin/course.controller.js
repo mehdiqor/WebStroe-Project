@@ -1,10 +1,20 @@
+const { StatusCodes : httpStatus } = require("http-status-codes");
 const { CourseModel } = require("../../../models/course");
 const Controller = require("../controller");
 const createError = require("http-errors");
-const { StatusCodes : httpStatus } = require("http-status-codes");
-const course = require("../../../models/course");
+const path = require("path");
 
-class CorseController extends Controller {
+class CourseController extends Controller {
+    async addCourse(req, res, next){
+        try {
+            const {fileUploadPath, filename} = req.body;
+            const image = path.join(fileUploadPath, filename).replace(/\\/g, "/")
+            const {title, short_text, text, tags, category, price, discount} = req.body;
+            return res.status(httpStatus.CREATED).json({title, short_text, text, tags, category, price, discount, image})
+        } catch (error) {
+            next(error)
+        }
+    }
     async getListOfProduct(req, res, next){
         try {
             const {search} = req.query;
@@ -31,5 +41,5 @@ class CorseController extends Controller {
 }
 
 module.exports = {
-    CorseController : new CorseController()
+    CourseController : new CourseController()
 }

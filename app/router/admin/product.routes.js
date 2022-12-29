@@ -7,6 +7,16 @@ const router = require('express').Router();
  * @swagger
  *  components:
  *      schemas:
+ *          Type:
+ *              type: string
+ *              enum:
+ *                  -   virtual
+ *                  -   physical
+ */
+/**
+ * @swagger
+ *  components:
+ *      schemas:
  *          Colors:
  *              type: array
  *              items:
@@ -32,11 +42,11 @@ const router = require('express').Router();
  *                  -   title
  *                  -   short_text
  *                  -   text
- *                  -   tags
  *                  -   category
  *                  -   price
- *                  -   discount
  *                  -   count
+ *                  -   discount
+ *                  -   type
  *              properties:
  *                  title:
  *                      type: string
@@ -57,23 +67,27 @@ const router = require('express').Router();
  *                      type: string
  *                      description: the category of product
  *                      example: 639dccda74ff926f06c2fe21
- *                  price:
- *                      type: string
- *                      description: the price of product
- *                      example: 2500000
- *                  discount:
- *                      type: string
- *                      description: the discount of product
- *                      example: 10
- *                  count:
- *                      type: string
- *                      description: the count of product
- *                      example: 20
  *                  images:
  *                      type: array
  *                      items:
  *                          type: string
  *                          format: binary
+ *                  type:
+ *                      $ref: '#/components/schemas/Type'
+ *                  colors:
+ *                      $ref: '#/components/schemas/Colors'
+ *                  price:
+ *                      type: string
+ *                      description: the price of product
+ *                      example: 2500000
+ *                  count:
+ *                      type: string
+ *                      description: the count of product
+ *                      example: 20
+ *                  discount:
+ *                      type: string
+ *                      description: the discount of product
+ *                      example: 10
  *                  weight:
  *                      type: string
  *                      description: the weight of product packet
@@ -90,12 +104,6 @@ const router = require('express').Router();
  *                      type: string
  *                      description: the lenght of product
  *                      example: 0
- *                  type:
- *                      type: string
- *                      description: the type of product
- *                      example: virtual - physical
- *                  colors:
- *                      $ref: '#/components/schemas/Colors'
  */
 /**
  * @swagger

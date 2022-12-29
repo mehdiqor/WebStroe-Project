@@ -1,149 +1,86 @@
-const { CorseController } = require("../../http/controllers/admin/course.controller");
+const { CourseController } = require("../../http/controllers/admin/course.controller");
+const { stringToArray } = require('../../http/middleware/stringToArray');
+const { uploadFile } = require('../../utils/multer');
 const router = require("express").Router();
 
 /**
  * @swagger
  *  components:
  *      schemas:
- *          Product:
- *              type : object
- *              required:
- *                  -   title
- *                  -   short_text
- *                  -   text
- *                  -   tags
- *                  -   category
- *                  -   price
- *                  -   discount
- *                  -   count
- *              properties:
- *                  title:
- *                      type: string
- *                      description: the title of product
- *                      example: test title
- *                  short_text:
- *                      type: string
- *                      description: the short_text of product
- *                      example: test summary
- *                  text:
- *                      type: string
- *                      description: the text of product
- *                      example: test description
- *                  tags:
- *                      type: array
- *                      description: the tags of product
- *                  category:
- *                      type: string
- *                      description: the category of product
- *                      example: 639dccda74ff926f06c2fe21
- *                  price:
- *                      type: string
- *                      description: the price of product
- *                      example: 2500000
- *                  discount:
- *                      type: string
- *                      description: the discount of product
- *                      example: 10
- *                  count:
- *                      type: string
- *                      description: the count of product
- *                      example: 20
- *                  images:
- *                      type: array
- *                      items:
- *                          type: string
- *                          format: binary
- *                  weight:
- *                      type: string
- *                      description: the weight of product packet
- *                      example: 0
- *                  height:
- *                      type: string
- *                      description: the height of product packet
- *                      example: 0
- *                  width:
- *                      type: string
- *                      description: the width of product packet
- *                      example: 0
- *                  lenght:
- *                      type: string
- *                      description: the lenght of product
- *                      example: 0
- *                  type:
- *                      type: string
- *                      description: the type of product
- *                      example: virtual - physical
- *                  colors:
- *                      $ref: '#/components/schemas/Colors'
+ *          Types:
+ *              type: string
+ *              enum:
+ *                  -   free
+ *                  -   cash
+ *                  -   special
  */
 /**
  * @swagger
  *  components:
  *      schemas:
- *          Edit-Product:
+ *          Course:
  *              type : object
+ *              required:
+ *                  -   title
+ *                  -   short_text
+ *                  -   text
+ *                  -   category
+ *                  -   price
+ *                  -   discount
+ *                  -   image
+ *                  -   type
  *              properties:
  *                  title:
  *                      type: string
- *                      description: the title of product
- *                      example: test title
+ *                      description: the title of course
+ *                      example: عنوان دوره
  *                  short_text:
  *                      type: string
- *                      description: the short_text of product
- *                      example: test summary
+ *                      description: short_text of course
+ *                      example: توضیحات مختصر
  *                  text:
  *                      type: string
- *                      description: the text of product
- *                      example: test description
+ *                      description: the text of course
+ *                      example: توضیحات دوره
  *                  tags:
  *                      type: array
- *                      description: the tags of product
+ *                      description: the tags of course
  *                  category:
  *                      type: string
- *                      description: the category of product
+ *                      description: the category of course
  *                      example: 639dccda74ff926f06c2fe21
  *                  price:
  *                      type: string
- *                      description: the price of product
+ *                      description: price of course
  *                      example: 2500000
  *                  discount:
  *                      type: string
- *                      description: the discount of product
+ *                      description: discount of course
  *                      example: 10
- *                  count:
+ *                  image:
  *                      type: string
- *                      description: the count of product
- *                      example: 20
- *                  images:
- *                      type: array
- *                      items:
- *                          type: string
- *                          format: binary
- *                  weight:
- *                      type: string
- *                      description: the weight of product packet
- *                      example: 0
- *                  height:
- *                      type: string
- *                      description: the height of product packet
- *                      example: 0
- *                  width:
- *                      type: string
- *                      description: the width of product packet
- *                      example: 0
- *                  lenght:
- *                      type: string
- *                      description: the lenght of product
- *                      example: 0
+ *                      format: binary
  *                  type:
- *                      type: string
- *                      description: the type of product
- *                      example: virtual - physical
- *                  colors:
- *                      $ref: '#/components/schemas/Colors'
+ *                      $ref: '#/components/schemas/Types'
  */
 
-// router.post("/add")
+/**
+ * @swagger
+ *  /admin/courses/add:
+ *      post:
+ *          tags: [Course]
+ *          summary: create and save course
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  multipart/form-data:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Course'
+ *          responses:
+ *              201:
+ *                  description: new course created
+ */
+router.post("/add", uploadFile.single("image"), stringToArray("tags"), CourseController.addCourse)
 
 // router.put("/add-chapter")
 
@@ -166,7 +103,7 @@ const router = require("express").Router();
  *              200:
  *                  description: success
  */
-router.get("/list-of-all", CorseController.getListOfProduct)
+router.get("/list-of-all", CourseController.getListOfProduct)
 
 // router.get("/:id")
 
