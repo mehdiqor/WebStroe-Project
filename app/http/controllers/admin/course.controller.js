@@ -3,14 +3,39 @@ const { CourseModel } = require("../../../models/course");
 const Controller = require("../controller");
 const createError = require("http-errors");
 const path = require("path");
+const { createCourseSchema } = require("../../validators/admin/course.schema");
+const { ObjectIdValidator } = require("../../validators/admin/public.validator");
 
 class CourseController extends Controller {
     async addCourse(req, res, next){
         try {
+            await createCourseSchema.validateAsync(req.body);
             const {fileUploadPath, filename} = req.body;
-            const image = path.join(fileUploadPath, filename).replace(/\\/g, "/")
-            const {title, short_text, text, tags, category, price, discount} = req.body;
-            return res.status(httpStatus.CREATED).json({title, short_text, text, tags, category, price, discount, image})
+            const image = path.join(fileUploadPath, filename).replace(/\\/g, "/");
+            const {title, short_text, text, tags, category, price, discount, type, status} = req.body;
+            const teacher = req.user._id;
+            if(Number(price) > 0 && type == "free") throw createError.BadRequest("برای دوره رایگان نمیتوان قیمت ثبت کرد")
+            const course = await CourseModel.create({
+                title,
+                short_text,
+                text,
+                tags,
+                category,
+                price,
+                discount,
+                type,
+                status,
+                image,
+                teacher,
+                time : "00:00:00"
+            });
+            if(!course?._id) throw createError.InternalServerError("دوره ثبت نشد")
+            return res.status(httpStatus.CREATED).json({
+                data : {
+                    statusCode : httpStatus.CREATED,
+                    message : "دوره با موفقیت ایجاد شد"
+                }
+            });
         } catch (error) {
             next(error)
         }
@@ -37,6 +62,26 @@ class CourseController extends Controller {
         } catch (error) {
             next(error)
         }
+    }
+    async getCourseByID(req, res, next){
+        try {
+            const { id } = req.params;
+            const course = await this.findcourseByID(id);
+            return res.status(httpStatus.OK).json({
+                data : {
+                    statusCode : httpStatus.OK,
+                    course
+                }
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+    async findcourseByID(CourseID) {
+        const { id } = await ObjectIdValidator.validateAsync({ id: CourseID });
+        const course = await CourseModel.findById(id);
+        if (!course) throw createError.NotFound("محصولی یافت نشد");
+        return course;
     }
 }
 

@@ -18,6 +18,17 @@ const router = require("express").Router();
  * @swagger
  *  components:
  *      schemas:
+ *          Status:
+ *              type: string
+ *              enum:
+ *                  -   notStarted
+ *                  -   inProgress
+ *                  -   completed
+ */
+/**
+ * @swagger
+ *  components:
+ *      schemas:
  *          Course:
  *              type : object
  *              required:
@@ -29,6 +40,7 @@ const router = require("express").Router();
  *                  -   discount
  *                  -   image
  *                  -   type
+ *                  -   status
  *              properties:
  *                  title:
  *                      type: string
@@ -62,11 +74,13 @@ const router = require("express").Router();
  *                      format: binary
  *                  type:
  *                      $ref: '#/components/schemas/Types'
+ *                  status:
+ *                      $ref: '#/components/schemas/Status'
  */
 
 /**
  * @swagger
- *  /admin/courses/add:
+ *  /admin/courses/add-course:
  *      post:
  *          tags: [Course]
  *          summary: create and save course
@@ -80,7 +94,7 @@ const router = require("express").Router();
  *              201:
  *                  description: new course created
  */
-router.post("/add", uploadFile.single("image"), stringToArray("tags"), CourseController.addCourse)
+router.post("/add-course", uploadFile.single("image"), stringToArray("tags"), CourseController.addCourse)
 
 // router.put("/add-chapter")
 
@@ -97,7 +111,7 @@ router.post("/add", uploadFile.single("image"), stringToArray("tags"), CourseCon
  *          parameters:
  *              -   in: query
  *                  name: search
- *                  type: text
+ *                  type: string
  *                  description: search with title, text and short text
  *          responses:
  *              200:
@@ -105,7 +119,22 @@ router.post("/add", uploadFile.single("image"), stringToArray("tags"), CourseCon
  */
 router.get("/list-of-all", CourseController.getListOfProduct)
 
-// router.get("/:id")
+/**
+ * @swagger
+ *  /admin/courses/{id}:
+ *      get:
+ *          tags: [Course]
+ *          summary: get courses by ID
+ *          parameters:
+ *              -   in: path
+ *                  name: id
+ *                  type: string
+ *                  description: find course by ID
+ *          responses:
+ *              200:
+ *                  description: success
+ */
+router.get("/:id", CourseController.getCourseByID)
 
 // router.delete("/remove/:id")
 
