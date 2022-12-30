@@ -16,7 +16,7 @@ function signAccessToken(userId){
             phone : user.phone
         };
         const options = {
-            expiresIn : "24h"
+            expiresIn : "30 days"
         };
         jwt.sign(payload, ACCESS_TOKEN_SECRET_KEY, options, (err, token) => {
             if(err) reject(createError.InternalServerError("خطای سرور!"));

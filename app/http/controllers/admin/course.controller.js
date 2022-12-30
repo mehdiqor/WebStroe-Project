@@ -80,7 +80,7 @@ class CourseController extends Controller {
     async findcourseByID(CourseID) {
         const { id } = await ObjectIdValidator.validateAsync({ id: CourseID });
         const course = await CourseModel.findById(id);
-        if (!course) throw createError.NotFound("محصولی یافت نشد");
+        if (!course) throw createError.NotFound("دوره ای یافت نشد");
         return course;
     }
 }
