@@ -166,6 +166,54 @@
  *                  colors:
  *                      $ref: '#/components/schemas/Colors'
  */
+/**
+ * @swagger
+ *  definitions:
+ *      ListOfProducts:
+ *          type: object
+ *          properties:
+ *              statusCode:
+ *                  type: integer
+ *                  example: 200
+ *              data:
+ *                  type: object
+ *                  properties:
+ *                      products:
+ *                           type: array
+ *                           items:
+ *                              type: object
+ *                              properties:
+ *                                  _id:
+ *                                      type: string
+ *                                      example: "63ad7d9d14556b64712acc67"
+ *                                  title:
+ *                                      type: string
+ *                                      example: "title of product"
+ *                                  short_text:
+ *                                      type: string
+ *                                      example: "summary of product"
+ *                                  text:
+ *                                      type: string
+ *                                      example: "description of product"
+ *                                  category:
+ *                                      type: string
+ *                                      example: "63ad7d9d14556b64712acc67"
+ *                                  price:
+ *                                      type: integer
+ *                                      example: 250000
+ *                                  discount:
+ *                                      type: integer
+ *                                      example: 10
+ *                                  count:
+ *                                      type: integer
+ *                                      example: 500
+ *                                  type:
+ *                                      type: string
+ *                                      example: "physical | virtual"
+ *                                  supplier:
+ *                                      type: string
+ *                                      example: "63ad7d9d14556b64712acc67"
+ */
 
 /**
  * @swagger
@@ -182,6 +230,10 @@
  *          responses:
  *              201:
  *                  description: created new product
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/PublicDefinition'
  */
 /**
  * @swagger
@@ -204,6 +256,10 @@
  *          responses:
  *              200:
  *                  description: product updated
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/PublicDefinition'
  */
 /**
  * @swagger
@@ -219,6 +275,10 @@
  *          responses:
  *              200:
  *                  description: success
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/ListOfProducts'
  */
 /**
  * @swagger
@@ -235,6 +295,10 @@
  *          responses:
  *              200:
  *                  description: success
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/ListOfProducts'
  */
 /**
  * @swagger
@@ -251,4 +315,8 @@
  *          responses:
  *              200:
  *                  description: success
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/PublicDefinition'
  */

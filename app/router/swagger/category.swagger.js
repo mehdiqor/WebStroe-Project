@@ -28,6 +28,38 @@
  *                      type: string
  *                      description: parent of category
  */
+/**
+ * @swagger
+ *  definitions:
+ *      ListOfCategories:
+ *          type: object
+ *          properties:
+ *              statusCode:
+ *                  type: integer
+ *                  example: 200
+ *              data:
+ *                  type: object
+ *                  properties:
+ *                      categories:
+ *                           type: array
+ *                           items:
+ *                              type: object
+ *                              properties:
+ *                                  _id:
+ *                                      type: string
+ *                                      example: "63ad7d9d14556b64712acc67"
+ *                                  title:
+ *                                      type: string
+ *                                      example: "title of category"
+ *                                  parent:
+ *                                      type: string
+ *                                      example: "63ad7d9d14556b64712acc67"
+ *                                  children:
+ *                                      type: array
+ *                                      items:
+ *                                          type: string
+ *                                          example: "id, title, parent, children"
+ */
 
 /**
  * @swagger
@@ -47,6 +79,10 @@
  *          responses:
  *              201:
  *                  description: success
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/PublicDefinition'
  */
 /**
  * @swagger
@@ -66,6 +102,10 @@
  *          responses:
  *              200:
  *                  description: success
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/PublicDefinition'
  *              500:
  *                  description: internal server error
  */
@@ -78,6 +118,10 @@
  *          responses:
  *              200:
  *                  description: success
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/ListOfCategories'
  */
 /**
  * @swagger
@@ -93,6 +137,10 @@
  *          responses:
  *              200:
  *                  description: success
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/ListOfCategories'
  */
 /**
  * @swagger
@@ -103,6 +151,10 @@
  *          responses:
  *              200:
  *                  description: success
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/ListOfCategories'
  */
 /**
  * @swagger
@@ -113,6 +165,10 @@
  *          responses:
  *              200:
  *                  description: success
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/ListOfCategories'
  */
 /**
  * @swagger
@@ -128,6 +184,10 @@
  *          responses:
  *              200:
  *                  description: success
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/ListOfCategories'
  */
 /**
  * @swagger
@@ -143,4 +203,8 @@
  *          responses:
  *              200:
  *                  description: success
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/PublicDefinition'
  */

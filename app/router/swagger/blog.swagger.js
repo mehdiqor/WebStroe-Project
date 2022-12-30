@@ -56,6 +56,65 @@
  *                      type: file
  *                      description: image of blog
  */
+/**
+ * @swagger
+ *  definitions:
+ *      ListOfBlogs:
+ *          type: object
+ *          properties:
+ *              statusCode:
+ *                  type: integer
+ *                  example: 200
+ *              data:
+ *                  type: object
+ *                  properties:
+ *                      blogs:
+ *                           type: array
+ *                           items:
+ *                              type: object
+ *                              properties:
+ *                                  _id:
+ *                                      type: string
+ *                                      example: "63ad7d9d14556b64712acc67"
+ *                                  author:
+ *                                      type: object
+ *                                      properties:
+ *                                          _id:
+ *                                              type: string
+ *                                              example: "63ad7d9d14556b64712acc67"
+ *                                          phone:
+ *                                              type: integer
+ *                                              example: 9123456789
+ *                                          roles:
+ *                                              type: string
+ *                                              example: "USER"
+ *                                  title:
+ *                                      type: string
+ *                                      example: "title of blog"
+ *                                  short_text:
+ *                                      type: string
+ *                                      example: "summary of blog"
+ *                                  text:
+ *                                      type: string
+ *                                      example: "description of blog"
+ *                                  image:
+ *                                      type: string
+ *                                      example: "uploads/date/name.jpg"
+ *                                  tags:
+ *                                      type: array
+ *                                      items:
+ *                                          type: string
+ *                                          example: "tag1"
+ *                                  category:
+ *                                      type: object
+ *                                      properties:
+ *                                          _id:
+ *                                              type: string
+ *                                              example: "63ad7d9d14556b64712acc67"
+ *                                          title:
+ *                                              type: string
+ *                                              example: "programing"
+ */
 
 /**
  * @swagger
@@ -72,6 +131,10 @@
  *          responses:
  *              201:
  *                  description: created
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/PublicDefinition'
  */
 /**
  * @swagger
@@ -95,6 +158,10 @@
  *          responses:
  *              201:
  *                  description: created
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/PublicDefinition'
  */
 /**
  * @swagger
@@ -105,6 +172,10 @@
  *          responses:
  *              200:
  *                  description: success - get array of blogs
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/ListOfBlogs'
  */
 /**
  * @swagger
@@ -120,6 +191,10 @@
  *          responses:
  *              200:
  *                  description: success
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/ListOfBlogs'
  */
 /**
  * @swagger
@@ -135,4 +210,8 @@
  *          responses:
  *              200:
  *                  description: success
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/PublicDefinition'
  */
