@@ -40,6 +40,35 @@ class CourseController extends Controller {
             next(error)
         }
     }
+    async addChapter(req, res, next){
+        try {
+            const {id, title, text} = req.body;
+            await this.findCourseByID(id);
+            const saveChapterResult = await CourseModel.updateOne(
+                {
+                    _id : id
+                },
+                {
+                    $push : {
+                        chapters : {
+                            title,
+                            text,
+                            episodes : []
+                        }
+                    }
+                }
+            );
+            if(saveChapterResult.modifiedCount == 0) throw createError.InternalServerError("فصل افزوده نشد");
+            return res.status(httpStatus.CREATED).json({
+                statusCode : httpStatus.CREATED,
+                data : {
+                    message : "فصل با موفقیت افزوده شد"
+                }
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
     async getListOfProduct(req, res, next){
         try {
             const {search} = req.query;
@@ -66,7 +95,7 @@ class CourseController extends Controller {
     async getCourseByID(req, res, next){
         try {
             const { id } = req.params;
-            const course = await this.findcourseByID(id);
+            const course = await this.findCourseByID(id);
             return res.status(httpStatus.OK).json({
                 statusCode : httpStatus.OK,
                 data : {
@@ -77,7 +106,7 @@ class CourseController extends Controller {
             next(error)
         }
     }
-    async findcourseByID(CourseID) {
+    async findCourseByID(CourseID) {
         const { id } = await ObjectIdValidator.validateAsync({ id: CourseID });
         const course = await CourseModel.findById(id);
         if (!course) throw createError.NotFound("دوره ای یافت نشد");
