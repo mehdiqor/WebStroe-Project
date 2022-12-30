@@ -39,10 +39,10 @@ class ProductController extends Controller {
         type,
       });
       return res.status(httpStatus.CREATED).json({
-        data: {
-          statusCode: httpStatus.CREATED,
+        statusCode : httpStatus.CREATED,
+        data : {
           message: "محصول با موفقیت ثبت شد",
-        },
+        }
       });
     } catch (error) {
       deleteFileInPublic(req.body.images);
@@ -61,8 +61,8 @@ class ProductController extends Controller {
       const updateResult = await ProductModel.updateOne({_id : product._id}, {$set : data});
       if(updateResult.modifiedCount == 0) throw {status : httpStatus.INTERNAL_SERVER_ERROR, message : "خطای داخلی"};
       return res.status(httpStatus.OK).json({
+        statusCode : httpStatus.OK,
         data : {
-          statusCode : httpStatus.OK,
           message : "بروزرسانی با موفقیت انجام شد",
         }
       })
@@ -80,10 +80,10 @@ class ProductController extends Controller {
       if (removeProductResult.deletedCount == 0)
         throw createError.InternalServerError("محصول حذف نشد");
       res.status(httpStatus.OK).json({
-        data: {
-          statusCode: httpStatus.OK,
-          message: "محصول با موفقیت حذف شد",
-        },
+        statusCode : httpStatus.OK,
+        data : {
+          message : "محصول با موفقیت حذف شد",
+        }
       });
     } catch (error) {
       next(error);
@@ -103,10 +103,10 @@ class ProductController extends Controller {
         products = await ProductModel.find({});
       }
       return res.status(httpStatus.OK).json({
-        data: {
-          statusCode: httpStatus.OK,
+        statusCode : httpStatus.OK,
+        data : {
           products,
-        },
+        }
       });
     } catch (error) {
       next(error);
@@ -117,10 +117,10 @@ class ProductController extends Controller {
       const { id } = req.params;
       const product = await this.findProductByID(id);
       res.status(httpStatus.OK).json({
-        data: {
-          statusCode: httpStatus.OK,
-          product,
-        },
+        statusCode : httpStatus.OK,
+        data : {
+          product
+        }
       });
     } catch (error) {
       next(error);

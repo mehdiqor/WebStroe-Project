@@ -22,6 +22,45 @@
  */
 /**
  * @swagger
+ *  definitions:
+ *      ListOfCourses:
+ *          type: array
+ *          items:
+ *              type: object
+ *              properties:
+ *                  _id:
+ *                      type: string
+ *                      example: "63ad7d9d14556b64712acc67"
+ *                  title:
+ *                      type: string
+ *                      example: "title of course"
+ *                  text:
+ *                      type: string
+ *                      example: "description of course"
+ *                  short_text:
+ *                      type: string
+ *                      example: "summary of course"
+ *                  status:
+ *                      type: string
+ *                      example: "notStarted | inProgress | completed"
+ *                  time:
+ *                      type: string
+ *                      example: "01:22:44"
+ *                  price:
+ *                      type: integer
+ *                      example: 250,000
+ *                  discount:
+ *                      type: integer
+ *                      example: 10
+ *                  studentCount:
+ *                      type: integer
+ *                      example: 150
+ *                  teacher:
+ *                      type: string
+ *                      example: "erfan yousefi"
+ */
+/**
+ * @swagger
  *  components:
  *      schemas:
  *          Course:
@@ -103,6 +142,10 @@
  *          responses:
  *              200:
  *                  description: success
+ *                  content:
+ *                      application/jason:
+ *                          schema:
+ *                              $ref: '#/definitions/ListOfCourses'
  */
 /**
  * @swagger

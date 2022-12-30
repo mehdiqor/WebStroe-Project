@@ -31,8 +31,8 @@ class CourseController extends Controller {
             });
             if(!course?._id) throw createError.InternalServerError("دوره ثبت نشد")
             return res.status(httpStatus.CREATED).json({
+                statusCode : httpStatus.CREATED,
                 data : {
-                    statusCode : httpStatus.CREATED,
                     message : "دوره با موفقیت ایجاد شد"
                 }
             });
@@ -54,8 +54,8 @@ class CourseController extends Controller {
             .sort({ _id : -1 })
             
             res.status(httpStatus.OK).json({
+                statusCode : httpStatus.OK,
                 data : {
-                    statusCode : httpStatus.OK,
                     courses
                 }
             })
@@ -68,8 +68,8 @@ class CourseController extends Controller {
             const { id } = req.params;
             const course = await this.findcourseByID(id);
             return res.status(httpStatus.OK).json({
+                statusCode : httpStatus.OK,
                 data : {
-                    statusCode : httpStatus.OK,
                     course
                 }
             })

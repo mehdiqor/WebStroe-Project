@@ -29,8 +29,8 @@ class BlogController extends Controller {
         author,
       });
       return res.status(httpStatus.CREATED).json({
+        statusCode: httpStatus.CREATED,
         data: {
-          statusCode: httpStatus.CREATED,
           message: "ایجاد بلاگ با موفقیت انجام شد",
         },
       });
@@ -44,10 +44,10 @@ class BlogController extends Controller {
       const { id } = req.params;
       const blog = await this.findBlog(id);
       return res.status(httpStatus.OK).json({
-        data: {
-          statusCode: httpStatus.OK,
+        statusCode : httpStatus.OK,
+        data : {
           blog,
-        },
+        }
       });
     } catch (error) {
       next(error);
@@ -93,10 +93,10 @@ class BlogController extends Controller {
         },
       ]);
       return res.status(httpStatus.OK).json({
-        data: {
-          statusCode: httpStatus.OK,
+        statusCode : httpStatus.OK,
+        data : {
           blogs,
-        },
+        }
       });
     } catch (error) {
       next(error);
@@ -117,10 +117,10 @@ class BlogController extends Controller {
       if (result.deletedCount == 0)
         throw createError.InternalServerError("حذف مقاله انجام نشد");
       return res.status(httpStatus.OK).json({
-        data: {
-          statusCode: httpStatus.OK,
+        statusCode : httpStatus.OK,
+        data : {
           message: "حذف مقاله با موفقیت انجام شد",
-        },
+        }
       });
     } catch (error) {
       next(error);
@@ -140,10 +140,10 @@ class BlogController extends Controller {
       const updateResult = await BlogModel.updateOne({_id : id}, {$set : data});
       if(updateResult.modifiedCount == 0) throw createError.InternalServerError("بروزرسانی انجام نشد");
       return res.status(httpStatus.OK).json({
-        data: {
-          statusCode: httpStatus.OK,
+        statusCode : httpStatus.OK,
+        data : {
           message: "بروزرسانی بلاگ با موفقیت انجام شد"
-        },
+        }
       });
     } catch (error) {
       deleteFileInPublic(req?.body?.image);
