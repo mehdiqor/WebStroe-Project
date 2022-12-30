@@ -1,10 +1,10 @@
 const { StatusCodes : httpStatus } = require("http-status-codes");
-const { CourseModel } = require("../../../models/course");
-const Controller = require("../controller");
+const { CourseModel } = require("../../../../models/course");
+const Controller = require("../../controller");
 const createError = require("http-errors");
 const path = require("path");
-const { createCourseSchema } = require("../../validators/admin/course.schema");
-const { ObjectIdValidator } = require("../../validators/admin/public.validator");
+const { createCourseSchema } = require("../../../validators/admin/course.schema");
+const { ObjectIdValidator } = require("../../../validators/admin/public.validator");
 
 class CourseController extends Controller {
     async addCourse(req, res, next){
@@ -40,36 +40,7 @@ class CourseController extends Controller {
             next(error)
         }
     }
-    async addChapter(req, res, next){
-        try {
-            const {id, title, text} = req.body;
-            await this.findCourseByID(id);
-            const saveChapterResult = await CourseModel.updateOne(
-                {
-                    _id : id
-                },
-                {
-                    $push : {
-                        chapters : {
-                            title,
-                            text,
-                            episodes : []
-                        }
-                    }
-                }
-            );
-            if(saveChapterResult.modifiedCount == 0) throw createError.InternalServerError("فصل افزوده نشد");
-            return res.status(httpStatus.CREATED).json({
-                statusCode : httpStatus.CREATED,
-                data : {
-                    message : "فصل با موفقیت افزوده شد"
-                }
-            })
-        } catch (error) {
-            next(error)
-        }
-    }
-    async getListOfProduct(req, res, next){
+    async getListOfCourses(req, res, next){
         try {
             const {search} = req.query;
             let courses;
@@ -115,5 +86,6 @@ class CourseController extends Controller {
 }
 
 module.exports = {
+    AbstractCourseController : CourseController,
     CourseController : new CourseController()
 }

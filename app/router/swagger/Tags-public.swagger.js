@@ -3,6 +3,8 @@
  *  tags:
  *      -   name: Admin-Panel
  *          description: action of admin
+ *      -   name: Chapter
+ *          description: chapter managment panel
  *      -   name: Course
  *          description: course managment panel
  *      -   name: Product

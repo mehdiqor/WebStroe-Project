@@ -24,21 +24,6 @@
  * @swagger
  *  components:
  *      schemas:
- *          AddChapter:
- *              type: object
- *              required:
- *                  -   id
- *                  -   title
- *              properties:
- *                  id:
- *                      type: string
- *                      example: 639dccda74ff926f06c2fe21
- *                  title:
- *                      type: string
- *                      example: chapter one
- *                  text:
- *                      type: string
- *                      example: description of chapter
  *          Course:
  *              type : object
  *              required:
@@ -87,7 +72,6 @@
  *                  status:
  *                      $ref: '#/components/schemas/Status'
  */
-
 /**
  * @swagger
  *  definitions:
@@ -147,7 +131,7 @@
 
 /**
  * @swagger
- *  /admin/courses/add-course:
+ *  /admin/courses/add:
  *      post:
  *          tags: [Course]
  *          summary: create and save course
@@ -157,29 +141,6 @@
  *                  multipart/form-data:
  *                      schema:
  *                          $ref: '#/components/schemas/Course'
- *          responses:
- *              201:
- *                  description: new course created
- *                  content:
- *                      applicatin/json:
- *                          schema:
- *                              $ref: '#/definitions/PublicDefinition'
- */
-/**
- * @swagger
- *  /admin/courses/add-chapter:
- *      put:
- *          tags: [Course]
- *          summary: create new chapter for courses
- *          requestBody:
- *              required: true
- *              content:
- *                  application/x-www-form-urlencoded:
- *                      schema:
- *                          $ref: '#/components/schemas/AddChapter'
- *                  application/json:
- *                      schema:
- *                          $ref: '#/components/schemas/AddChapter'
  *          responses:
  *              201:
  *                  description: new course created

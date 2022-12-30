@@ -1,9 +1,9 @@
-const { deleteFileInPublic, deleteInvalidPropertyInObject } = require("../../../utils/fuctions");
-const { createBlogsSchema } = require("../../validators/admin/blog.schema");
-const { BlackList, nullishData } = require("../../../utils/costans");
+const { deleteFileInPublic, deleteInvalidPropertyInObject } = require("../../../../utils/fuctions");
+const { createBlogsSchema } = require("../../../validators/admin/blog.schema");
+const { BlackList, nullishData } = require("../../../../utils/costans");
 const { StatusCodes : httpStatus } = require('http-status-codes');
-const { BlogModel } = require("../../../models/blogs");
-const Controller = require("../controller");
+const { BlogModel } = require("../../../../models/blogs");
+const Controller = require("../../controller");
 const createError = require("http-errors");
 const path = require("path");
 
