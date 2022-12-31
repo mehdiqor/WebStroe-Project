@@ -31,6 +31,10 @@ const CorseSchema = new mongoose.Schema({
     teacher : {type : mongoose.Types.ObjectId, ref : "user", required : true},
     chapters : {type : [chapterSchema], default : []},
     students : {type : [mongoose.Types.ObjectId], ref : "user", default : []}
+}, {
+    toJSON : {
+        virtuals : true
+    }
 });
 CorseSchema.index({
     title : "text",

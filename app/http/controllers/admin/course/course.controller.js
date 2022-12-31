@@ -44,21 +44,64 @@ class CourseController extends Controller {
         try {
             const {search} = req.query;
             let courses;
-            if(search) courses = await CourseModel.find({
+            if(search) courses = await CourseModel
+            .find({
                 $text : {
                     $search : search
                 }
             })
-            .sort({ _id : -1 })
-            else courses = await CourseModel.find({})
-            .sort({ _id : -1 })
-            
+            .populate([
+                {
+                    path : "category",
+                    select : {
+                        children : 0,
+                        parent : 0,
+                        __v : 0
+                    }
+                },
+                {
+                    path : "teacher",
+                    select : {
+                        first_name : 1,
+                        last_name : 1,
+                        phone : 1,
+                        email : 1
+                    }
+                }
+            ])
+            .sort({
+                _id : -1
+            });
+            else courses = await CourseModel
+            .find({})
+            .populate([
+                {
+                    path : "category",
+                    select : {
+                        children : 0,
+                        parent : 0,
+                        __v : 0
+                    }
+                },
+                {
+                    path : "teacher",
+                    select : {
+                        first_name : 1,
+                        last_name : 1,
+                        phone : 1,
+                        email : 1
+                    }
+                }
+            ])
+            .sort({
+                _id : -1
+            });
             res.status(httpStatus.OK).json({
                 statusCode : httpStatus.OK,
                 data : {
                     courses
                 }
-            })
+            });
         } catch (error) {
             next(error)
         }
