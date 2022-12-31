@@ -4,7 +4,7 @@ const { commentSchema } = require("./public.shema");
 const EpisodesSchema = mongoose.Schema({
     title : {type : String, required : true},
     text : {type : String, required : true},
-    type : {type : String, default : "free"},
+    type : {type : String, default : "unlock"},
     time : {type : String, required : true}
 });
 const chapterSchema = mongoose.Schema({
@@ -12,7 +12,7 @@ const chapterSchema = mongoose.Schema({
     text : {type : String, default : ""},
     episodes : {type : [EpisodesSchema], default : []},
 });
-const CorseSchema = new mongoose.Schema({
+const CourseSchema = new mongoose.Schema({
     title : {type : String, required : true},
     short_text : {type : String, required : true},
     text : {type : String, required : true},
@@ -36,12 +36,12 @@ const CorseSchema = new mongoose.Schema({
         virtuals : true
     }
 });
-CorseSchema.index({
+CourseSchema.index({
     title : "text",
     short_text : "text",
     text : "text"
 });
 
 module.exports = {
-    CourseModel : mongoose.model('course', CorseSchema)
+    CourseModel : mongoose.model('course', CourseSchema)
 }

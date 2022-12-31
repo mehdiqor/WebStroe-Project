@@ -3,10 +3,12 @@
  *  tags:
  *      -   name: Admin-Panel
  *          description: action of admin
- *      -   name: Chapter
- *          description: chapter managment panel
  *      -   name: Course
  *          description: course managment panel
+ *      -   name: Chapter
+ *          description: chapter managment panel
+ *      -   name: Episode
+ *          description: episode managment panel
  *      -   name: Product
  *          description: product managment panel
  *      -   name: Blog
