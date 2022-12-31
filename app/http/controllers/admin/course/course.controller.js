@@ -1,10 +1,10 @@
+const { ObjectIdValidator } = require("../../../validators/admin/public.validator");
+const { createCourseSchema } = require("../../../validators/admin/course.schema");
 const { StatusCodes : httpStatus } = require("http-status-codes");
 const { CourseModel } = require("../../../../models/course");
 const Controller = require("../../controller");
 const createError = require("http-errors");
 const path = require("path");
-const { createCourseSchema } = require("../../../validators/admin/course.schema");
-const { ObjectIdValidator } = require("../../../validators/admin/public.validator");
 
 class CourseController extends Controller {
     async addCourse(req, res, next){

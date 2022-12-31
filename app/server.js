@@ -1,13 +1,14 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const morgan = require("morgan");
-const path = require("path");
-const http = require("http");
+const { Allroutes } = require("./router/router");
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 const createError = require("http-errors");
+const mongoose = require("mongoose");
+const express = require("express");
+const morgan = require("morgan");
+const path = require("path");
+const http = require("http");
 const cors = require("cors");
-const { Allroutes } = require("./router/router");
+require("dotenv").config();
 
 module.exports = class Application {
   #app = express();

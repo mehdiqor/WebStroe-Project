@@ -1,15 +1,3 @@
-const BlackList = {
-    BOOKMARKS : "bookmarks",
-    LIKES : "likes",
-    DSILIKES : "dislikes",
-    COMMENTS : "comments",
-    SUPPLIER : "supplier",
-    LENGTH : "length",
-    WIDTH : "width",
-    HEIGHT : "height",
-    WEIGHT : "weight"
-};
-Object.freeze(BlackList);
 const nullishData = {
     EMPTY_STRING : "", 
     SPACE_STRING : " ", 
@@ -22,7 +10,6 @@ const nullishData = {
 Object.freeze(nullishData);
 
 module.exports = {
-    BlackList,
     nullishData,
     mongoIdPattern : /^(?=[a-f\d]{24}$)(\d+[a-f]+\d)/i ,
     ROLES : {

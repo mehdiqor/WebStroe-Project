@@ -56,7 +56,8 @@ class ProductController extends Controller {
       const data = copyObject(req.body);
       data.images = listOfImagesFromRequest( req?.files || [], req.body.fileUploadPath);
       data.features = setFeatures(req.body);
-      deleteInvalidPropertyInObject(data);
+      const BlackList = ["bookmarks", "likes", "dislikes", "comments", "supplier", "length", "width", "height", "weight"];
+      deleteInvalidPropertyInObject(data, BlackList);
       
       const updateResult = await ProductModel.updateOne({_id : product._id}, {$set : data});
       if(updateResult.modifiedCount == 0) throw {status : httpStatus.INTERNAL_SERVER_ERROR, message : "خطای داخلی"};

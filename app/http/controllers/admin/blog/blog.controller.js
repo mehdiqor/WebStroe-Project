@@ -135,7 +135,8 @@ class BlogController extends Controller {
         req.body.image = req.body.image.replace(/\\/g, "/");
       }
       const data = req.body;
-      deleteInvalidPropertyInObject(data);
+      const BlackList = ["bookmarks", "likes", "dislikes", "comments", "supplier", "length", "width", "height", "weight"];
+      deleteInvalidPropertyInObject(data, BlackList);
       
       const updateResult = await BlogModel.updateOne({_id : id}, {$set : data});
       if(updateResult.modifiedCount == 0) throw createError.InternalServerError("بروزرسانی انجام نشد");

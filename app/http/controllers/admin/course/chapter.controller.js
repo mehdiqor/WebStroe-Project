@@ -39,7 +39,8 @@ class ChapterController extends AbstractCourseController {
             const {chapterID} = req.params;
             await this.getOneChapter(chapterID);
             const data = req.body;
-            deleteInvalidPropertyInObject(data);
+            const BlackList = ["bookmarks", "likes", "dislikes", "comments", "supplier", "length", "width", "height", "weight"];
+            deleteInvalidPropertyInObject(data, BlackList);
             const updateChapterResult = await CourseModel.updateOne(
                 {
                     "chapters._id" : chapterID
