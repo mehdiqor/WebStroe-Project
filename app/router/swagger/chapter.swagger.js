@@ -20,6 +20,20 @@
  */
 /**
  * @swagger
+ *  components:
+ *      schemas:
+ *          EditChapter:
+ *              type: object
+ *              properties:
+ *                  title:
+ *                      type: string
+ *                      example: chapter one
+ *                  text:
+ *                      type: string
+ *                      example: description of chapter
+ */
+/**
+ * @swagger
  *  definitions:
  *      ChaptersOfCourse:
  *          type: object
@@ -63,7 +77,35 @@
  *                          $ref: '#/components/schemas/AddChapter'
  *          responses:
  *              201:
- *                  description: new course created
+ *                  description: new chapter created
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/PublicDefinition'
+ */
+/**
+ * @swagger
+ *  /admin/chapter/edit/{chapterID}:
+ *      patch:
+ *          tags: [Chapter]
+ *          summary: edit chapter
+ *          parameters:
+ *              -   in: path
+ *                  name: chapterID
+ *                  type: string
+ *                  required: true
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/x-www-form-urlencoded:
+ *                      schema:
+ *                          $ref: '#/components/schemas/EditChapter'
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/EditChapter'
+ *          responses:
+ *              200:
+ *                  description: chapter updated
  *                  content:
  *                      applicatin/json:
  *                          schema:
@@ -87,4 +129,23 @@
  *                      applicatin/json:
  *                          schema:
  *                              $ref: '#/definitions/ChaptersOfCourse'
+ */
+/**
+ * @swagger
+ *  /admin/chapter/remove/{chapterID}:
+ *      patch:
+ *          tags: [Chapter]
+ *          summary: remove a chapter of course
+ *          parameters:
+ *              -   in: path
+ *                  name: chapterID
+ *                  type: string
+ *                  required: true
+ *          responses:
+ *              200:
+ *                  description: success
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/PublicDefinition'
  */
