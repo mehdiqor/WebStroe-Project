@@ -2,17 +2,6 @@
  * @swagger
  *  components:
  *      schemas:
- *          Permissions:
- *              type: string
- *              enum:
- *                  -   blog
- *                  -   course
- *                  -   product
- */
-/**
- * @swagger
- *  components:
- *      schemas:
  *          Role:
  *              type: object
  *              required:
@@ -22,7 +11,8 @@
  *                      type: string
  *                      description: title of role
  *                  permissions:
- *                      $ref: '#/components/schemas/Permissions'
+ *                      type: array
+ *                      description: permissionI for role
  */
 /**
  * @swagger
@@ -35,7 +25,8 @@
  *                      type: string
  *                      description: description of role
  *                  permissions:
- *                      $ref: '#/components/schemas/Permissions'
+ *                      type: array
+ *                      description: permissionI for role
  */
 /**
  * @swagger
@@ -86,6 +77,9 @@
  *              required: true
  *              content:
  *                  application/x-www-form-urlencoded:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Role'
+ *                  application/json:
  *                      schema:
  *                          $ref: '#/components/schemas/Role'
  *          responses:

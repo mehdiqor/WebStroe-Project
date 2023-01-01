@@ -8,9 +8,13 @@ const nullishData = {
     NOT_NUMBER : NaN
 };
 Object.freeze(nullishData);
+function validationError(title){
+    return `the ${title} is not VALID! please try again`
+}
 
 module.exports = {
     nullishData,
+    validationError,
     mongoIdPattern : /^(?=[a-f\d]{24}$)(\d+[a-f]+\d)/i ,
     ROLES : {
         USER : 'USER',
