@@ -3,6 +3,8 @@
  *  tags:
  *      -   name: Admin-Panel
  *          description: action of admin
+ *      -   name: RBAC
+ *          description: Role Base Access Control system <br> create and manage roles and permissions
  *      -   name: User
  *          description: user managment panel
  *      -   name: Episode

@@ -5,24 +5,6 @@ const Controller = require("../../controller");
 const httpError = require("http-errors");
 
 class UserController extends Controller{
-    async getAllUsers(req, res, next){
-        try {
-            const {search} = req.query;
-            const dataBaseQuery = {};
-            if(search) dataBaseQuery['$text'] = {$search : search}
-            console.log('search', search);
-            console.log('dataBaseQuery', dataBaseQuery);
-            const users = await UserModel.find(dataBaseQuery);
-            return res.status(httpStatus.OK).json({
-                statusCode : httpStatus.OK,
-                data : {
-                    users
-                }
-            })
-        } catch (error) {
-            next(error)
-        }
-    }
     async updateUserProfile(req, res, next){
         try {
             const userID = req.user._id;
@@ -42,6 +24,22 @@ class UserController extends Controller{
                 statusCode : httpStatus.OK,
                 data : {
                     message : "بروزرسانی با موفقیت انجام شد"
+                }
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+    async getAllUsers(req, res, next){
+        try {
+            const {search} = req.query;
+            const dataBaseQuery = {};
+            if(search) dataBaseQuery['$text'] = {$search : search}
+            const users = await UserModel.find(dataBaseQuery);
+            return res.status(httpStatus.OK).json({
+                statusCode : httpStatus.OK,
+                data : {
+                    users
                 }
             })
         } catch (error) {
