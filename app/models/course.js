@@ -1,14 +1,21 @@
 const { default: mongoose } = require("mongoose");
 const { commentSchema } = require("./public.shema");
 
-const EpisodesSchema = mongoose.Schema({
+const EpisodesSchema = new mongoose.Schema({
     title : {type : String, required : true},
     text : {type : String, required : true},
     type : {type : String, default : "unlock"},
     time : {type : String, required : true},
     videoAddress : {type : String, required : true}
+}, {
+    toJSON : {
+        virtuals : true
+    }
 });
-const chapterSchema = mongoose.Schema({
+EpisodesSchema.virtual("videoURL").get(function(){
+    return `${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/${this.videoAddress}`
+});
+const ChapterSchema = new mongoose.Schema({
     title : {type : String, required : true},
     text : {type : String, default : ""},
     episodes : {type : [EpisodesSchema], default : []},
@@ -30,7 +37,7 @@ const CourseSchema = new mongoose.Schema({
     status : {type : String, default : "notStarted"},
     time : {type : String, default : "00:00:00"},
     teacher : {type : mongoose.Types.ObjectId, ref : "user", required : true},
-    chapters : {type : [chapterSchema], default : []},
+    chapters : {type : [ChapterSchema], default : []},
     students : {type : [mongoose.Types.ObjectId], ref : "user", default : []}
 }, {
     toJSON : {
@@ -41,6 +48,9 @@ CourseSchema.index({
     title : "text",
     short_text : "text",
     text : "text"
+});
+CourseSchema.virtual("imageURL").get(function(){
+    return `${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/${this.image}`
 });
 
 module.exports = {
