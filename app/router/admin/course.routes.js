@@ -4,6 +4,7 @@ const { uploadFile } = require('../../utils/multer');
 const router = require("express").Router();
 
 router.post("/add", uploadFile.single("image"), stringToArray("tags"), CourseController.addCourse);
+router.patch("/edit/:id", uploadFile.single("image"), stringToArray("tags"), CourseController.editCourse);
 router.get("/list-of-all", CourseController.getListOfCourses);
 router.get("/:id", CourseController.getCourseByID);
 

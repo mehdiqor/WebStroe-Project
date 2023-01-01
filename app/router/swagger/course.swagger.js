@@ -74,6 +74,48 @@
  */
 /**
  * @swagger
+ *  components:
+ *      schemas:
+ *          Edit-Course:
+ *              type : object
+ *              properties:
+ *                  title:
+ *                      type: string
+ *                      description: the title of course
+ *                      example: عنوان دوره
+ *                  short_text:
+ *                      type: string
+ *                      description: short_text of course
+ *                      example: توضیحات مختصر
+ *                  text:
+ *                      type: string
+ *                      description: the text of course
+ *                      example: توضیحات دوره
+ *                  tags:
+ *                      type: array
+ *                      description: the tags of course
+ *                  category:
+ *                      type: string
+ *                      description: the category of course
+ *                      example: 639dccda74ff926f06c2fe21
+ *                  price:
+ *                      type: string
+ *                      description: price of course
+ *                      example: 2500000
+ *                  discount:
+ *                      type: string
+ *                      description: discount of course
+ *                      example: 10
+ *                  image:
+ *                      type: string
+ *                      format: binary
+ *                  type:
+ *                      $ref: '#/components/schemas/Types'
+ *                  status:
+ *                      $ref: '#/components/schemas/Status'
+ */
+/**
+ * @swagger
  *  definitions:
  *      ListOfCourses:
  *          type: object
@@ -144,6 +186,31 @@
  *          responses:
  *              201:
  *                  description: new course created
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/PublicDefinition'
+ */
+/**
+ * @swagger
+ *  /admin/courses/edit/{id}:
+ *      patch:
+ *          tags: [Course]
+ *          summary: edit and update course
+ *          parameters:
+ *              -   in: path
+ *                  name: id
+ *                  type: string
+ *                  required: true
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  multipart/form-data:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Edit-Course'
+ *          responses:
+ *              201:
+ *                  description: course updated
  *                  content:
  *                      applicatin/json:
  *                          schema:

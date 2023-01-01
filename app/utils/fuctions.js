@@ -5,6 +5,7 @@ const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
 const path = require("path");
 const fs = require('fs');
+const { isArray } = require('util');
 
 function randomNumberGenerator(){
     return Math.floor((Math.random() * 90000) + 10000)
@@ -105,17 +106,43 @@ function getTime(seconds) {
     let total = Math.round(seconds) / 60;
     let [minutes, percent] = String(total).split(".");
     let second = Math.round((percent * 60) / 100).toString().substring(0, 2);
-    let houre = 0;
+    let hour = 0;
     if (minutes > 60) {
         total = minutes / 60
          let [h1, percent] = String(total).split(".");
-         houre = h1,
+         hour = h1,
          minutes = Math.round((percent * 60) / 100).toString().substring(0, 2);
     }
-    if(String(houre).length == 1) houre = `0${houre}`
+    if(String(hour).length == 1) hour = `0${hour}`
     if(String(minutes).length == 1) minutes = `0${minutes}`
     if(String(second).length == 1) second = `0${second}`
-    return (houre + ":" + minutes + ":" + second)
+    return (hour + ":" + minutes + ":" + second)
+}
+function getTimeOfCourseByChapter(chapters = []){
+    let time, hour, minute, second = 0;
+    for (const chapter of chapters) {
+        if(Array.isArray(chapter?.episodes)){
+            for (const episode of chapter.episodes) {
+                if(episode?.time) time = episode.time.split(":"); //[joure, minute, secod]
+                else time = "00:00:00".split(":");
+                if(time.length == 3){ //01:12:34
+                    second += Number(time[0]) * 3600 //convert hour to seconds
+                    second += Number(time[1]) * 60 //convert minuteto seconds
+                    second += Number(time[2]) //sum seconds with seconds
+                }else if(time.length == 2){ //05:34
+                    second += Number(time[0]) * 60 //convert minuteto seconds
+                    second += Number(time[1]) //sum seconds with seconds
+                }
+            }
+        }
+    }
+    hour = Math.floor(second / 3600); //convert seconds to hours
+    minute = Math.floor(second / 60) % 60; //convert seconds to minutes
+    second = Math.floor(second % 60); //convert seconds to seconds
+    if(String(hour).length == 1) hour = `0${hour}`
+    if(String(minute).length == 1) minute = `0${minute}`
+    if(String(second).length == 1) second = `0${second}`
+    return (hour + ":" + minute + ":" + second)
 }
 
 module.exports = {
@@ -128,5 +155,6 @@ module.exports = {
     copyObject,
     setFeatures,
     deleteInvalidPropertyInObject,
-    getTime
+    getTime,
+    getTimeOfCourseByChapter
 }

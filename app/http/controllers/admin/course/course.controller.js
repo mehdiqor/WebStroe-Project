@@ -1,3 +1,4 @@
+const { deleteInvalidPropertyInObject, deleteFileInPublic, copyObject, getTimeOfCourseByChapter } = require("../../../../utils/fuctions");
 const { ObjectIdValidator } = require("../../../validators/admin/public.validator");
 const { createCourseSchema } = require("../../../validators/admin/course.schema");
 const { StatusCodes : httpStatus } = require("http-status-codes");
@@ -12,7 +13,7 @@ class CourseController extends Controller {
             await createCourseSchema.validateAsync(req.body);
             const {fileUploadPath, filename} = req.body;
             const image = path.join(fileUploadPath, filename).replace(/\\/g, "/");
-            const {title, short_text, text, tags, category, price, discount, type, status} = req.body;
+            let {title, short_text, text, tags, category, price, discount, type, status} = req.body;
             const teacher = req.user._id;
             if(Number(price) > 0 && type == "free") throw createError.BadRequest("برای دوره رایگان نمیتوان قیمت ثبت کرد")
             const course = await CourseModel.create({
@@ -26,8 +27,7 @@ class CourseController extends Controller {
                 type,
                 status,
                 image,
-                teacher,
-                time : "00:00:00"
+                teacher
             });
             if(!course?._id) throw createError.InternalServerError("دوره ثبت نشد")
             return res.status(httpStatus.CREATED).json({
@@ -36,6 +36,37 @@ class CourseController extends Controller {
                     message : "دوره با موفقیت ایجاد شد"
                 }
             });
+        } catch (error) {
+            next(error)
+        }
+    }
+    async editCourse(req, res, next){
+        try {
+            const {id} = req.params;
+            const course = await this.findCourseByID(id);
+            const data = copyObject(req.body);
+            const {filename, fileUploadPath} = req.body;
+            let BlackList = ["time", "chapters", "episodes", "students", "bookmarks", "likes", "dislikes", "comments", "fileUploadPath", "filename"];
+            deleteInvalidPropertyInObject(data, BlackList);
+            if(req.file){
+                data.image = path.join(fileUploadPath, filename).replace(/\\/g, "/");
+                deleteFileInPublic(course.image)
+            }
+            const updateCourseResuly = await CourseModel.updateOne(
+                {
+                    _id : id
+                },
+                {
+                    $set : data
+                }
+            );
+            if(!updateCourseResuly.modifiedCount) throw createError.InternalServerError("بروزرسانی دوره انجام نشد");
+            return res.status(httpStatus.OK).json({
+                statusCode : httpStatus.OK,
+                data : {
+                    message : "بروزرسانی دوره با موفقیت انجام شد"
+                }
+            })
         } catch (error) {
             next(error)
         }
@@ -108,7 +139,7 @@ class CourseController extends Controller {
     }
     async getCourseByID(req, res, next){
         try {
-            const { id } = req.params;
+            const {id} = req.params;
             const course = await this.findCourseByID(id);
             return res.status(httpStatus.OK).json({
                 statusCode : httpStatus.OK,
