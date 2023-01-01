@@ -3,6 +3,8 @@
  *  tags:
  *      -   name: Admin-Panel
  *          description: action of admin
+ *      -   name: User
+ *          description: user managment panel
  *      -   name: Episode
  *          description: episode managment panel
  *      -   name: Chapter
