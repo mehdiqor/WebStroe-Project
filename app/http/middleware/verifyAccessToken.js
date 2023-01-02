@@ -27,19 +27,7 @@ function verifyAccessToken(req, res, next){
         next(error)
     }
 }
-function checkRole(role){
-    return function(req, res, next){
-        try {
-            const user = req.user;
-            if(user.roles.includes(role)) return next();
-            throw httpError.Forbidden("شما به این آدرس دسترسی ندارید");
-        } catch (error) {
-            next(error)
-        }
-    }
-}
 
 module.exports = {
-    verifyAccessToken,
-    checkRole
+    verifyAccessToken
 }
