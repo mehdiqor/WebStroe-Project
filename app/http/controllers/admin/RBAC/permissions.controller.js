@@ -9,7 +9,7 @@ class PermissionController extends Controller{
         try {
             await addPermissionSchema.validateAsync(req.body);
             const {name, description} = req.body;
-            await this.findPermissionWithName(name);
+            await this.checkExistPermissionWithName(name);
             const permission = await PermissionsModel.create({name, description});
             if(!permission) throw httpError.InternalServerError("دسترسی ایجاد نشد");
             return res.status(httpStatus.CREATED).json({
@@ -35,7 +35,28 @@ class PermissionController extends Controller{
             next(error)
         }
     }
-    async findPermissionWithName(name){
+    async removePermission(req, res, next){
+        try {
+            const {id} = req.params;
+            await this.findPermissionByID(id);
+            const removePermissionResult = await PermissionsModel.deleteOne({_id : id});
+            if(!removePermissionResult.deletedCount) throw httpError.InternalServerError("سطح دسترسی حذف نشد");
+            return res.status(httpStatus.OK).json({
+                statusCode : httpStatus.OK,
+                data : {
+                    message : "سطح دسترسی با موفقیت حذف شد"
+                }
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+    async findPermissionByID(_id){
+        const permission = await PermissionsModel.findOne({_id});
+        if(!permission) throw httpError.NotFound("سطح دسترسی مورد نظر یافت نشد");
+        return permission
+    }
+    async checkExistPermissionWithName(name){
         const permission = await PermissionsModel.findOne({name});
         if(permission) httpError.BadRequest("سطح دسترسی مورد نظر قبلا ثبت شده");
     }
