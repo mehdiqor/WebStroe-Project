@@ -1,3 +1,4 @@
+const { copyObject, deleteInvalidPropertyInObject } = require("../../../../utils/fuctions");
 const { addPermissionSchema } = require("../../../validators/admin/RBAC.schema");
 const { PermissionModel } = require("../../../../models/permission");
 const { StatusCodes : httpStatus } = require("http-status-codes");
@@ -25,22 +26,22 @@ class PermissionController extends Controller{
     async updatePermission(req, res, next){
         try {
             const {id} = req.params;
+            await this.findPermissionByID(id);
             const data = copyObject(req.body);
             deleteInvalidPropertyInObject(data, [])
-            const permission = await this.findPermissionByIdOrTitle(id);
             const updatePermissionResult = await PermissionModel.updateOne(
                 {
-                    _id : permission._id
+                    _id : id
                 },
                 {
                     $set : data
                 }
             );
-            if(!updatePermissionResult.modifiedCount) throw httpError.InternalServerError("بروزرسانی نقش انجام نشد");
+            if(!updatePermissionResult.modifiedCount) throw httpError.InternalServerError("بروزرسانی دسترسی انجام نشد");
             return res.status(httpStatus.OK).json({
                 statusCode : httpStatus.OK,
                 data : {
-                    message : "نقش با موفقیت بروزرسانی شد"
+                    message : "دسترسی با موفقیت بروزرسانی شد"
                 }
             })
         } catch (error) {

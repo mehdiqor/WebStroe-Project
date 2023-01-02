@@ -2,6 +2,7 @@ const { PermissionController } = require("../../http/controllers/admin/RBAC/perm
 const router = require("express").Router();
 
 router.post("/add", PermissionController.addPermission);
+router.patch("/update/:id", PermissionController.updatePermission);
 router.get("/list", PermissionController.getAllPermissions);
 router.delete("/remove/:id", PermissionController.removePermission);
 
