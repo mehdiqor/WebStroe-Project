@@ -7,9 +7,10 @@ const { addRoleSchema } = require("../../../validators/admin/RBAC.schema");
 class RoleController extends Controller{
     async addRole(req, res, next){
         try {
-            const {title, permissions} = addRoleSchema.validateAsync(req.body);
-            await this.findRoleWithTitle(title);
+            await addRoleSchema.validateAsync(req.body);
+            const {title, permissions} = req.body;
             console.log(title);
+            await this.findRoleWithTitle(title);
             const role = await RoleModel.create({title, permissions});
             if(!role) throw httpError.InternalServerError("نقش ایجاد نشد");
             return res.status(httpStatus.CREATED).json({

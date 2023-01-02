@@ -5,12 +5,12 @@
  *          Permission:
  *              type: object
  *              required:
- *                  -   title
+ *                  -   name
  *                  -   description
  *              properties:
- *                  title:
+ *                  name:
  *                      type: string
- *                      description: title of Permission
+ *                      description: name of Permission
  *                  description:
  *                      type: string
  *                      description: description of Permission
@@ -22,9 +22,9 @@
  *          Edit-Permission:
  *              type: object
  *              properties:
- *                  title:
+ *                  name:
  *                      type: string
- *                      description: title of Permission
+ *                      description: name of Permission
  *                  description:
  *                      type: string
  *                      description: description of Permission
@@ -49,9 +49,9 @@
  *                                  _id:
  *                                      type: string
  *                                      example: "63ad7d9d14556b64712acc67"
- *                                  title:
+ *                                  name:
  *                                      type: string
- *                                      example: "title of permission"
+ *                                      example: "name of permission"
  *                                  description:
  *                                      type: string
  *                                      example: "summary of permission"
