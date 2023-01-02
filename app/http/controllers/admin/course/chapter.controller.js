@@ -1,7 +1,7 @@
 const { AbstractCourseController } = require("./course.controller");
 const { StatusCodes : httpStatus } = require("http-status-codes");
 const { CourseModel } = require("../../../../models/course");
-const createError = require("http-errors");
+const httpError = require("http-errors");
 const { deleteInvalidPropertyInObject } = require("../../../../utils/fuctions");
 
 class ChapterController extends AbstractCourseController {
@@ -23,7 +23,7 @@ class ChapterController extends AbstractCourseController {
                     }
                 }
             );
-            if(saveChapterResult.modifiedCount == 0) throw createError.InternalServerError("فصل افزوده نشد");
+            if(saveChapterResult.modifiedCount == 0) throw httpError.InternalServerError("فصل افزوده نشد");
             return res.status(httpStatus.CREATED).json({
                 statusCode : httpStatus.CREATED,
                 data : {
@@ -51,7 +51,7 @@ class ChapterController extends AbstractCourseController {
                     }
                 }
             )
-            if(updateChapterResult.modifiedCount == 0) throw createError.InternalServerError("بروزرسانی فصل انجام نشد");
+            if(updateChapterResult.modifiedCount == 0) throw httpError.InternalServerError("بروزرسانی فصل انجام نشد");
             return res.status(httpStatus.OK).json({
                 statusCode : httpStatus.OK,
                 data : {
@@ -92,7 +92,7 @@ class ChapterController extends AbstractCourseController {
                     }
                 }
             );
-            if(removeChapterResult.modifiedCount == 0) throw createError.InternalServerError("حذف فصل انجام نشد");
+            if(removeChapterResult.modifiedCount == 0) throw httpError.InternalServerError("حذف فصل انجام نشد");
             return res.status(httpStatus.OK).json({
                 statusCode : httpStatus.OK,
                 data : {
@@ -105,12 +105,12 @@ class ChapterController extends AbstractCourseController {
     }
     async getChapterOfCourse(id){
         const chapter = await CourseModel.findOne({_id : id}, {chapters : 1, title : 1});
-        if(!chapter) throw createError.NotFound("دوره مورد نظر یافت نشد")
+        if(!chapter) throw httpError.NotFound("دوره مورد نظر یافت نشد")
         return chapter
     }
     async getOneChapter(id){
         const chapter = await CourseModel.findOne({"chapters._id" : id}, {"chapter.$" : 1});
-        if(!chapter) throw createError.NotFound("فصلی با این شناسه یافت نشد");
+        if(!chapter) throw httpError.NotFound("فصلی با این شناسه یافت نشد");
         return chapter
     }
 }

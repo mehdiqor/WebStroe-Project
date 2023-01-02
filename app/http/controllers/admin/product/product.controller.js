@@ -4,7 +4,7 @@ const { ObjectIdValidator } = require("../../../validators/admin/public.validato
 const { StatusCodes : httpStatus } = require("http-status-codes");
 const { ProductModel } = require("../../../../models/produncts");
 const Controller = require("../../controller");
-const createError = require("http-errors");
+const httpError = require("http-errors");
 
 class ProductController extends Controller {
   async addProduct(req, res, next) {
@@ -79,7 +79,7 @@ class ProductController extends Controller {
         _id: product._id,
       });
       if (removeProductResult.deletedCount == 0)
-        throw createError.InternalServerError("محصول حذف نشد");
+        throw httpError.InternalServerError("محصول حذف نشد");
       res.status(httpStatus.OK).json({
         statusCode : httpStatus.OK,
         data : {
@@ -130,7 +130,7 @@ class ProductController extends Controller {
   async findProductByID(productID) {
     const { id } = await ObjectIdValidator.validateAsync({ id: productID });
     const product = await ProductModel.findById(id);
-    if (!product) throw createError.NotFound("محصولی یافت نشد");
+    if (!product) throw httpError.NotFound("محصولی یافت نشد");
     return product;
   }
 }

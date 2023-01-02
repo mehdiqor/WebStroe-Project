@@ -1,22 +1,22 @@
 const { ACCESS_TOKEN_SECRET_KEY } = require('../../utils/costans');
 const { UserModel } = require('../../models/users');
-const createError = require('http-errors');
+const httpError = require('http-errors');
 const jwt = require('jsonwebtoken');
 
 function getToken(headers){
     const [bearer, token] = headers?.authorization?.split(" ") || [];
     if(token && ["bearer", "Bearer"].includes(bearer)) return token;
-    throw createError.Unauthorized("حساب کاربری شناسایی نشد، وارد حساب کاربری خود شوید");
+    throw httpError.Unauthorized("حساب کاربری شناسایی نشد، وارد حساب کاربری خود شوید");
 }
 function verifyAccessToken(req, res, next){
     try {
         const token = getToken(req.headers)
         jwt.verify(token, ACCESS_TOKEN_SECRET_KEY, async (err, payload) => {
             try {
-                if(err) throw createError.Unauthorized('وارد حساب کاربری خود شوید');
+                if(err) throw httpError.Unauthorized('وارد حساب کاربری خود شوید');
                 const {phone} = payload || {};
                 const user = await UserModel.findOne({phone}, {password : 0, otp : 0});
-                if(!user) throw createError.Unauthorized('حساب کاربری یافت نشد');
+                if(!user) throw httpError.Unauthorized('حساب کاربری یافت نشد');
                 req.user = user
                 return next();
             } catch (error) {
@@ -32,7 +32,7 @@ function checkRole(role){
         try {
             const user = req.user;
             if(user.roles.includes(role)) return next();
-            throw createError.Forbidden("شما به این آدرس دسترسی ندارید");
+            throw httpError.Forbidden("شما به این آدرس دسترسی ندارید");
         } catch (error) {
             next(error)
         }

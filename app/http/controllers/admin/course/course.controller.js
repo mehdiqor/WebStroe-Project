@@ -4,7 +4,7 @@ const { createCourseSchema } = require("../../../validators/admin/course.schema"
 const { StatusCodes : httpStatus } = require("http-status-codes");
 const { CourseModel } = require("../../../../models/course");
 const Controller = require("../../controller");
-const createError = require("http-errors");
+const httpError = require("http-errors");
 const path = require("path");
 
 class CourseController extends Controller {
@@ -15,7 +15,7 @@ class CourseController extends Controller {
             const image = path.join(fileUploadPath, filename).replace(/\\/g, "/");
             let {title, short_text, text, tags, category, price, discount, type, status} = req.body;
             const teacher = req.user._id;
-            if(Number(price) > 0 && type == "free") throw createError.BadRequest("برای دوره رایگان نمیتوان قیمت ثبت کرد")
+            if(Number(price) > 0 && type == "free") throw httpError.BadRequest("برای دوره رایگان نمیتوان قیمت ثبت کرد")
             const course = await CourseModel.create({
                 title,
                 short_text,
@@ -29,7 +29,7 @@ class CourseController extends Controller {
                 image,
                 teacher
             });
-            if(!course?._id) throw createError.InternalServerError("دوره ثبت نشد")
+            if(!course?._id) throw httpError.InternalServerError("دوره ثبت نشد")
             return res.status(httpStatus.CREATED).json({
                 statusCode : httpStatus.CREATED,
                 data : {
@@ -60,7 +60,7 @@ class CourseController extends Controller {
                     $set : data
                 }
             );
-            if(!updateCourseResuly.modifiedCount) throw createError.InternalServerError("بروزرسانی دوره انجام نشد");
+            if(!updateCourseResuly.modifiedCount) throw httpError.InternalServerError("بروزرسانی دوره انجام نشد");
             return res.status(httpStatus.OK).json({
                 statusCode : httpStatus.OK,
                 data : {
@@ -154,7 +154,7 @@ class CourseController extends Controller {
     async findCourseByID(CourseID) {
         const { id } = await ObjectIdValidator.validateAsync({ id: CourseID });
         const course = await CourseModel.findById(id);
-        if (!course) throw createError.NotFound("دوره ای یافت نشد");
+        if (!course) throw httpError.NotFound("دوره ای یافت نشد");
         return course;
     }
 }

@@ -4,7 +4,7 @@ const { BlackList, nullishData } = require("../../../../utils/costans");
 const { StatusCodes : httpStatus } = require('http-status-codes');
 const { BlogModel } = require("../../../../models/blogs");
 const Controller = require("../../controller");
-const createError = require("http-errors");
+const httpError = require("http-errors");
 const path = require("path");
 
 class BlogController extends Controller {
@@ -115,7 +115,7 @@ class BlogController extends Controller {
       await this.findBlog(id);
       const result = await BlogModel.deleteOne({ _id: id });
       if (result.deletedCount == 0)
-        throw createError.InternalServerError("حذف مقاله انجام نشد");
+        throw httpError.InternalServerError("حذف مقاله انجام نشد");
       return res.status(httpStatus.OK).json({
         statusCode : httpStatus.OK,
         data : {
@@ -139,7 +139,7 @@ class BlogController extends Controller {
       deleteInvalidPropertyInObject(data, BlackList);
       
       const updateResult = await BlogModel.updateOne({_id : id}, {$set : data});
-      if(updateResult.modifiedCount == 0) throw createError.InternalServerError("بروزرسانی انجام نشد");
+      if(updateResult.modifiedCount == 0) throw httpError.InternalServerError("بروزرسانی انجام نشد");
       return res.status(httpStatus.OK).json({
         statusCode : httpStatus.OK,
         data : {
@@ -162,7 +162,7 @@ class BlogController extends Controller {
         select: ["mobile", "first_name", "last_name", "username"],
       },
     ]);
-    if (!blog) throw createError.NotFound("مقاله ای یافت نشد");
+    if (!blog) throw httpError.NotFound("مقاله ای یافت نشد");
     delete blog.category.children;
     return blog;
   }

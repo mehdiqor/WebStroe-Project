@@ -1,7 +1,7 @@
 const { ACCESS_TOKEN_SECRET_KEY, REFRESH_TOKEN_SECRET_KEY, BlackList, nullishData } = require('./costans');
 const { UserModel } = require('../models/users');
 const redisClient = require('./init_redis');
-const createError = require('http-errors');
+const httpError = require('http-errors');
 const jwt = require('jsonwebtoken');
 const path = require("path");
 const fs = require('fs');
@@ -20,7 +20,7 @@ function signAccessToken(userId){
             expiresIn : "30 days"
         };
         jwt.sign(payload, ACCESS_TOKEN_SECRET_KEY, options, (err, token) => {
-            if(err) reject(createError.InternalServerError("خطای سرور!"));
+            if(err) reject(httpError.InternalServerError("خطای سرور!"));
             resolve(token)
         })
     })
@@ -35,7 +35,7 @@ function signRefreshToken(userId){
             expiresIn : "1y"
         };
         jwt.sign(payload, REFRESH_TOKEN_SECRET_KEY, options, async (err, token) => {
-            if(err) reject(createError.InternalServerError("خطای سرور!"));
+            if(err) reject(httpError.InternalServerError("خطای سرور!"));
             // await redisClient.set(userId, token, 'EX', 60 * 60 * 24 * 365); DEBUG THIS!!!
             resolve(token)
         })
@@ -44,15 +44,15 @@ function signRefreshToken(userId){
 function verifyRefreshToken(token){
     return new Promise((resolve, reject) => {
         jwt.verify(token, REFRESH_TOKEN_SECRET_KEY, async (err, payload) => {
-            if(err) reject(createError.Unauthorized('!وارد حساب کاربری خود شوید'));
+            if(err) reject(httpError.Unauthorized('!وارد حساب کاربری خود شوید'));
             const {phone} = payload || {};
             const user = await UserModel.findOne({phone}, {password : 0, otp : 0});
-            if(!user) reject(createError.Unauthorized('حساب کاربری یافت نشد'));
+            if(!user) reject(httpError.Unauthorized('حساب کاربری یافت نشد'));
             const refreshToken = redisClient.get(user?._id || "key_default");
-            if(!refreshToken) reject(createError.Unauthorized('ورود مجدد به حساب کاربری انجام نشد'));
+            if(!refreshToken) reject(httpError.Unauthorized('ورود مجدد به حساب کاربری انجام نشد'));
             console.log(refreshToken);
             if(token === refreshToken) return resolve(phone);
-            reject(createError.Unauthorized('ورود مجدد به حساب کاربری انجام نشد'));
+            reject(httpError.Unauthorized('ورود مجدد به حساب کاربری انجام نشد'));
         })
     })
 }

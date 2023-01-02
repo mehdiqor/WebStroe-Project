@@ -2,7 +2,7 @@ const { addCategorySchema, updateCategorySchema } = require("../../../validators
 const { StatusCodes : httpStatus } = require('http-status-codes');
 const { CategoryModel } = require("../../../../models/categories");
 const Controller = require("../../controller");
-const createError = require("http-errors");
+const httpError = require("http-errors");
 const mongoose = require("mongoose");
 
 class CategoryController extends Controller {
@@ -11,7 +11,7 @@ class CategoryController extends Controller {
             await addCategorySchema.validateAsync(req.body);
             const {title, parent} = req.body;
             const category = await CategoryModel.create({title, parent});
-            if(!category) throw createError.InternalServerError('خطای داخلی!');
+            if(!category) throw httpError.InternalServerError('خطای داخلی!');
             return res.status(httpStatus.CREATED).json({
                 statusCode : httpStatus.CREATED,
                 data : {
@@ -32,7 +32,7 @@ class CategoryController extends Controller {
                     {parent : category._id}
                 ]
             });
-            if(deleteResult.deletedCount == 0) throw createError.InternalServerError("حذف دسته بندی انجام نشد");
+            if(deleteResult.deletedCount == 0) throw httpError.InternalServerError("حذف دسته بندی انجام نشد");
             return res.status(httpStatus.OK).json({
                 statusCode : httpStatus.OK,
                 data : {
@@ -50,7 +50,7 @@ class CategoryController extends Controller {
             const category = await this.checkExistCategory(id);
             await updateCategorySchema.validateAsync(req.body)
             const updateResult = await CategoryModel.updateOne({_id : id}, {$set : {title}})
-            if(updateResult.modifiedCount == 0) throw createError.InternalServerError("متاسفانه دسته بندی بروزرسانی نشد");
+            if(updateResult.modifiedCount == 0) throw httpError.InternalServerError("متاسفانه دسته بندی بروزرسانی نشد");
             return res.status(httpStatus.OK).json({
                 statusCode : httpStatus.OK,
                 data : {
@@ -155,7 +155,7 @@ class CategoryController extends Controller {
     }
     async checkExistCategory(id){
         const category = await CategoryModel.findById(id);
-        if(!category) throw createError.NotFound("دسته بندی یافت نشد");
+        if(!category) throw httpError.NotFound("دسته بندی یافت نشد");
         return category
     }
 }

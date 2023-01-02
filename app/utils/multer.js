@@ -1,4 +1,4 @@
-const createError = require('http-errors');
+const httpError = require('http-errors');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
@@ -38,7 +38,7 @@ function fileFilter(req, file, cb){
     if(mimeTypes.includes(ext)){
         return cb(null, true)
     }
-    return cb(createError.BadRequest('فرمت ارسال شده تصویر صحیح نمیباشد'))
+    return cb(httpError.BadRequest('فرمت ارسال شده تصویر صحیح نمیباشد'))
 }
 const imageMaxSize = 1 * 1000 * 1000 //1MB
 const uploadFile = multer({storage, fileFilter, limits : {fileSize : imageMaxSize}});
@@ -49,7 +49,7 @@ function videoFilter(req, file, cb){
     if(mimeTypes.includes(ext)){
         return cb(null, true)
     }
-    return cb(createError.BadRequest('فرمت ارسال شده ویدیو صحیح نمیباشد'))
+    return cb(httpError.BadRequest('فرمت ارسال شده ویدیو صحیح نمیباشد'))
 }
 const videoMaxSize = 100 * 1000 * 1000 //100MB
 const uploadVideo = multer({storage, videoFilter, limits : {fileSize : videoMaxSize}});
