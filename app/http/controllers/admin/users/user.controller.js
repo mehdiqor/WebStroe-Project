@@ -30,6 +30,19 @@ class UserController extends Controller{
             next(error)
         }
     }
+    async UserProfile(req, res, next){
+        try {
+            const user = req.user;
+            return res.status(httpStatus.OK).json({
+                statusCode : httpStatus.OK,
+                data : {
+                    user
+                }
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
     async getAllUsers(req, res, next){
         try {
             const {search} = req.query;

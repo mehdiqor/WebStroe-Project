@@ -4,6 +4,7 @@ const { PERMISSIONS } = require('../../utils/costans');
 const router = require('express').Router();
 
 router.patch("/update/:id", UserController.updateUserProfile);
+router.get("/profile", UserController.UserProfile);
 router.get("/list", checkPermission([PERMISSIONS.ADMIN]), UserController.getAllUsers);
 
 module.exports = {

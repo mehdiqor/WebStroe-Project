@@ -85,6 +85,20 @@
  */
 /**
  * @swagger
+ *  /admin/users/profile:
+ *      get:
+ *          tags: [User]
+ *          summary: get user profile
+ *          responses:
+ *              200:
+ *                  description: success
+ *                  content:
+ *                      application/jason:
+ *                          schema:
+ *                              $ref: '#/definitions/ListOfUsers'
+ */
+/**
+ * @swagger
  *  /admin/users/list:
  *      get:
  *          tags: [User]
