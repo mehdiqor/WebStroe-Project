@@ -131,13 +131,13 @@
  */
 /**
  * @swagger
- *  /admin/roles/remove/{id}:
+ *  /admin/roles/remove/{field}:
  *      delete:
  *          tags: [RBAC]
- *          summary: remove role by ID
+ *          summary: remove role by field
  *          parameters:
  *              -   in: path
- *                  name: id
+ *                  name: field
  *                  type: string
  *                  required: true
  *          responses:
