@@ -10,6 +10,9 @@
  *                  title:
  *                      type: string
  *                      description: title of role
+ *                  description:
+ *                      type: string
+ *                      description: title of role
  *                  permissions:
  *                      type: array
  *                      description: permissionI for role
@@ -24,6 +27,9 @@
  *                  title:
  *                      type: string
  *                      description: description of role
+ *                  description:
+ *                      type: string
+ *                      description: title of role
  *                  permissions:
  *                      type: array
  *                      description: permissionI for role
@@ -51,6 +57,9 @@
  *                                  title:
  *                                      type: string
  *                                      example: "title of role"
+ *                                  description:
+ *                                      type: string
+ *                                      example: "description of role"
  *                                  permission:
  *                                      type: string
  *                                      example: "summary of permission"
