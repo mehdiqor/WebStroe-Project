@@ -1,24 +1,25 @@
-const { addRoleSchema } = require("../../../validators/admin/RBAC.schema");
-const { StatusCodes : httpStatus } = require("http-status-codes");
 const { copyObject, deleteInvalidPropertyInObject } = require("../../../../utils/fuctions");
+const { addRoleSchema } = require("../../../validators/admin/RBAC.schema");
+const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
+const { StatusCodes : httpStatus } = require("http-status-codes");
 const { RoleModel } = require("../../../../models/role");
 const { default: mongoose } = require("mongoose");
 const Controller = require("../../controller");
 const httpError = require("http-errors");
 
 class RoleController extends Controller{
-    async addRole(req, res, next){
+    async createRole(req, res, next){
         try {
             await addRoleSchema.validateAsync(req.body);
             const {title, description, permissions} = req.body;
             console.log(title);
             await this.findRoleWithTitle(title);
             const role = await RoleModel.create({title, description, permissions});
-            if(!role) throw httpError.InternalServerError("نقش ایجاد نشد");
+            if(!role) throw httpError.InternalServerError(PROCCESS_MASSAGES.NOT_CAREATED);
             return res.status(httpStatus.CREATED).json({
                 StatusCode : httpStatus.CREATED,
                 data : {
-                    message : "نقش با موفقیت ایجاد شد"
+                    message : PROCCESS_MASSAGES.CAREATED
                 }
             })
         } catch (error) {
@@ -39,11 +40,11 @@ class RoleController extends Controller{
                     $set : data
                 }
             );
-            if(!updateRoleResult.modifiedCount) throw httpError.InternalServerError("بروزرسانی نقش انجام نشد");
+            if(!updateRoleResult.modifiedCount) throw httpError.InternalServerError(PROCCESS_MASSAGES.NOT_UPDATED);
             return res.status(httpStatus.OK).json({
                 statusCode : httpStatus.OK,
                 data : {
-                    message : "نقش با موفقیت بروزرسانی شد"
+                    message : PROCCESS_MASSAGES.UPDATED
                 }
             })
         } catch (error) {
@@ -63,16 +64,16 @@ class RoleController extends Controller{
             next(error)
         }
     }
-    async removeRole(req, res, next){
+    async deleteRole(req, res, next){
         try {
             const {field} = req.params;
             const role = await this.findRoleByIdOrTitle(field);
             const removeRoleResult = await RoleModel.deleteOne({_id : role._id});
-            if(!removeRoleResult.deletedCount) throw httpError.InternalServerError("حذف نقش انجام نشد");
+            if(!removeRoleResult.deletedCount) throw httpError.InternalServerError(PROCCESS_MASSAGES.NOT_DELETED);
             return res.status(httpStatus.OK).json({
                 statusCode : httpStatus.OK,
                 data : {
-                    message : "نقش با موفقیت حذف شد"
+                    message : PROCCESS_MASSAGES.DELETED
                 }
             })
         } catch (error) {

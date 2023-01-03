@@ -173,7 +173,7 @@
 
 /**
  * @swagger
- *  /admin/courses/add:
+ *  /admin/courses/create:
  *      post:
  *          tags: [Course]
  *          summary: create and save course
@@ -193,7 +193,7 @@
  */
 /**
  * @swagger
- *  /admin/courses/edit/{id}:
+ *  /admin/courses/update/{id}:
  *      patch:
  *          tags: [Course]
  *          summary: edit and update course
@@ -218,7 +218,7 @@
  */
 /**
  * @swagger
- *  /admin/courses/list-of-all:
+ *  /admin/courses/list:
  *      get:
  *          tags: [Course]
  *          summary: get all of courses

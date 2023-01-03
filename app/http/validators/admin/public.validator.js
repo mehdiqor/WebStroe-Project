@@ -1,9 +1,9 @@
-const joi = require('@hapi/joi');
+const { mongoIdPattern, validationError } = require('../../../utils/costans');
 const httpError = require('http-errors');
-const { mongoIdPattern } = require('../../../utils/costans');
+const joi = require('@hapi/joi');
 
 const ObjectIdValidator = joi.object({
-    id : joi.string().pattern(mongoIdPattern).error(new Error(httpError.BadRequest("شناسه وارد شده صحیح نمیباشد")))
+    id : joi.string().pattern(mongoIdPattern).error(httpError.BadRequest(validationError("ID")))
 });
 
 module.exports = {

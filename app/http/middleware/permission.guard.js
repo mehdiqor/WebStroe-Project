@@ -1,7 +1,7 @@
-const httpError = require("http-errors");
+const { PERMISSIONS, PROCCESS_MASSAGES } = require("../../utils/costans");
 const { PermissionModel } = require("../../models/permission");
 const { RoleModel } = require("../../models/role");
-const { PERMISSIONS } = require("../../utils/costans");
+const httpError = require("http-errors");
 
 function checkPermission(requiredPermissions = []){
     return async function(req, res, next){
@@ -18,7 +18,7 @@ function checkPermission(requiredPermissions = []){
             console.log(userPermissions);
             if(userPermissions.includes(PERMISSIONS.ALL)) return next();
             if(allPermissions.length == 0 || hasPermission) return next();
-                throw httpError.Forbidden("شما به این قسمت دسترسی ندارید");
+                throw httpError.Forbidden(PROCCESS_MASSAGES.NO_PERMISSION);
         } catch (error) {
             next(error)
         }

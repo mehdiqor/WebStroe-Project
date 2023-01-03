@@ -1,6 +1,7 @@
-const { deleteInvalidPropertyInObject, deleteFileInPublic, copyObject, getTimeOfCourseByChapter } = require("../../../../utils/fuctions");
+const { deleteInvalidPropertyInObject, deleteFileInPublic, copyObject } = require("../../../../utils/fuctions");
 const { ObjectIdValidator } = require("../../../validators/admin/public.validator");
 const { createCourseSchema } = require("../../../validators/admin/course.schema");
+const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 const { StatusCodes : httpStatus } = require("http-status-codes");
 const { CourseModel } = require("../../../../models/course");
 const Controller = require("../../controller");
@@ -8,14 +9,14 @@ const httpError = require("http-errors");
 const path = require("path");
 
 class CourseController extends Controller {
-    async addCourse(req, res, next){
+    async createCourse(req, res, next){
         try {
             await createCourseSchema.validateAsync(req.body);
             const {fileUploadPath, filename} = req.body;
             const image = path.join(fileUploadPath, filename).replace(/\\/g, "/");
             let {title, short_text, text, tags, category, price, discount, type, status} = req.body;
             const teacher = req.user._id;
-            if(Number(price) > 0 && type == "free") throw httpError.BadRequest("برای دوره رایگان نمیتوان قیمت ثبت کرد")
+            if(Number(price) > 0 && type == "free") throw httpError.BadRequest(PROCCESS_MASSAGES.FREE_COURSES)
             const course = await CourseModel.create({
                 title,
                 short_text,
@@ -29,18 +30,18 @@ class CourseController extends Controller {
                 image,
                 teacher
             });
-            if(!course?._id) throw httpError.InternalServerError("دوره ثبت نشد")
+            if(!course?._id) throw httpError.InternalServerError(PROCCESS_MASSAGES.NOT_CAREATED)
             return res.status(httpStatus.CREATED).json({
                 statusCode : httpStatus.CREATED,
                 data : {
-                    message : "دوره با موفقیت ایجاد شد"
+                    message : PROCCESS_MASSAGES.CAREATED
                 }
             });
         } catch (error) {
             next(error)
         }
     }
-    async editCourse(req, res, next){
+    async updateCourse(req, res, next){
         try {
             const {id} = req.params;
             const course = await this.findCourseByID(id);
@@ -60,18 +61,18 @@ class CourseController extends Controller {
                     $set : data
                 }
             );
-            if(!updateCourseResuly.modifiedCount) throw httpError.InternalServerError("بروزرسانی دوره انجام نشد");
+            if(!updateCourseResuly.modifiedCount) throw httpError.InternalServerError(PROCCESS_MASSAGES.NOT_UPDATED);
             return res.status(httpStatus.OK).json({
                 statusCode : httpStatus.OK,
                 data : {
-                    message : "بروزرسانی دوره با موفقیت انجام شد"
+                    message : PROCCESS_MASSAGES.UPDATED
                 }
             })
         } catch (error) {
             next(error)
         }
     }
-    async getListOfCourses(req, res, next){
+    async getAllCourses(req, res, next){
         try {
             const {search} = req.query;
             let courses;

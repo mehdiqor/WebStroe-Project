@@ -2,10 +2,10 @@ const { RoleController } = require("../../http/controllers/admin/RBAC/role.contr
 const { stringToArray } = require("../../http/middleware/stringToArray");
 const router = require("express").Router();
 
-router.post("/add", stringToArray("permissions"), RoleController.addRole);
+router.post("/create", stringToArray("permissions"), RoleController.createRole);
 router.patch("/update/:id", stringToArray("permissions"), RoleController.updateRole);
 router.get("/list", RoleController.getAllRoles);
-router.delete("/remove/:field", RoleController.removeRole);
+router.delete("/delete/:field", RoleController.deleteRole);
 
 module.exports = {
     AdminApiRoleRouter : router

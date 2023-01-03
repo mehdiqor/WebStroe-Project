@@ -87,7 +87,7 @@
 
 /**
  * @swagger
- *  /admin/episode/add:
+ *  /admin/episode/create:
  *      post:
  *          tags: [Episode]
  *          summary: create new episode for chapter
@@ -107,7 +107,7 @@
  */
 /**
  * @swagger
- *  /admin/episode/edit/{episodeID}:
+ *  /admin/episode/update/{episodeID}:
  *      patch:
  *          tags: [Episode]
  *          summary: update episode
@@ -132,7 +132,7 @@
  */
 /**
  * @swagger
- *  /admin/episode/remove/{episodeID}:
+ *  /admin/episode/delete/{episodeID}:
  *      delete:
  *          tags: [Episode]
  *          summary: remove episode by ID

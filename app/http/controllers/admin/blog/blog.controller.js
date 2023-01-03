@@ -1,6 +1,6 @@
 const { deleteFileInPublic, deleteInvalidPropertyInObject } = require("../../../../utils/fuctions");
 const { createBlogsSchema } = require("../../../validators/admin/blog.schema");
-const { BlackList, nullishData } = require("../../../../utils/costans");
+const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 const { StatusCodes : httpStatus } = require('http-status-codes');
 const { BlogModel } = require("../../../../models/blogs");
 const Controller = require("../../controller");
@@ -28,32 +28,44 @@ class BlogController extends Controller {
         image,
         author,
       });
+      if(!blog) throw httpError.InternalServerError(PROCCESS_MASSAGES.NOT_CAREATED);
       return res.status(httpStatus.CREATED).json({
         statusCode: httpStatus.CREATED,
         data: {
-          message: "ایجاد بلاگ با موفقیت انجام شد",
-        },
+          message: PROCCESS_MASSAGES.CAREATED
+        }
       });
     } catch (error) {
       deleteFileInPublic(req.body.image);
       next(error);
     }
   }
-  async getOneBlogByID(req, res, next) {
+  async UpdateBlog(req, res, next) {
     try {
       const { id } = req.params;
-      const blog = await this.findBlog(id);
+      await this.findBlog(id);
+      if (req?.body?.fileUploadPath && req?.body?.filename) {
+        req.body.image = path.join(req.body.fileUploadPath, req.body.filename);
+        req.body.image = req.body.image.replace(/\\/g, "/");
+      }
+      const data = req.body;
+      const BlackList = ["bookmarks", "likes", "dislikes", "comments", "supplier", "length", "width", "height", "weight"];
+      deleteInvalidPropertyInObject(data, BlackList);
+      
+      const updateResult = await BlogModel.updateOne({_id : id}, {$set : data});
+      if(updateResult.modifiedCount == 0) throw httpError.InternalServerError(PROCCESS_MASSAGES.NOT_UPDATED);
       return res.status(httpStatus.OK).json({
         statusCode : httpStatus.OK,
         data : {
-          blog,
+          message: PROCCESS_MASSAGES.UPDATED
         }
       });
     } catch (error) {
+      deleteFileInPublic(req?.body?.image);
       next(error);
     }
   }
-  async getListOfBlogs(req, res, next) {
+  async getAllBlogs(req, res, next) {
     try {
       const blogs = await BlogModel.aggregate([
         {
@@ -102,6 +114,20 @@ class BlogController extends Controller {
       next(error);
     }
   }
+  async getBlogByID(req, res, next) {
+    try {
+      const { id } = req.params;
+      const blog = await this.findBlog(id);
+      return res.status(httpStatus.OK).json({
+        statusCode : httpStatus.OK,
+        data : {
+          blog,
+        }
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
   async getCommentsOfBlog(req, res, next) {
     try {
         
@@ -109,45 +135,20 @@ class BlogController extends Controller {
       next(error);
     }
   }
-  async deleteBlogByID(req, res, next) {
+  async deleteBlog(req, res, next) {
     try {
       const { id } = req.params;
       await this.findBlog(id);
       const result = await BlogModel.deleteOne({ _id: id });
       if (result.deletedCount == 0)
-        throw httpError.InternalServerError("حذف مقاله انجام نشد");
+        throw httpError.InternalServerError(PROCCESS_MASSAGES.NOT_DELETED);
       return res.status(httpStatus.OK).json({
         statusCode : httpStatus.OK,
         data : {
-          message: "حذف مقاله با موفقیت انجام شد",
+          message: PROCCESS_MASSAGES.DELETED
         }
       });
     } catch (error) {
-      next(error);
-    }
-  }
-  async UpdateBlogByID(req, res, next) {
-    try {
-      const { id } = req.params;
-      await this.findBlog(id);
-      if (req?.body?.fileUploadPath && req?.body?.filename) {
-        req.body.image = path.join(req.body.fileUploadPath, req.body.filename);
-        req.body.image = req.body.image.replace(/\\/g, "/");
-      }
-      const data = req.body;
-      const BlackList = ["bookmarks", "likes", "dislikes", "comments", "supplier", "length", "width", "height", "weight"];
-      deleteInvalidPropertyInObject(data, BlackList);
-      
-      const updateResult = await BlogModel.updateOne({_id : id}, {$set : data});
-      if(updateResult.modifiedCount == 0) throw httpError.InternalServerError("بروزرسانی انجام نشد");
-      return res.status(httpStatus.OK).json({
-        statusCode : httpStatus.OK,
-        data : {
-          message: "بروزرسانی بلاگ با موفقیت انجام شد"
-        }
-      });
-    } catch (error) {
-      deleteFileInPublic(req?.body?.image);
       next(error);
     }
   }

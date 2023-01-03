@@ -217,7 +217,7 @@
 
 /**
  * @swagger
- *  /admin/products/add:
+ *  /admin/products/create:
  *      post:
  *          tags: [Product]
  *          summary: create and save product
@@ -237,7 +237,7 @@
  */
 /**
  * @swagger
- *  /admin/products/edit/{id}:
+ *  /admin/products/update/{id}:
  *      patch:
  *          tags: [Product]
  *          summary: edit and update product
@@ -263,7 +263,7 @@
  */
 /**
  * @swagger
- *  /admin/products/list-of-all:
+ *  /admin/products/list:
  *      get:
  *          tags: [Product]
  *          summary: list of all products
@@ -302,7 +302,7 @@
  */
 /**
  * @swagger
- *  /admin/products/remove/{id}:
+ *  /admin/products/delete/{id}:
  *      delete:
  *          tags: [Product]
  *          summary: delete product by ID

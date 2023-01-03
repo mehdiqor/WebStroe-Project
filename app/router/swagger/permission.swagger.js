@@ -59,7 +59,7 @@
 
 /**
  * @swagger
- *  /admin/permissions/add:
+ *  /admin/permissions/create:
  *      post:
  *          tags: [RBAC]
  *          summary: create new permission
@@ -118,7 +118,7 @@
  */
 /**
  * @swagger
- *  /admin/permissions/remove/{id}:
+ *  /admin/permissions/delete/{id}:
  *      delete:
  *          tags: [RBAC]
  *          summary: remove permission by ID

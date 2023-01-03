@@ -62,7 +62,7 @@
 
 /**
  * @swagger
- *  /admin/chapter/add:
+ *  /admin/chapter/create:
  *      put:
  *          tags: [Chapter]
  *          summary: create new chapter for courses
@@ -85,7 +85,7 @@
  */
 /**
  * @swagger
- *  /admin/chapter/edit/{chapterID}:
+ *  /admin/chapter/update/{chapterID}:
  *      patch:
  *          tags: [Chapter]
  *          summary: edit chapter
@@ -132,7 +132,7 @@
  */
 /**
  * @swagger
- *  /admin/chapter/remove/{chapterID}:
+ *  /admin/chapter/delete/{chapterID}:
  *      patch:
  *          tags: [Chapter]
  *          summary: remove a chapter of course

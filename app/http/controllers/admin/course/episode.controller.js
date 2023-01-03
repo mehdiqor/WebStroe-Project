@@ -2,6 +2,7 @@ const { getTime, deleteInvalidPropertyInObject, copyObject } = require("../../..
 const { ObjectIdValidator } = require("../../../validators/admin/public.validator");
 const { createEpisodeSchema } = require("../../../validators/admin/course.schema");
 const { default: getVideoDurationInSeconds } = require("get-video-duration");
+const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 const { StatusCodes : httpStatus } = require("http-status-codes");
 const { CourseModel } = require("../../../../models/course");
 const Controller = require("../../controller");
@@ -9,7 +10,7 @@ const HttpError = require("http-errors");
 const path = require("path");
 
 class EpisodeController extends Controller {
-    async addEpisode(req, res, next){
+    async createEpisode(req, res, next){
         try {
             const {title, text, type, courseID, chapterID, fileUploadPath, filename} = await createEpisodeSchema.validateAsync(req.body);
             const fileAddress = path.join(fileUploadPath, filename)
@@ -29,18 +30,18 @@ class EpisodeController extends Controller {
                     }
                 }
             )
-            if(createEpisodeResult.modifiedCount == 0) throw HttpError.InternalServerError("افزودن اپیزود انجام نشد");
+            if(createEpisodeResult.modifiedCount == 0) throw HttpError.InternalServerError(PROCCESS_MASSAGES.NOT_CAREATED);
             return res.status(httpStatus.CREATED).json({
                 statusCode : httpStatus.CREATED,
                 data : {
-                    message : "اپیزود با موفقیت افزوده شد"
+                    message : PROCCESS_MASSAGES.CAREATED
                 }
             })
         } catch (error) {
             next(error)
         }
     }
-    async editEpisode(req, res, next){
+    async updateEpisode(req, res, next){
         try {
             const {episodeID} = req.params;
             const episode = await this.getOneEpisod(episodeID);
@@ -76,11 +77,11 @@ class EpisodeController extends Controller {
                 }
             )
             if(!editEpisodeResult.modifiedCount)
-                throw HttpError.InternalServerError("ویرایش اپیزود انجام نشد");
+                throw HttpError.InternalServerError(PROCCESS_MASSAGES.UPDATED);
             return res.status(httpStatus.OK).json({
                 statusCode : httpStatus.OK,
                 data : {
-                    message : "اپیزود با موفقیت ویرایش شد"
+                    message : PROCCESS_MASSAGES.NOT_UPDATED
                 }
             })
         } catch (error) {
@@ -88,7 +89,7 @@ class EpisodeController extends Controller {
             next(error)
         }
     }
-    async removeEpisode(req, res, next){
+    async deleteEpisode(req, res, next){
         try {
             const {id : episodeID} = await ObjectIdValidator.validateAsync({id : req.params.episodeID});
             const removeEpisodeResult = await CourseModel.updateOne(
@@ -103,11 +104,11 @@ class EpisodeController extends Controller {
                     }
                 }
             )
-            if(removeEpisodeResult.modifiedCount == 0) throw HttpError.InternalServerError("حذف اپیزود انجام نشد");
+            if(removeEpisodeResult.modifiedCount == 0) throw HttpError.InternalServerError(PROCCESS_MASSAGES.NOT_DELETED);
             return res.status(httpStatus.OK).json({
                 statusCode : httpStatus.OK,
                 data : {
-                    message : "اپیزود با موفقیت حذف شد"
+                    message : PROCCESS_MASSAGES.DELETED
                 }
             })
         } catch (error) {

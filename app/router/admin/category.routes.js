@@ -1,14 +1,16 @@
 const { CategoryController } = require('../../http/controllers/admin/category/category.controller');
+const { checkPermission } = require('../../http/middleware/permission.guard');
+const { PERMISSIONS } = require('../../utils/costans');
 const router = require('express').Router();
 
-router.post("/add", CategoryController.addCategory);
-router.patch("/edit/:id", CategoryController.editCategoryTitle);
+router.post("/create", CategoryController.createCategory);
+router.patch("/update/:id", CategoryController.updateCategory);
+router.get("/list", CategoryController.getAllCategories);
+router.get("/list-of-all", CategoryController.getAllCategoriesWithAggregate);
 router.get("/parents", CategoryController.getAllParents);
 router.get("/children/:parent", CategoryController.getChildOfParents);
-router.get("/all", CategoryController.getAllCategory);
-router.get("/list-of-all", CategoryController.getAllCategoryWithoutPopulate);
 router.get("/:id", CategoryController.getCategoryByID);
-router.delete("/remove/:id", CategoryController.removeCategory);
+router.delete("/delete/:id", checkPermission([PERMISSIONS.ADMIN]), CategoryController.deleteCategory);
 
 module.exports = {
     AdminApiCategoryRouter : router

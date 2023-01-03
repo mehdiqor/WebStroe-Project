@@ -5,9 +5,10 @@ const { StatusCodes : httpStatus } = require("http-status-codes");
 const { ProductModel } = require("../../../../models/produncts");
 const Controller = require("../../controller");
 const httpError = require("http-errors");
+const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 
 class ProductController extends Controller {
-  async addProduct(req, res, next) {
+  async createProduct(req, res, next) {
     try {
       const images = listOfImagesFromRequest(req?.files || [], req.body.fileUploadPath);
       const productBody = await createProductSchema.validateAsync(req.body);
@@ -38,10 +39,11 @@ class ProductController extends Controller {
         supplier,
         type,
       });
+      if(!product) throw httpError.InternalServerError(PROCCESS_MASSAGES.NOT_CAREATED)
       return res.status(httpStatus.CREATED).json({
         statusCode : httpStatus.CREATED,
         data : {
-          message: "محصول با موفقیت ثبت شد",
+          message: PROCCESS_MASSAGES.CAREATED
         }
       });
     } catch (error) {
@@ -49,7 +51,7 @@ class ProductController extends Controller {
       next(error);
     }
   }
-  async editProduct(req, res, next) {
+  async updateProduct(req, res, next) {
     try {
       const {id} = req.params;
       const product = await this.findProductByID(id);
@@ -60,37 +62,18 @@ class ProductController extends Controller {
       deleteInvalidPropertyInObject(data, BlackList);
       
       const updateResult = await ProductModel.updateOne({_id : product._id}, {$set : data});
-      if(updateResult.modifiedCount == 0) throw {status : httpStatus.INTERNAL_SERVER_ERROR, message : "خطای داخلی"};
+      if(updateResult.modifiedCount == 0) throw httpError.InternalServerError(PROCCESS_MASSAGES.NOT_UPDATED)
       return res.status(httpStatus.OK).json({
         statusCode : httpStatus.OK,
         data : {
-          message : "بروزرسانی با موفقیت انجام شد",
+          message : PROCCESS_MASSAGES.UPDATED
         }
       })
     } catch (error) {
       next(error);
     }
   }
-  async removeProductByID(req, res, next) {
-    try {
-      const { id } = req.params;
-      const product = await this.findProductByID(id);
-      const removeProductResult = await ProductModel.deleteOne({
-        _id: product._id,
-      });
-      if (removeProductResult.deletedCount == 0)
-        throw httpError.InternalServerError("محصول حذف نشد");
-      res.status(httpStatus.OK).json({
-        statusCode : httpStatus.OK,
-        data : {
-          message : "محصول با موفقیت حذف شد",
-        }
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-  async getAllProduct(req, res, next) {
+  async getAllProducts(req, res, next) {
     try {
       const search = req?.query?.search || "";
       let products;
@@ -121,6 +104,25 @@ class ProductController extends Controller {
         statusCode : httpStatus.OK,
         data : {
           product
+        }
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async deleteProduct(req, res, next) {
+    try {
+      const { id } = req.params;
+      const product = await this.findProductByID(id);
+      const removeProductResult = await ProductModel.deleteOne({
+        _id: product._id,
+      });
+      if (removeProductResult.deletedCount == 0)
+        throw httpError.InternalServerError(PROCCESS_MASSAGES.NOT_DELETED);
+      res.status(httpStatus.OK).json({
+        statusCode : httpStatus.OK,
+        data : {
+          message : PROCCESS_MASSAGES.DELETED
         }
       });
     } catch (error) {

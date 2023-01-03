@@ -63,7 +63,7 @@
 
 /**
  * @swagger
- *  /admin/category/add:
+ *  /admin/category/create:
  *      post:
  *          tags: [Category]
  *          summary: create new category title
@@ -86,7 +86,7 @@
  */
 /**
  * @swagger
- *  /admin/category/edit/{id}:
+ *  /admin/category/update/{id}:
  *      patch:
  *          tags: [Category]
  *          summary: edit category title with ID
@@ -108,6 +108,34 @@
  *                              $ref: '#/definitions/PublicDefinition'
  *              500:
  *                  description: internal server error
+ */
+/**
+ * @swagger
+ *  /admin/category/list:
+ *      get:
+ *          tags: [Category]
+ *          summary: get all categories
+ *          responses:
+ *              200:
+ *                  description: success
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/ListOfCategories'
+ */
+/**
+ * @swagger
+ *  /admin/category/list-of-all:
+ *      get:
+ *          tags: [Category]
+ *          summary: get all ctegories without populate and nested structure
+ *          responses:
+ *              200:
+ *                  description: success
+ *                  content:
+ *                      applicatin/json:
+ *                          schema:
+ *                              $ref: '#/definitions/ListOfCategories'
  */
 /**
  * @swagger
@@ -144,34 +172,6 @@
  */
 /**
  * @swagger
- *  /admin/category/all:
- *      get:
- *          tags: [Category]
- *          summary: get all categories
- *          responses:
- *              200:
- *                  description: success
- *                  content:
- *                      applicatin/json:
- *                          schema:
- *                              $ref: '#/definitions/ListOfCategories'
- */
-/**
- * @swagger
- *  /admin/category/list-of-all:
- *      get:
- *          tags: [Category]
- *          summary: get all ctegories without populate and nested structure
- *          responses:
- *              200:
- *                  description: success
- *                  content:
- *                      applicatin/json:
- *                          schema:
- *                              $ref: '#/definitions/ListOfCategories'
- */
-/**
- * @swagger
  *  /admin/category/{id}:
  *      get:
  *          tags: [Category]
@@ -191,7 +191,7 @@
  */
 /**
  * @swagger
- *  /admin/category/remove/{id}:
+ *  /admin/category/delete/{id}:
  *      delete:
  *          tags: [Category]
  *          summary: remove category with ObjectID

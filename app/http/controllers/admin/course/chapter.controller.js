@@ -1,11 +1,12 @@
+const { deleteInvalidPropertyInObject } = require("../../../../utils/fuctions");
 const { AbstractCourseController } = require("./course.controller");
+const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 const { StatusCodes : httpStatus } = require("http-status-codes");
 const { CourseModel } = require("../../../../models/course");
 const httpError = require("http-errors");
-const { deleteInvalidPropertyInObject } = require("../../../../utils/fuctions");
 
 class ChapterController extends AbstractCourseController {
-    async addChapter(req, res, next){
+    async createChapter(req, res, next){
         try {
             const {id, title, text} = req.body;
             await this.findCourseByID(id);
@@ -23,18 +24,18 @@ class ChapterController extends AbstractCourseController {
                     }
                 }
             );
-            if(saveChapterResult.modifiedCount == 0) throw httpError.InternalServerError("فصل افزوده نشد");
+            if(saveChapterResult.modifiedCount == 0) throw httpError.InternalServerError(PROCCESS_MASSAGES.NOT_CAREATED);
             return res.status(httpStatus.CREATED).json({
                 statusCode : httpStatus.CREATED,
                 data : {
-                    message : "فصل با موفقیت افزوده شد"
+                    message : PROCCESS_MASSAGES.CAREATED
                 }
             })
         } catch (error) {
             next(error)
         }
     }
-    async editChapterByID(req, res, next){
+    async updateChapter(req, res, next){
         try {
             const {chapterID} = req.params;
             await this.getOneChapter(chapterID);
@@ -51,18 +52,18 @@ class ChapterController extends AbstractCourseController {
                     }
                 }
             )
-            if(updateChapterResult.modifiedCount == 0) throw httpError.InternalServerError("بروزرسانی فصل انجام نشد");
+            if(updateChapterResult.modifiedCount == 0) throw httpError.InternalServerError(PROCCESS_MASSAGES.NOT_UPDATED);
             return res.status(httpStatus.OK).json({
                 statusCode : httpStatus.OK,
                 data : {
-                    message : "بروزرسانی با موفقیت انجام شد"
+                    message : PROCCESS_MASSAGES.UPDATED
                 }
             })
         } catch (error) {
             next(error)
         }
     }
-    async ListOfChapters(req, res, next){
+    async getAllChapters(req, res, next){
         try {
             const {courseID} = req.params;
             const course = await this.getChapterOfCourse(courseID)
@@ -76,7 +77,7 @@ class ChapterController extends AbstractCourseController {
             next(error)
         }
     }
-    async removeChapterByID(req, res, next){
+    async deleteChapter(req, res, next){
         try {
             const {chapterID} = req.params;
             const chapter = await this.getOneChapter(chapterID);
@@ -92,11 +93,11 @@ class ChapterController extends AbstractCourseController {
                     }
                 }
             );
-            if(removeChapterResult.modifiedCount == 0) throw httpError.InternalServerError("حذف فصل انجام نشد");
+            if(removeChapterResult.modifiedCount == 0) throw httpError.InternalServerError(PROCCESS_MASSAGES.NOT_DELETED);
             return res.status(httpStatus.OK).json({
                 statusCode : httpStatus.OK,
                 data : {
-                    message : "حذف فصل با موفقیت انجام شد"
+                    message : PROCCESS_MASSAGES.DELETED
                 }
             })
         } catch (error) {

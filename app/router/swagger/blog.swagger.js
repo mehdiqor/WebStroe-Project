@@ -4,7 +4,7 @@
  *      schemas:
  *          Blog:
  *              type: object
- *              rqeuired:
+ *              required:
  *                  -   title
  *                  -   short_text
  *                  -   text
@@ -118,7 +118,7 @@
 
 /**
  * @swagger
- *  /admin/blogs/add:
+ *  /admin/blogs/create:
  *      post:
  *          tags: [Blog]
  *          summary: create blog document
@@ -138,7 +138,7 @@
  */
 /**
  * @swagger
- *  /admin/blogs/edit/{id}:
+ *  /admin/blogs/update/{id}:
  *      patch:
  *          tags: [Blog]
  *          summary: edit blog documents by ID
@@ -165,7 +165,7 @@
  */
 /**
  * @swagger
- *  /admin/blogs/list-of-all:
+ *  /admin/blogs/list:
  *      get:
  *          tags: [Blog]
  *          summary: get all blogs
@@ -198,7 +198,7 @@
  */
 /**
  * @swagger
- *  /admin/blogs/remove/{id}:
+ *  /admin/blogs/delete/{id}:
  *      delete:
  *          summary: delete blog by ID
  *          tags: [Blog]

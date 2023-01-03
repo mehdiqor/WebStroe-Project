@@ -78,7 +78,7 @@
 
 /**
  * @swagger
- *  /admin/roles/add:
+ *  /admin/roles/create:
  *      post:
  *          tags: [RBAC]
  *          summary: create new role
@@ -140,7 +140,7 @@
  */
 /**
  * @swagger
- *  /admin/roles/remove/{field}:
+ *  /admin/roles/delete/{field}:
  *      delete:
  *          tags: [RBAC]
  *          summary: remove role by field

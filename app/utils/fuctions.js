@@ -1,4 +1,4 @@
-const { ACCESS_TOKEN_SECRET_KEY, REFRESH_TOKEN_SECRET_KEY, BlackList, nullishData } = require('./costans');
+const { ACCESS_TOKEN_SECRET_KEY, REFRESH_TOKEN_SECRET_KEY, NULLISH_DATA } = require('./costans');
 const { UserModel } = require('../models/users');
 const redisClient = require('./init_redis');
 const httpError = require('http-errors');
@@ -93,7 +93,7 @@ function setFeatures(body){
     return features
 }
 function deleteInvalidPropertyInObject(data = {}, BlackList = []){
-    let nullData = Object.values(nullishData);
+    let nullData = Object.values(NULLISH_DATA);
     Object.keys(data).forEach(key => {
         if (BlackList.includes(key)) delete data[key];
         if (typeof data[key] == "string") data[key] = data[key].trim();
