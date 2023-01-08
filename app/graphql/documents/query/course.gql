@@ -1,0 +1,20 @@
+{
+  courses {
+    _id
+    title
+    text
+    imageURL
+    price
+    teacher {
+      first_name
+      last_name
+    }
+    chapters {
+      title
+      episodes {
+        title
+        videoURL
+      }
+    }
+  }
+}
