@@ -1,4 +1,5 @@
-const { GraphQLList } = require("graphql")
+const { GraphQLList } = require("graphql");
+const { verifyAccessTokenInGraphql } = require("../../http/middleware/verifyAccessToken");
 const { BlogModel } = require("../../models/blogs")
 const { BlogType } = require("../typeDefs/blog.type")
 

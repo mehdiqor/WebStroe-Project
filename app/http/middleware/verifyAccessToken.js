@@ -11,7 +11,7 @@ function getToken(headers){
 function verifyAccessToken(req, res, next){
     try {
         const token = getToken(req.headers)
-        jwt.verify(token, ACCESS_TOKEN_SECRET_KEY, async (err, payload) => {
+        jwt.verify(token, ACCESS_TOKEN_SECRET_KEY, async(err, payload) => {
             try {
                 if(err) throw httpError.Unauthorized(PROCCESS_MASSAGES.LOGIN);
                 const {phone} = payload || {};
@@ -27,7 +27,19 @@ function verifyAccessToken(req, res, next){
         next(error)
     }
 }
+async function verifyAccessTokenInGraphql(req){
+    try {
+        const token = getToken(req.headers);
+        const {phone} = jwt.verify(token, ACCESS_TOKEN_SECRET_KEY);
+        const user = await UserModel.findOne({phone});
+        if(!user) throw httpError.Unauthorized(PROCCESS_MASSAGES.NO_USER);
+        return user
+    } catch (error) {
+        throw httpError.Unauthorized(error)
+    }
+}
 
 module.exports = {
-    verifyAccessToken
+    verifyAccessToken,
+    verifyAccessTokenInGraphql
 }
