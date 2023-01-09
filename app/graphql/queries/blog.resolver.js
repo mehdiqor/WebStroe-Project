@@ -12,7 +12,9 @@ const BlogResolver = {
         const fundQuery = category ? {category} : {}
         return await BlogModel.find({fundQuery}).populate([
             {path : 'author'},
-            {path : 'category'}
+            {path : 'category'},
+            {path : 'comments.user'},
+            {path : 'comments.answers.user'}
         ]);
     }
 }

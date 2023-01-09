@@ -12,7 +12,9 @@ const CorseResolver = {
         const fundQuery = category ? {category} : {}
         return await CourseModel.find({fundQuery}).populate([
             {path : 'teacher'},
-            {path : 'category'}
+            {path : 'category'},
+            {path : 'comments.user'},
+            {path : 'comments.answers.user'},
         ]);
     }
 }

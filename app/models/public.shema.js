@@ -1,16 +1,24 @@
 const { default: mongoose } = require("mongoose");
 
 
-const commentSchema = new mongoose.Schema({
+const AnswerSchema = new mongoose.Schema({
+    user : {type : mongoose.Types.ObjectId, ref : "user", required : true},
+    comment : {type : String, required : true},
+    openForReplay : {type : Boolean, default : false},
+    show : {type : Boolean, required : true, default : false}
+}, {
+    timestamps : {createdAt : true}
+});
+const CommentSchema = new mongoose.Schema({
     user : {type : mongoose.Types.ObjectId, ref : "user", required : true},
     comment : {type : String, required : true},
     show : {type : Boolean, required : true, default : false},
     openForReplay : {type : Boolean, default : true},
-    parent : {type : mongoose.Types.ObjectId, ref : "comment"}
+    answers : {type : [AnswerSchema], default : []}
 }, {
     timestamps : {createdAt : true}
 });
 
 module.exports = {
-    commentSchema
+    CommentSchema
 }
