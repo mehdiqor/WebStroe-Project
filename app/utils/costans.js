@@ -22,7 +22,9 @@ const PROCCESS_MASSAGES = {
     OTP : "Verification code sent successfully",
     INVALID_OTP : "Verification code is invalid",
     EXPIRED_OTP : "The verification code has expired",
-    NO_PERMISSION : "You do not have permission for this section"
+    NO_PERMISSION : "You do not have permission for this section",
+    EXIST_PERMISSION : "Permission is already registered",
+    EXIST_ROLE : "Role is already registered",
 };
 Object.freeze(PROCCESS_MASSAGES);
 const ROLES = {
@@ -46,6 +48,9 @@ Object.freeze(PERMISSIONS);
 function validationError(title){
     return `${title} is not VALID! please try again`
 };
+function notFoundMessage(title){
+    return `Oops!... ${title} NOT FOUND!`
+};
 
 module.exports = {
     ROLES,
@@ -53,6 +58,7 @@ module.exports = {
     PERMISSIONS,
     PROCCESS_MASSAGES,
     validationError,
+    notFoundMessage,
     mongoIdPattern : /^(?=[a-f\d]{24}$)(\d+[a-f]+\d)/i ,
     phoneNumberPattern : /^09[0-9]{9}$/ ,
     ACCESS_TOKEN_SECRET_KEY : "624FA5D98FF08F7F743CB6CB388C28F6AE38B7CEEB4AB8275A4811217F099DE3",

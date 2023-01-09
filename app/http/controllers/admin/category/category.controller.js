@@ -1,5 +1,5 @@
 const { addCategorySchema, updateCategorySchema } = require("../../../validators/admin/category.schema");
-const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
+const { PROCCESS_MASSAGES, notFoundMessage } = require("../../../../utils/costans");
 const { CategoryModel } = require("../../../../models/categories");
 const { StatusCodes : httpStatus } = require('http-status-codes');
 const Controller = require("../../controller");
@@ -156,7 +156,7 @@ class CategoryController extends Controller {
     }
     async checkExistCategory(id){
         const category = await CategoryModel.findById(id);
-        if(!category) throw httpError.NotFound("دسته بندی یافت نشد");
+        if(!category) throw httpError.NotFound(notFoundMessage("category"));
         return category
     }
 }

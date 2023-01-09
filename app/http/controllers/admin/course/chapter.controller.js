@@ -1,6 +1,6 @@
+const { PROCCESS_MASSAGES, notFoundMessage } = require("../../../../utils/costans");
 const { deleteInvalidPropertyInObject } = require("../../../../utils/fuctions");
 const { AbstractCourseController } = require("./course.controller");
-const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 const { StatusCodes : httpStatus } = require("http-status-codes");
 const { CourseModel } = require("../../../../models/course");
 const httpError = require("http-errors");
@@ -106,12 +106,12 @@ class ChapterController extends AbstractCourseController {
     }
     async getChapterOfCourse(id){
         const chapter = await CourseModel.findOne({_id : id}, {chapters : 1, title : 1});
-        if(!chapter) throw httpError.NotFound("دوره مورد نظر یافت نشد")
+        if(!chapter) throw httpError.NotFound(notFoundMessage("chapter"))
         return chapter
     }
     async getOneChapter(id){
         const chapter = await CourseModel.findOne({"chapters._id" : id}, {"chapter.$" : 1});
-        if(!chapter) throw httpError.NotFound("فصلی با این شناسه یافت نشد");
+        if(!chapter) throw httpError.NotFound(notFoundMessage("chapter"));
         return chapter
     }
 }

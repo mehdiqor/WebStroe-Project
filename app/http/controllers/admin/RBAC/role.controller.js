@@ -1,6 +1,6 @@
 const { copyObject, deleteInvalidPropertyInObject } = require("../../../../utils/fuctions");
 const { addRoleSchema } = require("../../../validators/admin/RBAC.schema");
-const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
+const { PROCCESS_MASSAGES, notFoundMessage } = require("../../../../utils/costans");
 const { StatusCodes : httpStatus } = require("http-status-codes");
 const { RoleModel } = require("../../../../models/role");
 const { default: mongoose } = require("mongoose");
@@ -83,12 +83,12 @@ class RoleController extends Controller{
     async findRoleByIdOrTitle(field){
         let findQuery = mongoose.isValidObjectId(field) ? {_id : field} : {title : field};
         const role = await RoleModel.findOne(findQuery);
-        if(!role) throw httpError.NotFound("نقش مورد نظر یافت نشد");
+        if(!role) throw httpError.NotFound(notFoundMessage("role"));
         return role
     }
     async findRoleWithTitle(title){
         const role = await RoleModel.findOne({title});
-        if(role) httpError.BadRequest("نقش یا رول مورد نظر قبلا ثبت شده");
+        if(role) httpError.BadRequest(PROCCESS_MASSAGES.EXIST_ROLE);
     }
 }
 

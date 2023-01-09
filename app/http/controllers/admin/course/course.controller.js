@@ -1,7 +1,7 @@
 const { deleteInvalidPropertyInObject, deleteFileInPublic, copyObject } = require("../../../../utils/fuctions");
 const { ObjectIdValidator } = require("../../../validators/admin/public.validator");
+const { PROCCESS_MASSAGES, notFoundMessage } = require("../../../../utils/costans");
 const { createCourseSchema } = require("../../../validators/admin/course.schema");
-const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 const { StatusCodes : httpStatus } = require("http-status-codes");
 const { CourseModel } = require("../../../../models/course");
 const Controller = require("../../controller");
@@ -155,7 +155,7 @@ class CourseController extends Controller {
     async findCourseByID(CourseID) {
         const { id } = await ObjectIdValidator.validateAsync({ id: CourseID });
         const course = await CourseModel.findById(id);
-        if (!course) throw httpError.NotFound("دوره ای یافت نشد");
+        if (!course) throw httpError.NotFound(notFoundMessage("course"));
         return course;
     }
 }

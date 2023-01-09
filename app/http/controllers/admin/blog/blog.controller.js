@@ -1,6 +1,6 @@
 const { deleteFileInPublic, deleteInvalidPropertyInObject } = require("../../../../utils/fuctions");
+const { PROCCESS_MASSAGES, notFoundMessage } = require("../../../../utils/costans");
 const { createBlogsSchema } = require("../../../validators/admin/blog.schema");
-const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 const { StatusCodes : httpStatus } = require('http-status-codes');
 const { BlogModel } = require("../../../../models/blogs");
 const Controller = require("../../controller");
@@ -163,7 +163,7 @@ class BlogController extends Controller {
         select: ["mobile", "first_name", "last_name", "username"],
       },
     ]);
-    if (!blog) throw httpError.NotFound("مقاله ای یافت نشد");
+    if (!blog) throw httpError.NotFound(notFoundMessage("blog"));
     delete blog.category.children;
     return blog;
   }

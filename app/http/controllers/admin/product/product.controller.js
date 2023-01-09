@@ -1,11 +1,11 @@
 const { deleteFileInPublic, listOfImagesFromRequest, copyObject, setFeatures, deleteInvalidPropertyInObject } = require("../../../../utils/fuctions");
 const { createProductSchema } = require("../../../validators/admin/product.schema");
 const { ObjectIdValidator } = require("../../../validators/admin/public.validator");
+const { PROCCESS_MASSAGES, notFoundMessage } = require("../../../../utils/costans");
 const { StatusCodes : httpStatus } = require("http-status-codes");
 const { ProductModel } = require("../../../../models/produncts");
 const Controller = require("../../controller");
 const httpError = require("http-errors");
-const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 
 class ProductController extends Controller {
   async createProduct(req, res, next) {
@@ -132,7 +132,7 @@ class ProductController extends Controller {
   async findProductByID(productID) {
     const { id } = await ObjectIdValidator.validateAsync({ id: productID });
     const product = await ProductModel.findById(id);
-    if (!product) throw httpError.NotFound("محصولی یافت نشد");
+    if (!product) throw httpError.NotFound(notFoundMessage("product"));
     return product;
   }
 }

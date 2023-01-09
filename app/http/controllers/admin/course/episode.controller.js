@@ -1,8 +1,8 @@
 const { getTime, deleteInvalidPropertyInObject, copyObject } = require("../../../../utils/fuctions");
 const { ObjectIdValidator } = require("../../../validators/admin/public.validator");
+const { PROCCESS_MASSAGES, notFoundMessage } = require("../../../../utils/costans");
 const { createEpisodeSchema } = require("../../../validators/admin/course.schema");
 const { default: getVideoDurationInSeconds } = require("get-video-duration");
-const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 const { StatusCodes : httpStatus } = require("http-status-codes");
 const { CourseModel } = require("../../../../models/course");
 const Controller = require("../../controller");
@@ -121,9 +121,9 @@ class EpisodeController extends Controller {
                 "chapters.episodes._id" : episodeID
             }
         )
-        if(!course) throw HttpError.NotFound("اپیزودی یافت نشد");
+        if(!course) throw HttpError.NotFound(notFoundMessage("course"));
         const episode = await course?.chapters?.[0]?.episodes?.[0]
-        if(!episode) throw HttpError.NotFound("اپیزودی یافت نشد");
+        if(!episode) throw HttpError.NotFound(notFoundMessage("episode"));
         return copyObject(episode)
     }
 }

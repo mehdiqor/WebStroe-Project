@@ -1,7 +1,7 @@
 const { copyObject, deleteInvalidPropertyInObject } = require("../../../../utils/fuctions");
+const { PROCCESS_MASSAGES, notFoundMessage } = require("../../../../utils/costans");
 const { addPermissionSchema } = require("../../../validators/admin/RBAC.schema");
 const { PermissionModel } = require("../../../../models/permission");
-const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 const { StatusCodes : httpStatus } = require("http-status-codes");
 const Controller = require("../../controller");
 const httpError = require("http-errors");
@@ -80,12 +80,12 @@ class PermissionController extends Controller{
     }
     async findPermissionByID(_id){
         const permission = await PermissionModel.findOne({_id});
-        if(!permission) throw httpError.NotFound("سطح دسترسی مورد نظر یافت نشد");
+        if(!permission) throw httpError.NotFound(notFoundMessage("permission"));
         return permission
     }
     async checkExistPermissionWithName(name){
         const permission = await PermissionModel.findOne({name});
-        if(permission) httpError.BadRequest("سطح دسترسی مورد نظر قبلا ثبت شده");
+        if(permission) httpError.BadRequest(PROCCESS_MASSAGES.EXIST_PERMISSION);
     }
 }
 
