@@ -1,0 +1,9 @@
+mutation {
+  CreateCommentForProduct(
+    comment: "salam produc",
+    productID: "63abfee99bddf8143d9883b8"
+  ){
+    statusCode
+    data
+  }
+}
