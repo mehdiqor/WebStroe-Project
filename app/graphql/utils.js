@@ -1,3 +1,5 @@
+const { notFoundMessage } = require("../utils/costans");
+const httpError = require("http-errors");
 const { Kind } = require("graphql");
 
 function parseObject(valueNode){
@@ -41,10 +43,16 @@ function parsedLiteral(valueNode){
         case Kind.OBJECT:
     }
 }
+async function checkExistModel(model, id){
+    const result = await model.findById(id);
+    if(!result) throw httpError.NotFound(notFoundMessage("model"));
+    return result
+}
 
 module.exports = {
     parseObject,
     parseValueNode,
     toObject,
-    parsedLiteral
+    parsedLiteral,
+    checkExistModel
 }

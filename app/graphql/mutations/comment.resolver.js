@@ -7,6 +7,7 @@ const { CourseModel } = require("../../models/course");
 const { copyObject } = require("../../utils/fuctions");
 const { BlogModel } = require("../../models/blogs");
 const { default: mongoose } = require("mongoose");
+const { checkExistModel } = require("../utils");
 const { GraphQLString } = require("graphql");
 const httpError = require("http-errors");
 
@@ -201,11 +202,6 @@ const CreateCommentForCourse = {
             }
         }
     }
-}
-async function checkExistModel(model, id){
-    const blog = await model.findById(id);
-    if(!blog) throw httpError.NotFound(notFoundMessage("model"));
-    return blog
 }
 async function getComment(model, id){
     const findedComment = await model.findOne(

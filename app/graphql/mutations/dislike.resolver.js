@@ -8,7 +8,7 @@ const { BlogModel } = require("../../models/blogs");
 const { checkExistModel } = require("../utils");
 const { GraphQLString } = require("graphql");
 
-const likeProduct = {
+const dislikeProduct = {
     type : ResponseType,
     args : {
         productID : {type : GraphQLString}
@@ -26,24 +26,24 @@ const likeProduct = {
             _id : productID,
             dislikes : user._id
         })
-        const updateQuery = likedProduct ? {$pull : {likes : user._id}} : {$push : {likes : user._id}}
+        const updateQuery = dislikedProduct ? {$pull : {dislikes : user._id}} : {$push : {dislikes : user._id}}
         await ProductModel.updateOne({_id : productID}, updateQuery)
         let message;
-        if(!likedProduct){
-            if(dislikedProduct){
+        if(!dislikedProduct){
+            if(likedProduct){
                 await ProductModel.updateOne(
                     {
                         _id : productID
                     },
                     {
                         $pull : {
-                            dislikes : user._id
+                            likes : user._id
                         }
                     }
                 )
             }
-            message = PROCCESS_MASSAGES.LIKE
-        } else message = PROCCESS_MASSAGES.UNLIKE
+            message = PROCCESS_MASSAGES.DISLIKE
+        } else message = PROCCESS_MASSAGES.UN_DISLIKE
         return {
             statusCode : httpStatus.CREATED,
             data : {
@@ -52,7 +52,7 @@ const likeProduct = {
         }
     }
 }
-const likeCourse = {
+const dislikeCourse = {
     type : ResponseType,
     args : {
         courseID : {type : GraphQLString}
@@ -70,24 +70,24 @@ const likeCourse = {
             _id : courseID,
             dislikes : user._id
         })
-        const updateQuery = likedCourse ? {$pull : {likes : user._id}} : {$push : {likes : user._id}}
-        await CourseModel.updateOne({_id : courseID}, updateQuery);
+        const updateQuery = dislikedCourse ? {$pull : {dislikes : user._id}} : {$push : {dislikes : user._id}}
+        await CourseModel.updateOne({_id : courseID}, updateQuery)
         let message;
-        if(!likedCourse){
-            if(dislikedCourse){
+        if(!dislikedCourse){
+            if(likedCourse){
                 await CourseModel.updateOne(
                     {
                         _id : courseID
                     },
                     {
                         $pull : {
-                            dislikes : user._id
+                            likes : user._id
                         }
                     }
                 )
             }
-            message = PROCCESS_MASSAGES.LIKE
-        } else message = PROCCESS_MASSAGES.UNLIKE
+            message = PROCCESS_MASSAGES.DISLIKE
+        } else message = PROCCESS_MASSAGES.UN_DISLIKE
         return {
             statusCode : httpStatus.CREATED,
             data : {
@@ -96,7 +96,7 @@ const likeCourse = {
         }
     }
 }
-const likeBlog = {
+const dislikeBlog = {
     type : ResponseType,
     args : {
         blogID : {type : GraphQLString}
@@ -114,24 +114,24 @@ const likeBlog = {
             _id : blogID,
             dislikes : user._id
         })
-        const updateQuery = likedBlog ? {$pull : {likes : user._id}} : {$push : {likes : user._id}}
-        await BlogModel.updateOne({_id : blogID}, updateQuery);
+        const updateQuery = dislikedBlog ? {$pull : {dislikes : user._id}} : {$push : {dislikes : user._id}}
+        await BlogModel.updateOne({_id : blogID}, updateQuery)
         let message;
-        if(!likedBlog){
-            if(dislikedBlog){
+        if(!dislikedBlog){
+            if(likedBlog){
                 await BlogModel.updateOne(
                     {
                         _id : blogID
                     },
                     {
                         $pull : {
-                            dislikes : user._id
+                            likes : user._id
                         }
                     }
                 )
             }
-            message = PROCCESS_MASSAGES.LIKE
-        } else message = PROCCESS_MASSAGES.UNLIKE
+            message = PROCCESS_MASSAGES.DISLIKE
+        } else message = PROCCESS_MASSAGES.UN_DISLIKE
         return {
             statusCode : httpStatus.CREATED,
             data : {
@@ -142,7 +142,7 @@ const likeBlog = {
 }
 
 module.exports = {
-    likeProduct,
-    likeCourse,
-    likeBlog
+    dislikeProduct,
+    dislikeCourse,
+    dislikeBlog
 }

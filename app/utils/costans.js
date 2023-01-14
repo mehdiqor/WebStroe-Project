@@ -28,7 +28,9 @@ const PROCCESS_MASSAGES = {
     NO_COMMENT : "Comments are not allowed",
     FALSE_ID : "ObjectID is not correct",
     LIKE : "You liked this content",
-    DISLIKE : "You disliked this content"
+    UNLIKE : "You unliked this content",
+    DISLIKE : "Your dislike has been registered",
+    UN_DISLIKE : "Your dislike has been removed",
 };
 Object.freeze(PROCCESS_MASSAGES);
 const ROLES = {
