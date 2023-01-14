@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const { verifyAccessTokenInGraphql } = require("../../http/middleware/verifyAccessToken");
 const { StatusCodes : httpStatus} = require("http-status-codes");
 const { PROCCESS_MASSAGES } = require("../../utils/costans");
@@ -7,6 +8,14 @@ const { CourseModel } = require("../../models/course");
 const { BlogModel } = require("../../models/blogs");
 const { checkExistModel } = require("../utils");
 const { GraphQLString } = require("graphql");
+=======
+const { GraphQLString } = require("graphql");
+const { verifyAccessTokenInGraphql } = require("../../http/middleware/verifyAccessToken");
+const { ProductModel } = require("../../models/produncts");
+const { StatusCodes : httpStatus} = require("http-status-codes");
+const { ResponseType } = require("../typeDefs/public.type");
+const { PROCCESS_MASSAGES } = require("../../utils/costans");
+>>>>>>> master
 
 const likeProduct = {
     type : ResponseType,
@@ -17,13 +26,17 @@ const likeProduct = {
         const {req} = context;
         const user = await verifyAccessTokenInGraphql(req);
         const {productID} = args;
+<<<<<<< HEAD
         await checkExistModel(ProductModel, productID);
+=======
+>>>>>>> master
         let likedProduct = await ProductModel.findOne({
             _id : productID,
             likes : user._id
         })
         let dislikedProduct = await ProductModel.findOne({
             _id : productID,
+<<<<<<< HEAD
             dislikes : user._id
         })
         const updateQuery = likedProduct ? {$pull : {likes : user._id}} : {$push : {likes : user._id}}
@@ -48,6 +61,28 @@ const likeProduct = {
             statusCode : httpStatus.CREATED,
             data : {
                 message
+=======
+            likes : user._id
+        })
+        const updateQuery = likedProduct ? {$pull : {likes : user._id}} : {$push : {likes : user._id}}
+        await ProductModel.updateOne({_id : productID}, updateQuery)
+        if(dislikedProduct && !likedProduct){
+            await ProductModel.updateOne(
+                {
+                    _id : productID
+                },
+                {
+                    $pull : {
+                        dislikes : user._id
+                    }
+                }
+            )
+        }
+        return {
+            statusCode : httpStatus.CREATED,
+            data : {
+                message : PROCCESS_MASSAGES.LIKE
+>>>>>>> master
             }
         }
     }
@@ -61,6 +96,7 @@ const likeCourse = {
         const {req} = context;
         const user = await verifyAccessTokenInGraphql(req);
         const {courseID} = args;
+<<<<<<< HEAD
         await checkExistModel(CourseModel, courseID);
         let likedCourse = await CourseModel.findOne({
             _id : courseID,
@@ -94,6 +130,9 @@ const likeCourse = {
                 message
             }
         }
+=======
+
+>>>>>>> master
     }
 }
 const likeBlog = {
@@ -105,6 +144,7 @@ const likeBlog = {
         const {req} = context;
         const user = await verifyAccessTokenInGraphql(req);
         const {blogID} = args;
+<<<<<<< HEAD
         await checkExistModel(BlogModel, blogID);
         let likedBlog = await BlogModel.findOne({
             _id : blogID,
@@ -138,11 +178,18 @@ const likeBlog = {
                 message
             }
         }
+=======
+
+>>>>>>> master
     }
 }
 
 module.exports = {
+<<<<<<< HEAD
     likeProduct,
     likeCourse,
     likeBlog
+=======
+    likeProduct
+>>>>>>> master
 }
