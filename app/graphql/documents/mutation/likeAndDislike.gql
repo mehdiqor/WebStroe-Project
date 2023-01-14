@@ -1,0 +1,17 @@
+mutation {
+  likeProduct(
+    productID: "63ac0972c956d7c1ef7c9c93"
+  ){
+    statusCode
+    data
+  }
+}
+
+mutation {
+  dislikeProduct(
+    productID: "63abfee99bddf8143d9883b8"
+  ){
+    statusCode
+    data
+  }
+}

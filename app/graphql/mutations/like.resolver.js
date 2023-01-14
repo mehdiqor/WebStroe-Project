@@ -45,7 +45,7 @@ const likeProduct = {
             message = PROCCESS_MASSAGES.LIKE
         } else message = PROCCESS_MASSAGES.UNLIKE
         return {
-            statusCode : httpStatus.CREATED,
+            statusCode : httpStatus.OK,
             data : {
                 message
             }
@@ -89,7 +89,7 @@ const likeCourse = {
             message = PROCCESS_MASSAGES.LIKE
         } else message = PROCCESS_MASSAGES.UNLIKE
         return {
-            statusCode : httpStatus.CREATED,
+            statusCode : httpStatus.OK,
             data : {
                 message
             }
@@ -133,7 +133,7 @@ const likeBlog = {
             message = PROCCESS_MASSAGES.LIKE
         } else message = PROCCESS_MASSAGES.UNLIKE
         return {
-            statusCode : httpStatus.CREATED,
+            statusCode : httpStatus.OK,
             data : {
                 message
             }

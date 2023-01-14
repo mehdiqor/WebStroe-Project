@@ -1,7 +1,9 @@
-const { CreateCommentForBlog, CreateCommentForCourse, CreateCommentForProduct } = require("./mutations/comment.resolver");
+const { getUserBookmarkedProduct, getUserBookmarkedCourse, getUserBookmarkedBlog } = require("./queries/user-profile.resolver");
+const { CreateCommentForProduct, CreateCommentForCourse, CreateCommentForBlog } = require("./mutations/comment.resolver");
+const { bookmarkProduct, bookmarkCourse, bookmarkBlog } = require("./mutations/bookmark.resolver");
+const { dislikeProduct, dislikeCourse, dislikeBlog } = require("./mutations/dislike.resolver");
 const { CategoriesResolver, CategoryChildResolver } = require("./queries/category.resolver");
 const { likeProduct, likeCourse, likeBlog } = require("./mutations/like.resolver");
-const { dislikeProduct, dislikeCourse, dislikeBlog } = require("./mutations/dislike.resolver");
 const { ProductResolver } = require("./queries/product.resolver");
 const { GraphQLObjectType, GraphQLSchema } = require("graphql");
 const { CorseResolver } = require("./queries/course.resolver");
@@ -20,15 +22,21 @@ const RootQuery = new GraphQLObjectType({
 const RootMutation = new GraphQLObjectType({
     name : "Mutation",
     fields : {
-        CreateCommentForBlog,
-        CreateCommentForCourse,
         CreateCommentForProduct,
+        CreateCommentForCourse,
+        CreateCommentForBlog,
         likeProduct,
         likeCourse,
         likeBlog,
         dislikeProduct,
         dislikeCourse,
-        dislikeBlog
+        dislikeBlog,
+        bookmarkProduct,
+        bookmarkCourse,
+        bookmarkBlog,
+        getUserBookmarkedProduct,
+        getUserBookmarkedCourse,
+        getUserBookmarkedBlog
     }
 });
 const graphqlSchema = new GraphQLSchema({

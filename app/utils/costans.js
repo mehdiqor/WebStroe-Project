@@ -31,6 +31,8 @@ const PROCCESS_MASSAGES = {
     UNLIKE : "You unliked this content",
     DISLIKE : "Your dislike has been registered",
     UN_DISLIKE : "Your dislike has been removed",
+    BOOKMARK : "You bookmarked this content",
+    UN_BOOKMARK : "You unbookmarked this content",
 };
 Object.freeze(PROCCESS_MASSAGES);
 const ROLES = {

@@ -1,0 +1,14 @@
+mutation {
+  getUserBookmarkedCourse {
+    _id
+    title
+    text
+    imageURL
+    likes {
+      first_name
+    }
+    dislikes {
+      first_name
+    }
+  }
+}

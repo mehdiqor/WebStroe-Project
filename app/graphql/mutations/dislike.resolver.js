@@ -45,7 +45,7 @@ const dislikeProduct = {
             message = PROCCESS_MASSAGES.DISLIKE
         } else message = PROCCESS_MASSAGES.UN_DISLIKE
         return {
-            statusCode : httpStatus.CREATED,
+            statusCode : httpStatus.OK,
             data : {
                 message
             }
@@ -89,7 +89,7 @@ const dislikeCourse = {
             message = PROCCESS_MASSAGES.DISLIKE
         } else message = PROCCESS_MASSAGES.UN_DISLIKE
         return {
-            statusCode : httpStatus.CREATED,
+            statusCode : httpStatus.OK,
             data : {
                 message
             }
@@ -133,7 +133,7 @@ const dislikeBlog = {
             message = PROCCESS_MASSAGES.DISLIKE
         } else message = PROCCESS_MASSAGES.UN_DISLIKE
         return {
-            statusCode : httpStatus.CREATED,
+            statusCode : httpStatus.OK,
             data : {
                 message
             }
