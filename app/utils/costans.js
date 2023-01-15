@@ -33,6 +33,8 @@ const PROCCESS_MASSAGES = {
     UN_DISLIKE : "Your dislike has been removed",
     BOOKMARK : "You bookmarked this content",
     UN_BOOKMARK : "You unbookmarked this content",
+    ADD_BASKET : "Successfully added to cart",
+    DEL_BASKET : "Successfully removed from cart",
 };
 Object.freeze(PROCCESS_MASSAGES);
 const ROLES = {

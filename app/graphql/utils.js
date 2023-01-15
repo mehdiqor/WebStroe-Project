@@ -1,6 +1,7 @@
-const { notFoundMessage } = require("../utils/costans");
+const { notFoundMessage, PROCCESS_MASSAGES } = require("../utils/costans");
 const httpError = require("http-errors");
 const { Kind } = require("graphql");
+const { default: mongoose } = require("mongoose");
 
 function parseObject(valueNode){
     const value = Object.create(null);
@@ -44,6 +45,7 @@ function parsedLiteral(valueNode){
     }
 }
 async function checkExistModel(model, id){
+    if(!mongoose.isValidObjectId(id)) throw httpError.BadRequest(PROCCESS_MASSAGES.FALSE_ID)
     const result = await model.findById(id);
     if(!result) throw httpError.NotFound(notFoundMessage("model"));
     return result
