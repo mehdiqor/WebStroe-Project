@@ -1,4 +1,5 @@
-const { phoneNumberPattern, validationError } = require('../../../utils/costans');
+const { phoneNumberPattern } = require('../../../utils/costans');
+const { validationError } = require('../../../utils/fuctions');
 const httpError = require('http-errors');
 const joi = require('@hapi/joi');
 

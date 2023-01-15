@@ -113,6 +113,20 @@ const getUserBasket = {
                             args : ["$productDetail", "$basket.products"],
                             lang : "js"
                         }
+                    },
+                    "courseDetail.basketDetail" : {
+                        $function : {
+                            body : function(courseDetail){
+                                return courseDetail.map(function(course){
+                                    return {
+                                        ...course,
+                                        finalPrice : course.price - ((product.discount / 100) * course.price)
+                                    }
+                                })
+                            },
+                            args : ["$courseDetail"],
+                            lang : "js"
+                        }
                     }
                 }
             },

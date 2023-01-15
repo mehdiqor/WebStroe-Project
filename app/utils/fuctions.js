@@ -144,6 +144,12 @@ function getTimeOfCourseByChapter(chapters = []){
     if(String(second).length == 1) second = `0${second}`
     return (hour + ":" + minute + ":" + second)
 }
+function validationError(title){
+    return `${title} is not VALID! please try again`
+}
+function notFoundMessage(title){
+    return `Oops!... ${title} NOT FOUND!`
+}
 
 module.exports = {
     randomNumberGenerator,
@@ -156,5 +162,7 @@ module.exports = {
     setFeatures,
     deleteInvalidPropertyInObject,
     getTime,
-    getTimeOfCourseByChapter
+    getTimeOfCourseByChapter,
+    validationError,
+    notFoundMessage,
 }

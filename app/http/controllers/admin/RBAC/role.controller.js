@@ -1,6 +1,6 @@
-const { copyObject, deleteInvalidPropertyInObject } = require("../../../../utils/fuctions");
+const { copyObject, deleteInvalidPropertyInObject, notFoundMessage } = require("../../../../utils/fuctions");
 const { addRoleSchema } = require("../../../validators/admin/RBAC.schema");
-const { PROCCESS_MASSAGES, notFoundMessage } = require("../../../../utils/costans");
+const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 const { StatusCodes : httpStatus } = require("http-status-codes");
 const { RoleModel } = require("../../../../models/role");
 const { default: mongoose } = require("mongoose");

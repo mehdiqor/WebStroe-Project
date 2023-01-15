@@ -1,6 +1,7 @@
 const { addCategorySchema, updateCategorySchema } = require("../../../validators/admin/category.schema");
-const { PROCCESS_MASSAGES, notFoundMessage } = require("../../../../utils/costans");
+const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 const { CategoryModel } = require("../../../../models/categories");
+const { notFoundMessage } = require("../../../../utils/fuctions");
 const { StatusCodes : httpStatus } = require('http-status-codes');
 const Controller = require("../../controller");
 const httpError = require("http-errors");

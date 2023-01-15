@@ -1,7 +1,7 @@
-const { copyObject, deleteInvalidPropertyInObject } = require("../../../../utils/fuctions");
-const { PROCCESS_MASSAGES, notFoundMessage } = require("../../../../utils/costans");
+const { copyObject, deleteInvalidPropertyInObject, notFoundMessage } = require("../../../../utils/fuctions");
 const { addPermissionSchema } = require("../../../validators/admin/RBAC.schema");
 const { PermissionModel } = require("../../../../models/permission");
+const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 const { StatusCodes : httpStatus } = require("http-status-codes");
 const Controller = require("../../controller");
 const httpError = require("http-errors");

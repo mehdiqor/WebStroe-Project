@@ -8,6 +8,7 @@ const NULLISH_DATA = {
     NOT_NUMBER : NaN
 };
 Object.freeze(NULLISH_DATA);
+
 const PROCCESS_MASSAGES = {
     CAREATED : "The creation process was successfull",
     NOT_CAREATED : "The creation process failed",
@@ -39,6 +40,7 @@ const PROCCESS_MASSAGES = {
     EXIST_COURSE : "This course has already been added to the cart",
 };
 Object.freeze(PROCCESS_MASSAGES);
+
 const ROLES = {
     USER : 'USER',
     ADMIN : 'ADMIN',
@@ -47,6 +49,7 @@ const ROLES = {
     CONTENT_MANAGER : 'CONTENT_MANAGER'
 };
 Object.freeze(ROLES);
+
 const PERMISSIONS = {
     SUPERADMIN : ['all'],
     ADMIN : ['blog', 'course', 'category', 'product', 'developer'],
@@ -57,20 +60,12 @@ const PERMISSIONS = {
     ALL : 'all'
 };
 Object.freeze(PERMISSIONS);
-function validationError(title){
-    return `${title} is not VALID! please try again`
-};
-function notFoundMessage(title){
-    return `Oops!... ${title} NOT FOUND!`
-};
 
 module.exports = {
     ROLES,
     NULLISH_DATA,
     PERMISSIONS,
     PROCCESS_MASSAGES,
-    validationError,
-    notFoundMessage,
     mongoIdPattern : /^(?=[a-f\d]{24}$)(\d+[a-f]+\d)/i ,
     phoneNumberPattern : /^09[0-9]{9}$/ ,
     ACCESS_TOKEN_SECRET_KEY : "624FA5D98FF08F7F743CB6CB388C28F6AE38B7CEEB4AB8275A4811217F099DE3",

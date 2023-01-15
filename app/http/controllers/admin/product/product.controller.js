@@ -1,7 +1,7 @@
-const { deleteFileInPublic, listOfImagesFromRequest, copyObject, setFeatures, deleteInvalidPropertyInObject } = require("../../../../utils/fuctions");
+const { deleteFileInPublic, listOfImagesFromRequest, copyObject, setFeatures, deleteInvalidPropertyInObject, notFoundMessage } = require("../../../../utils/fuctions");
 const { createProductSchema } = require("../../../validators/admin/product.schema");
 const { ObjectIdValidator } = require("../../../validators/admin/public.validator");
-const { PROCCESS_MASSAGES, notFoundMessage } = require("../../../../utils/costans");
+const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 const { StatusCodes : httpStatus } = require("http-status-codes");
 const { ProductModel } = require("../../../../models/produncts");
 const Controller = require("../../controller");

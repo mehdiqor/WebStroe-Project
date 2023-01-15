@@ -1,8 +1,8 @@
-const { getTime, deleteInvalidPropertyInObject, copyObject } = require("../../../../utils/fuctions");
+const { getTime, deleteInvalidPropertyInObject, copyObject, notFoundMessage } = require("../../../../utils/fuctions");
 const { ObjectIdValidator } = require("../../../validators/admin/public.validator");
-const { PROCCESS_MASSAGES, notFoundMessage } = require("../../../../utils/costans");
 const { createEpisodeSchema } = require("../../../validators/admin/course.schema");
 const { default: getVideoDurationInSeconds } = require("get-video-duration");
+const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 const { StatusCodes : httpStatus } = require("http-status-codes");
 const { CourseModel } = require("../../../../models/course");
 const Controller = require("../../controller");
