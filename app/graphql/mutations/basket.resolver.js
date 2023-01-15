@@ -1,13 +1,14 @@
 const { verifyAccessTokenInGraphql } = require("../../http/middleware/verifyAccessToken");
 const { StatusCodes : httpStatus} = require("http-status-codes");
-const { PROCCESS_MASSAGES } = require("../../utils/costans");
+const { PROCCESS_MASSAGES, notFoundMessage } = require("../../utils/costans");
 const { ResponseType } = require("../typeDefs/public.type");
 const { ProductModel } = require("../../models/produncts");
-const { GraphQLString, GraphQLInt } = require("graphql");
+const { GraphQLString } = require("graphql");
 const { CourseModel } = require("../../models/course");
 const { checkExistModel } = require("../utils");
 const { UserModel } = require("../../models/users");
 const { copyObject } = require("../../utils/fuctions");
+const httpError = require("http-errors");
 
 const addProductToBasket = {
     type : ResponseType,
@@ -111,6 +112,44 @@ const removeProductFromBasket = {
         const user = await verifyAccessTokenInGraphql(req);
         const {productID} = args;
         await checkExistModel(ProductModel, productID);
+        const product = await findProductInBasket(user._id, productID);
+        let message;
+        if(!product) throw httpError.NotFound(notFoundMessage("product"));
+        if(product.count > 1){
+            await UserModel.updateOne(
+                {
+                _id : user._id,
+                "basket.products.productID" : productID
+                },
+                {
+                    $inc : {
+                        "basket.products.$.count" : -1
+                    }
+                }
+            )
+            message = PROCCESS_MASSAGES.MINUS_BASKET
+        } else{
+            await UserModel.updateOne(
+                {
+                _id : user._id,
+                "basket.products.productID" : productID
+                },
+                {
+                    $pull : {
+                        "basket.products" : {
+                            productID
+                        }
+                    }
+                }
+            )
+            message = PROCCESS_MASSAGES.DEL_BASKET
+        }
+        return {
+            statusCode : httpStatus.OK,
+            data : {
+                message
+            }
+        }
     }
 }
 const removeCourseFromBasket = {
@@ -123,6 +162,44 @@ const removeCourseFromBasket = {
         const user = await verifyAccessTokenInGraphql(req);
         const {courseID} = args;
         await checkExistModel(CourseModel, courseID);
+        let message;
+        const course = await findCourseInBasket(user._id, courseID);
+        if(!course) throw httpError.NotFound(notFoundMessage("course"));
+        if(course.count > 1){
+            await UserModel.updateOne(
+                {
+                _id : user._id,
+                "basket.courses.courseID" : courseID
+                },
+                {
+                    $inc : {
+                        "basket.courses.$.count" : -1
+                    }
+                }
+            )
+            message = PROCCESS_MASSAGES.MINUS_BASKET
+        } else{
+            await UserModel.updateOne(
+                {
+                _id : user._id,
+                "basket.courses.courseID" : courseID
+                },
+                {
+                    $pull : {
+                        "basket.courses" : {
+                            courseID
+                        }
+                    }
+                }
+            )
+            message = PROCCESS_MASSAGES.DEL_BASKET
+        }
+        return {
+            statusCode : httpStatus.OK,
+            data : {
+                message
+            }
+        }
     }
 }
 async function findProductInBasket(userID, productID){

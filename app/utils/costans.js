@@ -35,6 +35,7 @@ const PROCCESS_MASSAGES = {
     UN_BOOKMARK : "You unbookmarked this content",
     ADD_BASKET : "Successfully added to cart",
     DEL_BASKET : "Successfully removed from cart",
+    MINUS_BASKET : "A product removed from your cart successfully",
 };
 Object.freeze(PROCCESS_MASSAGES);
 const ROLES = {
