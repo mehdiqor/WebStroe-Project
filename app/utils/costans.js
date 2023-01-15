@@ -36,6 +36,7 @@ const PROCCESS_MASSAGES = {
     ADD_BASKET : "Successfully added to cart",
     DEL_BASKET : "Successfully removed from cart",
     MINUS_BASKET : "A product removed from your cart successfully",
+    EXIST_COURSE : "This course has already been added to the cart",
 };
 Object.freeze(PROCCESS_MASSAGES);
 const ROLES = {

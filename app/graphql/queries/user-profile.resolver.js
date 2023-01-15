@@ -6,6 +6,8 @@ const { GraphQLList, GraphQLString } = require("graphql");
 const { CourseModel } = require("../../models/course");
 const { BlogType } = require("../typeDefs/blog.type");
 const { BlogModel } = require("../../models/blogs");
+const { AnyType } = require("../typeDefs/public.type");
+const { UserModel } = require("../../models/users");
 
 const getUserBookmarkedProduct = {
     type : new GraphQLList(ProductType),
@@ -64,9 +66,70 @@ const getUserBookmarkedBlog = {
         return blog
     }
 }
+const getUserBasket = {
+    type : AnyType,
+    resolve : async(_, args, context) => {
+        const {req} = context;
+        const user = await verifyAccessTokenInGraphql(req);
+        const userDetails = await UserModel.aggregate([
+            {
+                $match : {_id : user._id}
+            },
+            {
+                $project : {basket : 1}
+            },
+            {
+                $lookup : {
+                    from : "products",
+                    localField : "basket.products.productID",
+                    foreignField : "_id",
+                    as : "productDetail"
+                }
+            },
+            {
+                $lookup : {
+                    from : "courses",
+                    localField : "basket.courses.courseID",
+                    foreignField : "_id",
+                    as : "courseDetail"
+                }
+            },
+            {
+                $addFields : {
+                    "productDetail.basketDetail" : {
+                        $function : {
+                            body : function(productDetail, products){
+                                return productDetail.map(function(product){
+                                    const productCount = products.find(item => item.productID.valueOf() == product._id.valueOf()).count;
+                                    const totalPrice = productCount * product.price;
+                                    return {
+                                        ...product,
+                                        basketCount : productCount,
+                                        totalPrice,
+                                        finalPrice : totalPrice - ((product.discount / 100) * totalPrice)
+                                    }
+                                })
+                            },
+                            args : ["$productDetail", "$basket.products"],
+                            lang : "js"
+                        }
+                    }
+                }
+            },
+            {
+                $project : {
+                    basket : 0
+                }
+            }
+        ]);
+        console.log(userDetails);
+        return userDetails
+    }
+}
 
 module.exports = {
     getUserBookmarkedProduct,
     getUserBookmarkedCourse,
-    getUserBookmarkedBlog
+    getUserBookmarkedBlog,
+    getUserBasket
 }

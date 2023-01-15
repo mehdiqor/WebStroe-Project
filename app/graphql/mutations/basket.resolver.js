@@ -1,13 +1,13 @@
 const { verifyAccessTokenInGraphql } = require("../../http/middleware/verifyAccessToken");
-const { StatusCodes : httpStatus} = require("http-status-codes");
 const { PROCCESS_MASSAGES, notFoundMessage } = require("../../utils/costans");
+const { StatusCodes : httpStatus} = require("http-status-codes");
 const { ResponseType } = require("../typeDefs/public.type");
 const { ProductModel } = require("../../models/produncts");
-const { GraphQLString } = require("graphql");
 const { CourseModel } = require("../../models/course");
-const { checkExistModel } = require("../utils");
-const { UserModel } = require("../../models/users");
 const { copyObject } = require("../../utils/fuctions");
+const { UserModel } = require("../../models/users");
+const { checkExistModel } = require("../utils");
+const { GraphQLString } = require("graphql");
 const httpError = require("http-errors");
 
 const addProductToBasket = {
@@ -67,33 +67,20 @@ const addCourseToBasket = {
         const {courseID} = args;
         await checkExistModel(CourseModel, courseID);
         const course = await findCourseInBasket(user._id, courseID);
-        if(course){
-            await UserModel.updateOne(
-                {
-                _id : user._id,
-                "basket.courses.courseID" : courseID
-                },
-                {
-                    $inc : {
-                        "basket.courses.$.count" : 1
+        if(course) throw httpError.BadRequest(PROCCESS_MASSAGES.EXIST_COURSE)
+        await UserModel.updateOne(
+            {
+            _id : user._id
+            },
+            {
+                $push : {
+                    "basket.courses" : {
+                        courseID,
+                        count : 1
                     }
                 }
-            )
-        } else{
-            await UserModel.updateOne(
-                {
-                _id : user._id
-                },
-                {
-                    $push : {
-                        "basket.courses" : {
-                            courseID,
-                            count : 1
-                        }
-                    }
-                }
-            )
-        }
+            }
+        )
         return {
             statusCode : httpStatus.OK,
             data : {
