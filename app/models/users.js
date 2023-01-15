@@ -28,6 +28,7 @@ const UserSchema = new mongoose.Schema({
     birthday : {type : String},
     Role : {type : String, default : "USER"},
     courses : {type : [mongoose.Types.ObjectId], ref : "course", default : []},
+    products : {type : [mongoose.Types.ObjectId], ref : "product", default : []},
     basket : {type : BasketSchema}
 }, {
     timestamps : true,

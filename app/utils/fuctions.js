@@ -5,7 +5,6 @@ const httpError = require('http-errors');
 const jwt = require('jsonwebtoken');
 const path = require("path");
 const fs = require('fs');
-const { isArray } = require('util');
 
 function randomNumberGenerator(){
     return Math.floor((Math.random() * 90000) + 10000)
@@ -150,6 +149,100 @@ function validationError(title){
 function notFoundMessage(title){
     return `Oops!... ${title} NOT FOUND!`
 }
+async function getBasketOfUser(userID){
+    const userDetails = await UserModel.aggregate([
+        {
+            $match : {_id : userID}
+        },
+        {
+            $project : {basket : 1}
+        },
+        {
+            $lookup : {
+                from : "products",
+                localField : "basket.products.productID",
+                foreignField : "_id",
+                as : "productDetail"
+            }
+        },
+        {
+            $lookup : {
+                from : "courses",
+                localField : "basket.courses.courseID",
+                foreignField : "_id",
+                as : "courseDetail"
+            }
+        },
+        {
+            $addFields : {
+                "productDetail" : {
+                    $function : {
+                        body : function(productDetail, products){
+                            return productDetail.map(function(product){
+                                const productCount = products.find(item => item.productID.valueOf() == product._id.valueOf()).count;
+                                const totalPrice = productCount * product.price;
+                                return {
+                                    ...product,
+                                    basketCount : productCount,
+                                    totalPrice,
+                                    finalPrice : totalPrice - ((product.discount / 100) * totalPrice)
+                                }
+                            })
+                        },
+                        args : ["$productDetail", "$basket.products"],
+                        lang : "js"
+                    }
+                },
+                "courseDetail" : {
+                    $function : {
+                        body : function(courseDetail){
+                            return courseDetail.map(function(course){
+                                return {
+                                    ...course,
+                                    finalPrice : course.price - ((course.discount / 100) * course.price)
+                                }
+                            })
+                        },
+                        args : ["$courseDetail"],
+                        lang : "js"
+                    }
+                },
+                "payDetail" : {
+                    $function : {
+                        body : function(courseDetail, productDetail, products){
+                            const courseAmount = courseDetail.reduce(function(total, course){
+                                return total + (course.price - ((course.discount / 100) * course.price))
+                            }, 0)
+                            const productAmount = productDetail.reduce(function(total, product){
+                                const productCount = products.find(item => item.productID.valueOf() == product._id.valueOf()).count
+                                const totalPrice = productCount * product.price
+                                return total + (totalPrice - ((product.discount / 100) * totalPrice))
+                            }, 0)
+                            const courseIds = courseDetail.map(course => course._id.valueOf())
+                            const productIds = productDetail.map(product => product._id.valueOf())
+                            return {
+                                courseAmount,
+                                productAmount,
+                                paymentAmount : courseAmount + productAmount,
+                                courseIds,
+                                productIds
+                            }
+                        },
+                        args : ["$courseDetail", "$productDetail", "$basket.products"],
+                        lang : "js"
+                    }
+                }
+            }
+        },
+        {
+            $project : {
+                basket : 0
+            }
+        }
+    ]);
+    console.log(userDetails);
+    return copyObject(userDetails)
+}
 
 module.exports = {
     randomNumberGenerator,
@@ -165,4 +258,5 @@ module.exports = {
     getTimeOfCourseByChapter,
     validationError,
     notFoundMessage,
+    getBasketOfUser
 }

@@ -66,6 +66,11 @@ const addCourseToBasket = {
         const user = await verifyAccessTokenInGraphql(req);
         const {courseID} = args;
         await checkExistModel(CourseModel, courseID);
+        const userCourse = await UserModel.findOne({
+            _id : user._id,
+            courses : courseID
+        });
+        if(userCourse) throw httpError.BadRequest(PROCCESS_MASSAGES.EXIST_COURSE)
         const course = await findCourseInBasket(user._id, courseID);
         if(course) throw httpError.BadRequest(PROCCESS_MASSAGES.EXIST_COURSE)
         await UserModel.updateOne(
