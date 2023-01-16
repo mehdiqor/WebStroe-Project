@@ -1,3 +1,4 @@
+const { validationError } = require('./fuctions');
 const httpError = require('http-errors');
 const multer = require('multer');
 const path = require('path');
@@ -31,6 +32,7 @@ const storage = multer.diskStorage({
         cb(null, null)
     }
 });
+
 //IMAGE
 function fileFilter(req, file, cb){
     const ext = path.extname(file.originalname);
@@ -38,7 +40,7 @@ function fileFilter(req, file, cb){
     if(mimeTypes.includes(ext)){
         return cb(null, true)
     }
-    return cb(httpError.BadRequest('فرمت ارسال شده تصویر صحیح نمیباشد'))
+    return cb(httpError.BadRequest(validationError("file format")))
 }
 const imageMaxSize = 1 * 1000 * 1000 //1MB
 const uploadFile = multer({storage, fileFilter, limits : {fileSize : imageMaxSize}});
@@ -49,7 +51,7 @@ function videoFilter(req, file, cb){
     if(mimeTypes.includes(ext)){
         return cb(null, true)
     }
-    return cb(httpError.BadRequest('فرمت ارسال شده ویدیو صحیح نمیباشد'))
+    return cb(httpError.BadRequest(validationError("file format")))
 }
 const videoMaxSize = 100 * 1000 * 1000 //100MB
 const uploadVideo = multer({storage, videoFilter, limits : {fileSize : videoMaxSize}});

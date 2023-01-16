@@ -38,6 +38,12 @@ const PROCCESS_MASSAGES = {
     DEL_BASKET : "Successfully removed from cart",
     MINUS_BASKET : "A product removed from your cart successfully",
     EXIST_COURSE : "This course has already been added to the cart",
+    EMPTY_BASKET : "Your cart is empty!",
+    BUY : "To buy courses or products",
+    PARAMETERS : "The sent parameters are not correct",
+    OK_PAYMENT : "Your payment has been completed successfully",
+    NO_PAYMENT : "Your payment failed",
+    PAID : "This transaction is already paid",
 };
 Object.freeze(PROCCESS_MASSAGES);
 

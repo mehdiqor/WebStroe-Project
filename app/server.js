@@ -40,7 +40,7 @@ module.exports = class Application {
             info: {
               title: "my-store",
               version: "2.0.0",
-              description: "پروژه فروشگاه اینترنتی",
+              description: "WebStore Project",
               contact: {
                 name: "Mehdi Ghorbani",
                 url: "https://github.com/mehdiqor",
@@ -101,7 +101,7 @@ module.exports = class Application {
   }
   errorHandling() {
     this.#app.use((req, res, next) => {
-      next(httpError.NotFound("آدرس مورد نظر یافت نشد"));
+      next(httpError.NotFound());
     });
     this.#app.use((error, req, res, next) => {
       const serverError = httpError.InternalServerError();

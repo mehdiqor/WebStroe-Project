@@ -1,6 +1,10 @@
 /**
  * @swagger
  *  tags:
+ *      -   name: HomePage
+ *          description:
+ *      -   name: Payment
+ *          description:
  *      -   name: Admin-Panel
  *          description: action of admin
  *      -   name: RBAC

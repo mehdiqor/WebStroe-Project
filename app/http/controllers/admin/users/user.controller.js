@@ -3,6 +3,7 @@ const { UserModel } = require("../../../../models/users");
 const { deleteInvalidPropertyInObject } = require("../../../../utils/fuctions");
 const Controller = require("../../controller");
 const httpError = require("http-errors");
+const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 
 class UserController extends Controller{
     async updateUserProfile(req, res, next){
@@ -19,11 +20,11 @@ class UserController extends Controller{
                     $set : data
                 }
             );
-            if(!profileUpdateResult.modifiedCount) throw httpError.InternalServerError("بروزرسانی انجام نشد")
+            if(!profileUpdateResult.modifiedCount) throw httpError.InternalServerError(PROCCESS_MASSAGES.NOT_UPDATED)
             return res.status(httpStatus.OK).json({
                 statusCode : httpStatus.OK,
                 data : {
-                    message : "بروزرسانی با موفقیت انجام شد"
+                    message : PROCCESS_MASSAGES.UPDATED
                 }
             })
         } catch (error) {
