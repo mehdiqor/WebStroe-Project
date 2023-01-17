@@ -1,3 +1,4 @@
+const ExprssEjsLayouts = require("express-ejs-layouts")
 const { Allroutes } = require("./router/router");
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
@@ -18,7 +19,8 @@ module.exports = class Application {
     this.#PORT = PORT;
     this.#DB_URI = DB_URI;
     this.configApplication();
-    // this.initRedis();
+    this.initTemplateEngine();
+    this.initRedis();
     this.connectToMongoDB();
     this.createServer();
     this.createRoutes();
@@ -31,7 +33,7 @@ module.exports = class Application {
     this.#app.use(express.urlencoded({ extended: true })); //urlencoded for sending data with form
     this.#app.use(express.static(path.join(__dirname, "..", "public")));
     this.#app.use(
-      "/api-doc",
+      "/swagger",
       swaggerUi.serve,
       swaggerUi.setup(
         swaggerJsDoc({
@@ -75,9 +77,17 @@ module.exports = class Application {
       console.log("run > http://localhost:" + this.#PORT);
     });
   }
-  // initRedis(){
-  //     require('./utils/init_redis')
-  // }
+  initRedis(){
+      require('./utils/init_redis')
+  }
+  initTemplateEngine(){
+    this.#app.use(ExprssEjsLayouts)
+    this.#app.set("view engine", "ejs");
+    this.#app.set("views", "resource/views");
+    this.#app.set("layout extractStyles", true);
+    this.#app.set("layout extractScripts", true);
+    this.#app.set("layout", "./layouts/master.ejs");
+  }
   connectToMongoDB() {
     mongoose.connect(this.#DB_URI, (error) => {
       if (!error) return console.log("connected to MongoDB...");

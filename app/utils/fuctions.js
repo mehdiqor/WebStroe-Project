@@ -36,7 +36,7 @@ function signRefreshToken(userId){
         };
         jwt.sign(payload, REFRESH_TOKEN_SECRET_KEY, options, async (err, token) => {
             if(err) reject(httpError.InternalServerError());
-            // await redisClient.set(userId, token, 'EX', 60 * 60 * 24 * 365); DEBUG THIS!!!
+            await redisClient.SETEX(String(userId), (365 * 24 * 60 * 60), token)
             resolve(token)
         })
     })
