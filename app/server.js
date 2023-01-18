@@ -91,7 +91,11 @@ module.exports = class Application {
     this.#app.set("views", "resource/views");
     this.#app.set("layout extractStyles", true);
     this.#app.set("layout extractScripts", true);
-    this.#app.set("layout", "./layouts/master.ejs");
+    this.#app.set("layout", "./layouts/master");
+    this.#app.use((req, res, next) => {
+      this.#app.locals = clientHelper(req, res);
+      next()
+    })
   }
   connectToMongoDB() {
     mongoose.connect(this.#DB_URI, (error) => {
