@@ -26,6 +26,7 @@ const PROCCESS_MASSAGES = {
     NO_PERMISSION : "You do not have permission for this section",
     EXIST_PERMISSION : "Permission is already registered",
     EXIST_ROLE : "Role is already registered",
+    EXIST_NAME : "This name has already been chosen",
     NO_COMMENT : "Comments are not allowed",
     FALSE_ID : "ObjectID is not correct",
     LIKE : "You liked this content",

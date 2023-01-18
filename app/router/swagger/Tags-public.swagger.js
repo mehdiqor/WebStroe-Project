@@ -1,10 +1,12 @@
 /**
  * @swagger
  *  tags:
+ *      -   name: Support
+ *          description: chatrooms
  *      -   name: HomePage
- *          description:
+ *          description: welcome!
  *      -   name: Payment
- *          description:
+ *          description: payment gateway
  *      -   name: Admin-Panel
  *          description: action of admin
  *      -   name: RBAC
