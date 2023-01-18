@@ -1,5 +1,7 @@
-const ExprssEjsLayouts = require("express-ejs-layouts")
+const { initialSocket } = require("./utils/initSocket");
+const ExprssEjsLayouts = require("express-ejs-layouts");
 const { Allroutes } = require("./router/router");
+const { socketHandler } = require("./socket.io");
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 const httpError = require("http-errors");
@@ -72,13 +74,16 @@ module.exports = class Application {
     );
   }
   createServer() {
-    http.createServer(this.#app).listen(this.#PORT, (error) => {
+    const server = http.createServer(this.#app)
+    const io = initialSocket(server)
+    socketHandler(io)
+    server.listen(this.#PORT, (error) => {
       if (error) console.log(error);
       console.log("run > http://localhost:" + this.#PORT);
     });
   }
   initRedis(){
-      require('./utils/init_redis')
+      require('./utils/initRedis')
   }
   initTemplateEngine(){
     this.#app.use(ExprssEjsLayouts)

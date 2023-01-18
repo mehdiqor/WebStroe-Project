@@ -1,6 +1,6 @@
 const { ACCESS_TOKEN_SECRET_KEY, REFRESH_TOKEN_SECRET_KEY, NULLISH_DATA, PROCCESS_MASSAGES } = require('./costans');
 const { UserModel } = require('../models/users');
-const redisClient = require('./init_redis');
+const redisClient = require('./initRedis');
 const httpError = require('http-errors');
 const moment = require('moment-jalali');
 const jwt = require('jsonwebtoken');
