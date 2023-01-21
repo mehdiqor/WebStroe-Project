@@ -20,8 +20,15 @@ class SupportController extends Controller{
             if(!user) return res.render("login.ejs", {
                 error : PROCCESS_MASSAGES.NO_USER
             })
-            const token = await signAccessToken(user._id)
-            return res.json(token)
+            const token = await signAccessToken(user._id);
+            user.token = token;
+            user.save();
+            res.cookie("authorization", token, {
+                signed : true,
+                httpOnly : true,
+                expires : new Date(Date.now() + (1000 * 60 * 60 * 365)) //365 days
+            })
+            return res.redirect("/support");
         } catch (error) {
             next(error)
         }

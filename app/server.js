@@ -1,9 +1,12 @@
+const { COOKIE_PARSER_SECRET_KEY } = require("./utils/costans");
 const { initialSocket } = require("./utils/initSocket");
 const ExprssEjsLayouts = require("express-ejs-layouts");
 const { Allroutes } = require("./router/router");
 const { socketHandler } = require("./socket.io");
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
 const httpError = require("http-errors");
 const mongoose = require("mongoose");
 const express = require("express");
@@ -11,6 +14,7 @@ const morgan = require("morgan");
 const path = require("path");
 const http = require("http");
 const cors = require("cors");
+const { clientHelper } = require("./utils/client");
 require("dotenv").config();
 
 module.exports = class Application {
@@ -92,6 +96,10 @@ module.exports = class Application {
     this.#app.set("layout extractStyles", true);
     this.#app.set("layout extractScripts", true);
     this.#app.set("layout", "./layouts/master");
+    this.#app.use((req, res, next) => {
+      this.#app.locals = clientHelper(req, res)
+      next()
+    })
   }
   connectToMongoDB() {
     mongoose.connect(this.#DB_URI, (error) => {
@@ -113,6 +121,17 @@ module.exports = class Application {
   }
   createRoutes() {
     this.#app.use(Allroutes);
+  }
+  initClientSession(){
+    this.#app.use(cookieParser(COOKIE_PARSER_SECRET_KEY));
+    this.#app.use(session({
+      secret : COOKIE_PARSER_SECRET_KEY,
+      resave : true,
+      saveUninitialized : true,
+      cookie : {
+        secure : true
+      }
+    }))
   }
   errorHandling() {
     this.#app.use((req, res, next) => {
