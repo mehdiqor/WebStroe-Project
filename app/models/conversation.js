@@ -3,7 +3,7 @@ const { default: mongoose } = require("mongoose");
 const MessageSchema = new mongoose.Schema({
     sender : {type : mongoose.Types.ObjectId, ref : "user"},
     message : {type : String},
-    dateTime : {type : String},
+    dateTime : {type : Number},
 });
 const RoomSchema = new mongoose.Schema({
     name : {type : String},

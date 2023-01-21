@@ -53,7 +53,7 @@ module.exports = class Application {
             },
             servers: [
               {
-                url: "http://localhost:3000",
+                url: "http://localhost:4000",
               },
             ],
             components : {
@@ -92,10 +92,6 @@ module.exports = class Application {
     this.#app.set("layout extractStyles", true);
     this.#app.set("layout extractScripts", true);
     this.#app.set("layout", "./layouts/master");
-    this.#app.use((req, res, next) => {
-      this.#app.locals = clientHelper(req, res);
-      next()
-    })
   }
   connectToMongoDB() {
     mongoose.connect(this.#DB_URI, (error) => {
