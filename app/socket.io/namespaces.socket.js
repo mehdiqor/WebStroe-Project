@@ -41,16 +41,17 @@ module.exports = class NameSpaceSocketHandler{
     }
     getNewMessage(socket){
         socket.on("newMessage", async data => {
-            const {message, roomName, endpoint} = data
+            const {message, roomName, endpoint, sender} = data
             await ConversationModel.updateOne({endpoint, "rooms.name" : roomName}, {
                 $push : {
                     "rooms.$.messages" : {
-                        sender : "63b2db809aba3ab6a99380c6",
+                        sender,
                         message,
                         dataTime : Date.now()
                     }
                 }
             })
+            this.#io.of(`/${endpoint}`).in(roomName).emit("confirmMessage", data)
         })
     }
 }

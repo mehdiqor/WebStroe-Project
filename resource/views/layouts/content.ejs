@@ -7,7 +7,7 @@
         <%}else if(req.user.username){%>
             <p><%=req.user.username%></p>
         <%}else{%>
-            <p><%=req.user.mobile%></p>
+            <p><%=req.user.phone%></p>
         <%}%>
         <input type="hidden" id="userID" value="<%=req.user._id%>">
                     <div class="social-media">

@@ -28,7 +28,7 @@ class PaymentController extends Controller{
                     email : user?.email || "example@gmail.com",
                     mobile : user?.phone
                 },
-                callback_url : "http://localhost:4000/verify"
+                callback_url : "http://localhost:5000/verify"
             }
             const requestResult = await axios.post(zarinPal_request_url, zarinPal_options)
             .then(result => result.data);
