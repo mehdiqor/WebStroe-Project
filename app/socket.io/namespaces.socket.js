@@ -1,4 +1,6 @@
 const { ConversationModel } = require("../models/conversation");
+const path = require("path");
+const fs = require("fs");
 
 module.exports = class NameSpaceSocketHandler{
     #io;
@@ -52,6 +54,14 @@ module.exports = class NameSpaceSocketHandler{
                 }
             })
             this.#io.of(`/${endpoint}`).in(roomName).emit("confirmMessage", data)
+        })
+    }
+    uploadFile(socket){
+        socket.on("upload", ({fle, filename}, callback) => {
+            const ext = path.extname(filename)
+            fs.writeFile("public/uploads/sockets/" + String(Date.now() + ext), file, (err) => {
+                callback({message : err ? "failure" : "success"});
+            })
         })
     }
 }

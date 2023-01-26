@@ -1,9 +1,10 @@
+const { signedCookie } = require("cookie-parser");
 const { UserModel } = require("../../models/users");
 const { PROCCESS_MASSAGES } = require("../../utils/costans");
 
 async function checkLogin(req, res, next){
     try {
-        const token = req.signedCookies["authorization"]
+        const token = req.signedCookies["authorization"];
         if(token){
             const user = await UserModel.findOne({token},
                 {basket : 0, password : 0, products : 0, courses : 0}
@@ -22,7 +23,7 @@ async function checkLogin(req, res, next){
 }
 async function checkAccessLogin(req, res, next){
     try {
-        const token = req.signedCookies["authorization"]
+        const token = req.signedCookies["authorization"];
         if(token){
             const user = await UserModel.findOne({token},
                 {basket : 0, password : 0, products : 0, courses : 0}

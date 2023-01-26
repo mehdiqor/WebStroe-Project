@@ -23,13 +23,13 @@ function getLocation(){
           })
           namespaceSocket.off("confirmLocation")
           namespaceSocket.on("confirmLocation", data => {
-              const li = stringToHTML(`
+              const li = stringToHtml(`
                   <li class="${(userID == data.sender)? 'sent' : 'replies'}">
                       <img src="https://media-exp1.licdn.com/dms/image/C5603AQE3g9gHNfxGrQ/profile-displayphoto-shrink_200_200/0/1645507738281?e=1659571200&v=beta&t=wtwELdT1gp6ICp3UigC2EgutGAQgDP2sZKUx0mjCTwI"
                           alt="" />
                   </li>   
               `)
-              const p = stringToHTML(`<p id="location-me" style="width: 200px; height:150px;"></p>`)
+              const p = stringToHtml(`<p id="location-me" style="width: 200px; height:150px;"></p>`)
               const map = new google.maps.Map(p, data.location)
               li.appendChild(p)
               document.querySelector(".messages ul").appendChild(li)
@@ -43,13 +43,13 @@ function getLocation(){
           })
       }, 
       (error) => {
-          const li = stringToHTML(`
+          const li = stringToHtml(`
               <li class="sent">
                   <img src="https://media-exp1.licdn.com/dms/image/C5603AQE3g9gHNfxGrQ/profile-displayphoto-shrink_200_200/0/1645507738281?e=1659571200&v=beta&t=wtwELdT1gp6ICp3UigC2EgutGAQgDP2sZKUx0mjCTwI"
                       alt="" />
               </li>   
           `)
-          const p = stringToHTML(`<p id="location-me" style="width: 200px; height:150px;">${error.message}</p>`)
+          const p = stringToHtml(`<p id="location-me" style="width: 200px; height:150px;">${error.message}</p>`)
           li.appendChild(p)
           document.querySelector(".messages ul").appendChild(li)
       })

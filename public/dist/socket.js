@@ -9,7 +9,7 @@ function initNamespaceConnection(endpoint){
     if(namespaceSocket) namespaceSocket.close()
     namespaceSocket = io(`http://localhost:5000/${endpoint}`);
     namespaceSocket.on("connect", () => {
-        namespaceSocket.om("roomList", rooms => {
+        namespaceSocket.on("roomList", rooms => {
             getRoomInfo(endpoint, rooms[0]?.name)
             const roomsElement = document.querySelector("#contacts ul");
             roomsElement.innerHTML = ""
@@ -45,7 +45,10 @@ function getRoomInfo(endpoint, roomName){
     namespaceSocket.on("roomInfo", roomInfo => {
         document.querySelector("#.message ul").innerHTML = ""
         document.querySelector("#roomName h3").innerText = roomInfo.description
-        const message = roomInfo.messages;
+        const messages = roomInfo.messages;
+        const locations = roomInfo.locations;
+        const data = [...messages, ...locations].sort((con1, con2) => con1.dateTime - con2.dateTime);
+        console.log(data);
         const userID = document.getElementById("userID").value;
         for (const message of messages) {
             const li = stringToHTML(`

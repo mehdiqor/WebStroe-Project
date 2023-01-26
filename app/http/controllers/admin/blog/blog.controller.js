@@ -160,7 +160,7 @@ class BlogController extends Controller {
       },
       {
         path: "author",
-        select: ["mobile", "first_name", "last_name", "username"],
+        select: ["phone", "first_name", "last_name", "username"],
       },
     ]);
     if (!blog) throw httpError.NotFound(notFoundMessage("blog"));

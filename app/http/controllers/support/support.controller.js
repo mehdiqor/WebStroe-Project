@@ -17,17 +17,15 @@ class SupportController extends Controller{
         try {
             const {phone} = req.body;
             const user = await UserModel.findOne({phone})
-            if(!user) return res.render("login.ejs", {
-                error : PROCCESS_MASSAGES.NO_USER
-            })
+            if(!user) {
+                return res.render("login.ejs", {
+                    error : PROCCESS_MASSAGES.NO_USER
+                })
+            }
             const token = await signAccessToken(user._id);
+            res.cookie("authorization", token, {signed: true, httpOnly: true, expires: new Date(Date.now() + 1000*60*60*1)})
             user.token = token;
             user.save();
-            res.cookie("authorization", token, {
-                signed : true,
-                httpOnly : true,
-                expires : new Date(Date.now() + (1000 * 60 * 60 * 365)) //365 days
-            })
             return res.redirect("/support");
         } catch (error) {
             next(error)

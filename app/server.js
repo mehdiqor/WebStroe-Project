@@ -1,6 +1,7 @@
 const { COOKIE_PARSER_SECRET_KEY } = require("./utils/costans");
 const { initialSocket } = require("./utils/initSocket");
 const ExprssEjsLayouts = require("express-ejs-layouts");
+const { clientHelper } = require("./utils/client");
 const { Allroutes } = require("./router/router");
 const { socketHandler } = require("./socket.io");
 const swaggerUi = require("swagger-ui-express");
@@ -14,7 +15,6 @@ const morgan = require("morgan");
 const path = require("path");
 const http = require("http");
 const cors = require("cors");
-const { clientHelper } = require("./utils/client");
 require("dotenv").config();
 
 module.exports = class Application {
@@ -25,6 +25,7 @@ module.exports = class Application {
     this.#PORT = PORT;
     this.#DB_URI = DB_URI;
     this.configApplication();
+    this.initClientSession();
     this.initTemplateEngine();
     this.initRedis();
     this.connectToMongoDB();
@@ -123,7 +124,7 @@ module.exports = class Application {
     this.#app.use(Allroutes);
   }
   initClientSession(){
-    this.#app.use(cookieParser(COOKIE_PARSER_SECRET_KEY));
+    this.#app.use(cookieParser(COOKIE_PARSER_SECRET_KEY))
     this.#app.use(session({
       secret : COOKIE_PARSER_SECRET_KEY,
       resave : true,

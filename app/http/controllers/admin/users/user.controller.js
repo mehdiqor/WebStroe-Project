@@ -1,16 +1,16 @@
+const { deleteInvalidPropertyInObject } = require("../../../../utils/fuctions");
+const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 const { StatusCodes : httpStatus } = require("http-status-codes");
 const { UserModel } = require("../../../../models/users");
-const { deleteInvalidPropertyInObject } = require("../../../../utils/fuctions");
 const Controller = require("../../controller");
 const httpError = require("http-errors");
-const { PROCCESS_MASSAGES } = require("../../../../utils/costans");
 
 class UserController extends Controller{
     async updateUserProfile(req, res, next){
         try {
             const userID = req.user._id;
             const data = req.body;
-            const blackList = ["mobile", "otp", "bills", "dsicount", "roles", "courses"];
+            const blackList = ["phone", "otp", "bills", "dsicount", "roles", "courses"];
             deleteInvalidPropertyInObject(data, blackList);
             const profileUpdateResult = await UserModel.updateOne(
                 {
